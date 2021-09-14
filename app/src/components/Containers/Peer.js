@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { makePeerConsumerSelector } from '../Selectors';
+import { makePeerConsumerSelector, showVodSelect } from '../Selectors';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import * as appPropTypes from '../appPropTypes';
@@ -53,11 +53,15 @@ const styles = (theme) =>
 			},
 			'&.webcam' :
 			{
-				order : 4
+				order : 6
 			},
 			'&.screen' :
 			{
-				order : 3
+				order : 4
+			},
+			'&.vod' :
+			{
+				order : 5
 			}
 		},
 		viewContainer :
@@ -156,7 +160,9 @@ const Peer = (props) =>
 		enableLayersSwitch,
 		isSelected,
 		mode,
-		theme
+		theme,
+		vodObject,
+		openVodFullscreen
 	} = props;
 
 	const micEnabled = (
@@ -1026,6 +1032,84 @@ const Peer = (props) =>
 					</div>
 				</div>
 			}
+			{(vodObject !== null) && (vodObject.peerId === peer.id) &&
+				<div
+					className={classnames(classes.root, 'vod', hover ? 'hover' : null)}
+					onMouseOver={() => setHover(true)}
+					onMouseOut={() => setHover(false)}
+					onTouchStart={() =>
+					{
+						if (touchTimeout)
+							clearTimeout(touchTimeout);
+
+						setHover(true);
+					}}
+					onTouchEnd={() =>
+					{
+						if (touchTimeout)
+							clearTimeout(touchTimeout);
+
+						touchTimeout = setTimeout(() =>
+						{
+							setHover(false);
+						}, 2000);
+					}}
+					style={rootStyle}
+				>
+					<div className={classnames(classes.viewContainer)}>
+						<div
+							className={classnames(classes.controls, hover ? 'hover' : null)}
+							onMouseOver={() => setHover(true)}
+							onMouseOut={() => setHover(false)}
+							onTouchStart={() =>
+							{
+								if (touchTimeout)
+									clearTimeout(touchTimeout);
+
+								setHover(true);
+							}}
+							onTouchEnd={() =>
+							{
+
+								if (touchTimeout)
+									clearTimeout(touchTimeout);
+
+								touchTimeout = setTimeout(() =>
+								{
+									setHover(false);
+								}, 2000);
+							}}
+						>
+
+							<Tooltip
+								title={intl.formatMessage({
+									id             : 'label.fullscreen',
+									defaultMessage : 'Fullscreen'
+								})}
+							>
+								<Fab
+									aria-label={intl.formatMessage({
+										id             : 'label.fullscreen',
+										defaultMessage : 'Fullscreen'
+									})}
+									className={classes.fab}
+									onClick={() =>
+									{
+										openVodFullscreen(document.getElementById('vod_video'));
+									}}
+								>
+									<FullScreenIcon />
+								</Fab>
+							</Tooltip>
+						</div>
+
+						<VideoView
+							isVod
+							vodObject={vodObject}
+						/>
+					</div>
+				</div>
+			}
 		</React.Fragment>
 	);
 };
@@ -1051,7 +1135,9 @@ Peer.propTypes =
 	theme                    : PropTypes.object.isRequired,
 	enableLayersSwitch       : PropTypes.bool,
 	isSelected               : PropTypes.bool,
-	mode                     : PropTypes.string.isRequired
+	mode                     : PropTypes.string.isRequired,
+	vodObject                : PropTypes.object,
+	openVodFullscreen        : PropTypes.func.isRequired
 };
 
 const makeMapStateToProps = (initialState, { id }) =>
@@ -1068,7 +1154,8 @@ const makeMapStateToProps = (initialState, { id }) =>
 			activeSpeaker      : id === state.room.activeSpeakerId,
 			browser            : state.me.browser,
 			isSelected         : state.room.selectedPeers.includes(id),
-			mode               : state.room.mode
+			mode               : state.room.mode,
+			vodObject          : showVodSelect(state)
 		};
 	};
 
@@ -1087,6 +1174,23 @@ const mapDispatchToProps = (dispatch) =>
 		{
 			if (consumer)
 				dispatch(roomActions.toggleConsumerWindow(consumer.id));
+		},
+		openVodFullscreen : (elem) =>
+		{
+			if (!elem) return;
+
+			if (elem.requestFullscreen)
+			{
+				elem.requestFullscreen();
+			}
+			else if (elem.webkitRequestFullscreen)
+			{ /* Safari */
+				elem.webkitRequestFullscreen();
+			}
+			else if (elem.msRequestFullscreen)
+			{ /* IE11 */
+				elem.msRequestFullscreen();
+			}
 		}
 	};
 };
@@ -1107,7 +1211,10 @@ export default withRoomContext(connect(
 				prev.room.mode === next.room.mode &&
 				prev.room.selectedPeers === next.room.selectedPeers &&
 				prev.me.browser === next.me.browser &&
-				prev.enableLayersSwitch === next.enableLayersSwitch
+				prev.enableLayersSwitch === next.enableLayersSwitch &&
+				prev.width === next.width &&
+				prev.height === next.height &&
+				prev.room.vodObject === next.room.vodObject
 			);
 		}
 	}

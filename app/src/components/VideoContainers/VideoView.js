@@ -231,7 +231,10 @@ class VideoView extends React.PureComponent
 			netInfo,
 			width,
 			height,
-			opusConfig
+			opusConfig,
+			isVod,
+			vodObject,
+			vodOnEvent
 		} = this.props;
 
 		const {
@@ -302,6 +305,7 @@ class VideoView extends React.PureComponent
 
 		return (
 			<div className={classes.root}>
+				{!isVod &&
 				<div className={classes.info}>
 					<div className={classes.media}>
 						{(audioCodec || videoCodec) &&
@@ -434,7 +438,8 @@ class VideoView extends React.PureComponent
 						</div>
 					}
 				</div>
-
+				}
+				{!isVod &&
 				<video
 					ref='videoElement'
 					className={classnames(classes.video, {
@@ -447,7 +452,18 @@ class VideoView extends React.PureComponent
 					muted
 					controls={false}
 				/>
-
+				}
+				{isVod &&
+					<video
+						ref='videoElement'
+						id='vod_video'
+						preload='auto'
+						className={classnames(classes.video, {
+							contain : videoContain
+						})}
+						playsInline
+					/>
+				}
 				{children}
 			</div>
 		);
@@ -455,6 +471,76 @@ class VideoView extends React.PureComponent
 
 	componentDidMount()
 	{
+		if (this.props.isVod)
+		{
+
+			const vodVideoLoadedMetadataEventHander = (vodTime, isPlaying) =>
+			{
+				return (e) =>
+				{
+					const vodVideo = document.getElementById('vod_video');
+
+					vodVideo.currentTime = vodTime;
+					vodVideo.volume = 1.0;
+
+					if (isPlaying)
+					{
+						vodVideo.play().catch((error) =>
+							logger.warn('vodVideoCanPlayEventHander.play() [error:"%o]', error));
+					}
+				};
+			};
+
+			const vodVideoPlayEventHander = (vodOnEvent) =>
+			{
+				return (e) =>
+				{
+					vodOnEvent(document.getElementById('vod_video').currentTime, 'play');
+				};
+			};
+
+			const vodVideoPauseEventHander = (vodOnEvent) =>
+			{
+				return (e) =>
+				{
+					vodOnEvent(document.getElementById('vod_video').currentTime, 'pause');
+				};
+			};
+
+			const vodVideoSeekedEventHander = (vodOnEvent) =>
+			{
+				return (e) =>
+				{
+					vodOnEvent(document.getElementById('vod_video').currentTime, 'seek');
+				};
+			};
+
+			const vodVideo = document.getElementById('vod_video');
+
+			vodVideo.addEventListener('loadedmetadata',
+				vodVideoLoadedMetadataEventHander(this.props.vodObject.time,
+					this.props.vodObject.isPlaying));
+
+			if (this.props.isMe)
+			{
+				vodVideo.addEventListener('play',
+					vodVideoPlayEventHander(this.props.vodOnEvent));
+
+				vodVideo.addEventListener('pause',
+					vodVideoPauseEventHander(this.props.vodOnEvent));
+
+				vodVideo.addEventListener('seeked',
+					vodVideoSeekedEventHander(this.props.vodOnEvent));
+
+				// only owner has controls
+				vodVideo.setAttribute('controls', 'controls');
+			}
+
+			vodVideo.src = this.props.vodObject.url;
+
+			return;
+		}
+
 		const { videoTrack, audioTrack, showAudioAnalyzer } = this.props;
 
 		this._setTracks(videoTrack);
@@ -473,6 +559,13 @@ class VideoView extends React.PureComponent
 
 	componentWillUnmount()
 	{
+		if (this.props.isVod)
+		{
+			document.getElementById('vod_video').src = '';
+
+			return;
+		}
+
 		clearInterval(this._videoResolutionTimer);
 
 		const { videoElement } = this.refs;
@@ -495,6 +588,53 @@ class VideoView extends React.PureComponent
 	{
 		if (prevProps !== this.props)
 		{
+			const vodVideo = document.getElementById('vod_video');
+
+			if (vodVideo && this.props.isVod && this.props.vodObject)
+			{
+				if (!prevProps.vodObject ||
+					prevProps.vodObject.url !== this.props.vodObject.url)
+				{
+					vodVideo.src = this.props.vodObject.url;
+				}
+
+				if (!prevProps.vodObject ||
+					prevProps.vodObject.time !== this.props.vodObject.time)
+				{
+					vodVideo.currentTime = this.props.vodObject.time;
+				}
+
+				if (!prevProps.vodObject ||
+					(!prevProps.vodObject.isPlaying && this.props.vodObject.isPlaying))
+				{
+					try
+					{
+						vodVideo.currentTime = this.props.vodObject.time;
+						vodVideo.play();
+					}
+					catch (error)
+					{
+						logger.warn('Play failed', error);
+					}
+				}
+
+				if (!prevProps.vodObject ||
+					(prevProps.vodObject.isPlaying && !this.props.vodObject.isPlaying))
+				{
+					try
+					{
+						vodVideo.pause();
+						vodVideo.currentTime = this.props.vodObject.time;
+					}
+					catch (error)
+					{
+						logger.warn('Pause failed', error);
+					}
+				}
+
+				return;
+			}
+
 			const { videoTrack, audioTrack, showAudioAnalyzer } = this.props;
 
 			this._setTracks(videoTrack);
@@ -637,7 +777,10 @@ VideoView.propTypes =
 	netInfo                        : PropTypes.object,
 	width                          : PropTypes.number,
 	height                         : PropTypes.number,
-	opusConfig                     : PropTypes.string
+	opusConfig                     : PropTypes.string,
+	isVod                          : PropTypes.bool,
+	vodObject                      : PropTypes.object,
+	vodOnEvent                     : PropTypes.func
 };
 
 export default withStyles(styles)(VideoView);

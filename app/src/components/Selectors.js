@@ -20,6 +20,8 @@ const peersKeySelector = createSelector(
 	(peers) => Object.keys(peers)
 );
 
+export const showVodSelect = (state) => state.room.vodObject;
+
 export const peersValueSelector = createSelector(
 	peersSelector,
 	(peers) => Object.values(peers)
@@ -186,23 +188,28 @@ export const raisedHandsSelector = createSelector(
 
 export const videoBoxesSelector = createSelector(
 	isHiddenSelect,
+	showVodSelect,
 	spotlightsLengthSelector,
 	screenProducersSelector,
 	spotlightScreenConsumerSelector,
 	extraVideoProducersSelector,
 	spotlightExtraVideoConsumerSelector,
+	meSelector,
 	(
 		isHidden,
+		vodObject,
 		spotlightsLength,
 		screenProducers,
 		screenConsumers,
 		extraVideoProducers,
-		extraVideoConsumers
+		extraVideoConsumers,
+		me
 	) =>
 	{
 		return spotlightsLength + (isHidden ? 0 : 1) +
 			(isHidden ? 0 : screenProducers.length) + screenConsumers.length +
-			(isHidden ? 0 : extraVideoProducers.length) + extraVideoConsumers.length;
+			(isHidden ? 0 : extraVideoProducers.length) + extraVideoConsumers.length +
+			(vodObject ? (isHidden && me.id === vodObject.peerId ? 0 : 1) : 0);
 	}
 );
 
