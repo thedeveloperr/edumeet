@@ -443,7 +443,7 @@ const configSchema = convict({
 		format  : '*',
 		default : {
 			// The role(s) have permission to lock/unlock a room
-			[CHANGE_ROOM_LOCK] : [ userRoles.MODERATOR ],
+			[CHANGE_ROOM_LOCK] : [ userRoles.NORMAL ],
 			// The role(s) have permission to promote a peer from the lobby
 			[PROMOTE_PEER]     : [ userRoles.NORMAL ],
 			// The role(s) have permission to give/remove other peers roles
@@ -451,7 +451,7 @@ const configSchema = convict({
 			// The role(s) have permission to send chat messages
 			[SEND_CHAT]        : [ userRoles.NORMAL ],
 			// The role(s) have permission to moderate chat
-			[MODERATE_CHAT]    : [ userRoles.MODERATOR ],
+			[MODERATE_CHAT]    : [ userRoles.NORMAL ],
 			// The role(s) have permission to share audio
 			[SHARE_AUDIO]      : [ userRoles.NORMAL ],
 			// The role(s) have permission to share video
@@ -463,9 +463,9 @@ const configSchema = convict({
 			// The role(s) have permission to share files
 			[SHARE_FILE]       : [ userRoles.NORMAL ],
 			// The role(s) have permission to moderate files
-			[MODERATE_FILES]   : [ userRoles.MODERATOR ],
+			[MODERATE_FILES]   : [ userRoles.NORMAL ],
 			// The role(s) have permission to moderate room (e.g. kick user)
-			[MODERATE_ROOM]    : [ userRoles.MODERATOR ]
+			[MODERATE_ROOM]    : [ userRoles.NORMAL ]
 		}
 	},
 	// Array of permissions. If no peer with the permission in question
