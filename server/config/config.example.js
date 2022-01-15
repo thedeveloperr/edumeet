@@ -17,6 +17,7 @@ const {
 	MODERATE_CHAT,
 	SHARE_AUDIO,
 	SHARE_VIDEO,
+	SHARE_VOD,
 	SHARE_SCREEN,
 	EXTRA_VIDEO,
 	SHARE_FILE,
@@ -292,6 +293,8 @@ module.exports =
 		[SHARE_AUDIO]       : [ userRoles.NORMAL ],
 		// The role(s) have permission to share video
 		[SHARE_VIDEO]       : [ userRoles.NORMAL ],
+		// The role(s) have permission to share vod
+		[SHARE_VOD]         : [ userRoles.PRESENTER ],
 		// The role(s) have permission to share screen
 		[SHARE_SCREEN]      : [ userRoles.NORMAL ],
 		// The role(s) have permission to produce extra video

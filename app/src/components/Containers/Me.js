@@ -1015,7 +1015,7 @@ const Me = (props) =>
 					</div>
 				</div>
 			}
-			{(vodObject !== null) && (vodObject.peerId === me.id) &&
+			{(vodObject.isLoaded) && (vodObject.peerId === me.id) &&
 			<div className={classnames(classes.root, 'vod')} style={spacingStyle}>
 				<div className={classes.viewContainer} style={style}>
 					<VideoView
@@ -1108,6 +1108,7 @@ export default withRoomContext(connect(
 				Math.round(prev.peerVolumes[prev.me.id]) ===
 				Math.round(next.peerVolumes[next.me.id]) &&
 				prev.room === next.room &&
+				prev.player === next.player &&
 				prev.me === next.me &&
 				prev.peers === next.peers &&
 				prev.producers === next.producers &&

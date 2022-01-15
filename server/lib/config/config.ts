@@ -22,6 +22,7 @@ import {
 	MODERATE_CHAT,
 	SHARE_AUDIO,
 	SHARE_VIDEO,
+	SHARE_VOD,
 	SHARE_SCREEN,
 	EXTRA_VIDEO,
 	SHARE_FILE,
@@ -456,6 +457,8 @@ const configSchema = convict({
 			[SHARE_AUDIO]      : [ userRoles.NORMAL ],
 			// The role(s) have permission to share video
 			[SHARE_VIDEO]      : [ userRoles.NORMAL ],
+			// The role(s) have permission to share vod
+			[SHARE_VOD]        : [ userRoles.PRESENTER ],
 			// The role(s) have permission to share screen
 			[SHARE_SCREEN]     : [ userRoles.NORMAL ],
 			// The role(s) have permission to produce extra video
@@ -477,6 +480,43 @@ const configSchema = convict({
 		doc     : 'Allow when role missing.',
 		format  : Array,
 		default : [ CHANGE_ROOM_LOCK ]
+	},
+	vodPlayer : {
+		enabled : {
+			doc     : 'Enable/Disable vod player',
+			format  : Boolean,
+			default : true
+		},
+		path : {
+			doc     : 'Upload dir.',
+			format  : String,
+			default : 'upload'
+		},
+		memSize : {
+			doc     : 'Maximum disk space for uploading files.',
+			format  : Number,
+			default : 200000 * 1048576 // nMB * 1MB (in bytes)
+		},
+		autoClearing : {
+			doc     : 'Clear files of peer after leaving the room.',
+			format  : Boolean,
+			default : true
+		},
+		filesTypesAllowed : {
+			doc     : 'Files format allowed to be uploaded.',
+			format  : Array,
+			default : [ 'video/mp4' ]
+		},
+		fileMaxSizeAllowed : {
+			doc     : 'Maximum file size allowed to be uploaded.',
+			format  : Number,
+			default : 1000 * 1048576
+		}, // nMB * 1MB (in bytes) 
+		filesMaxNumberPerUser : {
+			doc     : 'Maximum number of files uploaded by peer in on room',
+			format  : Number,
+			default : 3
+		}
 	}
 });
 

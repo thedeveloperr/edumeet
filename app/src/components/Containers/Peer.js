@@ -1032,7 +1032,7 @@ const Peer = (props) =>
 					</div>
 				</div>
 			}
-			{(vodObject !== null) && (vodObject.peerId === peer.id) &&
+			{(vodObject.isLoaded) && (vodObject.peerId === peer.id) &&
 				<div
 					className={classnames(classes.root, 'vod', hover ? 'hover' : null)}
 					onMouseOver={() => setHover(true)}
@@ -1214,7 +1214,7 @@ export default withRoomContext(connect(
 				prev.enableLayersSwitch === next.enableLayersSwitch &&
 				prev.width === next.width &&
 				prev.height === next.height &&
-				prev.room.vodObject === next.room.vodObject
+				prev.player === next.player
 			);
 		}
 	}

@@ -14,6 +14,7 @@ import ListPeer from './ListPeer';
 import ListMe from './ListMe';
 import ListModerator from './ListModerator';
 import Volume from '../../Containers/Volume';
+import PlayerPanel from './Player/Panel';
 
 const styles = (theme) =>
 	({
@@ -72,6 +73,8 @@ class ParticipantList extends React.PureComponent
 		const {
 			advancedMode,
 			isModerator,
+			isPresenter,
+			isVodEnabled,
 			participants,
 			spotlights,
 			selectedPeers,
@@ -91,6 +94,18 @@ class ParticipantList extends React.PureComponent
 						<ListModerator />
 					</ul>
 				}
+				{(isPresenter || isVodEnabled || true) &&
+				<ul className={classes.list}>
+					<li className={classes.listheader}>
+						<FormattedMessage
+							id='label.player'
+							defaultMessage='Vod Player'
+						/>
+					</li>
+					<PlayerPanel />
+				</ul>
+				}
+
 				<ul className={classes.list}>
 					<li className={classes.listheader}>
 						<FormattedMessage
@@ -139,23 +154,29 @@ ParticipantList.propTypes =
 {
 	advancedMode  : PropTypes.bool,
 	isModerator   : PropTypes.bool.isRequired,
+	isPresenter   : PropTypes.bool.isRequired,
 	participants  : PropTypes.array.isRequired,
 	spotlights    : PropTypes.array.isRequired,
 	selectedPeers : PropTypes.array.isRequired,
-	classes       : PropTypes.object.isRequired
+	classes       : PropTypes.object.isRequired,
+	isVodEnabled  : PropTypes.bool.isRequired
 };
 
 const makeMapStateToProps = () =>
 {
-	const hasPermission = makePermissionSelector(permissions.MODERATE_ROOM);
+	const hasModeratorPerm = makePermissionSelector(permissions.MODERATE_ROOM);
+
+	const hasPresenterPerm = makePermissionSelector(permissions.SHARE_VOD);
 
 	const mapStateToProps = (state) =>
 	{
 		return {
-			isModerator   : hasPermission(state),
+			isModerator   : hasModeratorPerm(state),
+			isPresenter   : hasPresenterPerm(state),
 			participants  : participantListSelector(state),
 			spotlights    : state.room.spotlights,
-			selectedPeers : state.room.selectedPeers
+			selectedPeers : state.room.selectedPeers,
+			isVodEnabled  : state.player.enabled
 		};
 	};
 
@@ -173,7 +194,8 @@ const ParticipantListContainer = connect(
 				prev.room.spotlights === next.room.spotlights &&
 				prev.room.selectedPeers === next.room.selectedPeers &&
 				prev.me.roles === next.me.roles &&
-				prev.peers === next.peers
+				prev.peers === next.peers &&
+				prev.player === next.player
 			);
 		}
 	}

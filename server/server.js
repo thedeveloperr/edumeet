@@ -605,6 +605,8 @@ async function runHttpsServer()
 
 	app.use('/.well-known/acme-challenge', express.static('dist/public/.well-known/acme-challenge'));
 
+	app.use('/upload', express.static('upload'));
+
 	app.all('*', async (req, res, next) =>
 	{
 		if (req.secure || config.httpOnly)

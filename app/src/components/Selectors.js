@@ -20,7 +20,7 @@ const peersKeySelector = createSelector(
 	(peers) => Object.keys(peers)
 );
 
-export const showVodSelect = (state) => state.room.vodObject;
+export const showVodSelect = (state) => state.player.vodObject;
 
 export const peersValueSelector = createSelector(
 	peersSelector,

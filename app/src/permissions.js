@@ -13,6 +13,8 @@ export const permissions = {
 	SHARE_AUDIO      : 'SHARE_AUDIO',
 	// The role(s) have permission to share video
 	SHARE_VIDEO      : 'SHARE_VIDEO',
+	// The role(s) have permission to share vod
+	SHARE_VOD        : 'SHARE_VOD',
 	// The role(s) have permission to share screen
 	SHARE_SCREEN     : 'SHARE_SCREEN',
 	// The role(s) have permission to produce extra video

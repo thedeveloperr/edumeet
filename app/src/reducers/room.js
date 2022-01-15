@@ -41,8 +41,7 @@ const initialState =
 	clearFileSharingInProgress    : false,
 	roomPermissions               : null,
 	userRoles                     : null,
-	allowWhenRoleMissing          : null,
-	vodObject                     : null
+	allowWhenRoleMissing          : null
 };
 
 const room = (state = initialState, action) =>
@@ -309,23 +308,6 @@ const room = (state = initialState, action) =>
 
 			return { ...state, hideSelfView };
 		}
-
-		case 'OPEN_VOD':
-		{
-			const { vodObject } = action.payload;
-
-			return { ...state, vodObject };
-		}
-
-		case 'CLOSE_VOD':
-		{
-			const vodObject = null;
-
-			return { ...state, vodObject };
-		}
-
-		case 'SET_TOGGLE_VOD_IN_PROGRESS':
-			return { ...state, toggleVodInProgress: action.payload.flag };
 
 		default:
 			return state;

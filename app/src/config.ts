@@ -26,7 +26,7 @@ const configSchema = convict({
 	{
 		doc     : 'If the login is enabled.',
 		format  : 'Boolean',
-		default : false
+		default : true
 	},
 	developmentPort :
 	{
