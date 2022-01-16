@@ -233,7 +233,7 @@ class VideoView extends React.PureComponent
 			height,
 			opusConfig,
 			isVod,
-			vodObject,
+			loadedVideo,
 			vodOnEvent
 		} = this.props;
 
@@ -518,8 +518,8 @@ class VideoView extends React.PureComponent
 			const vodVideo = document.getElementById('vod_video');
 
 			vodVideo.addEventListener('loadedmetadata',
-				vodVideoLoadedMetadataEventHander(this.props.vodObject.time,
-					this.props.vodObject.isPlaying));
+				vodVideoLoadedMetadataEventHander(this.props.loadedVideo.time,
+					this.props.loadedVideo.isPlaying));
 
 			if (this.props.isMe)
 			{
@@ -536,7 +536,7 @@ class VideoView extends React.PureComponent
 				vodVideo.setAttribute('controls', 'controls');
 			}
 
-			vodVideo.src = this.props.vodObject.url;
+			vodVideo.src = this.props.loadedVideo.url;
 
 			return;
 		}
@@ -590,26 +590,26 @@ class VideoView extends React.PureComponent
 		{
 			const vodVideo = document.getElementById('vod_video');
 
-			if (vodVideo && this.props.isVod && this.props.vodObject)
+			if (vodVideo && this.props.isVod && this.props.loadedVideo)
 			{
-				if (!prevProps.vodObject ||
-					prevProps.vodObject.url !== this.props.vodObject.url)
+				if (!prevProps.loadedVideo ||
+					prevProps.loadedVideo.url !== this.props.loadedVideo.url)
 				{
-					vodVideo.src = this.props.vodObject.url;
+					vodVideo.src = this.props.loadedVideo.url;
 				}
 
-				if (!prevProps.vodObject ||
-					prevProps.vodObject.time !== this.props.vodObject.time)
+				if (!prevProps.loadedVideo ||
+					prevProps.loadedVideo.time !== this.props.loadedVideo.time)
 				{
-					vodVideo.currentTime = this.props.vodObject.time;
+					vodVideo.currentTime = this.props.loadedVideo.time;
 				}
 
-				if (!prevProps.vodObject ||
-					(!prevProps.vodObject.isPlaying && this.props.vodObject.isPlaying))
+				if (!prevProps.loadedVideo ||
+					(!prevProps.loadedVideo.isPlaying && this.props.loadedVideo.isPlaying))
 				{
 					try
 					{
-						vodVideo.currentTime = this.props.vodObject.time;
+						vodVideo.currentTime = this.props.loadedVideo.time;
 						vodVideo.play();
 					}
 					catch (error)
@@ -618,13 +618,13 @@ class VideoView extends React.PureComponent
 					}
 				}
 
-				if (!prevProps.vodObject ||
-					(prevProps.vodObject.isPlaying && !this.props.vodObject.isPlaying))
+				if (!prevProps.loadedVideo ||
+					(prevProps.loadedVideo.isPlaying && !this.props.loadedVideo.isPlaying))
 				{
 					try
 					{
 						vodVideo.pause();
-						vodVideo.currentTime = this.props.vodObject.time;
+						vodVideo.currentTime = this.props.loadedVideo.time;
 					}
 					catch (error)
 					{
@@ -779,7 +779,7 @@ VideoView.propTypes =
 	height                         : PropTypes.number,
 	opusConfig                     : PropTypes.string,
 	isVod                          : PropTypes.bool,
-	vodObject                      : PropTypes.object,
+	loadedVideo                    : PropTypes.object,
 	vodOnEvent                     : PropTypes.func
 };
 

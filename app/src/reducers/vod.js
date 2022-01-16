@@ -1,7 +1,7 @@
 const initialState =
 {
-	enabled   : false,
-	vodObject : {
+	enabled     : false,
+	loadedVideo : {
 		name               : null,
 		type               : null,
 		size               : null,
@@ -12,12 +12,12 @@ const initialState =
 		startPlayTimestamp : 0,
 		peerId             : null
 	},
-	vodMeObjects        : [],
+	list                : [],
 	toggleVodInProgress : null,
 	uploadConditions    : {}
 };
 
-const player = (state = initialState, action) =>
+const vod = (state = initialState, action) =>
 {
 	switch (action.type)
 	{
@@ -30,14 +30,14 @@ const player = (state = initialState, action) =>
 
 		case 'LOAD_VOD':
 		{
-			const { vodObject } = action.payload;
+			const { loadedVideo } = action.payload;
 
-			return { ...state, vodObject: { ...vodObject } };
+			return { ...state, loadedVideo: { ...loadedVideo } };
 		}
 
 		case 'UNLOAD_VOD':
 		{
-			return { ...state, vodObject: initialState.vodObject };
+			return { ...state, loadedVideo: initialState.loadedVideo };
 		}
 
 		case 'SET_TOGGLE_VOD_IN_PROGRESS':
@@ -49,33 +49,33 @@ const player = (state = initialState, action) =>
 		{
 			const { name, type, size, url } = action.payload;
 
-			const vodMeObjects = [ ...state.vodMeObjects ];
+			const list = [ ...state.list ];
 
-			vodMeObjects.push({ ...initialState.vodObject, name, type, size, url });
+			list.push({ ...initialState.loadedVideo, name, type, size, url });
 
-			return { ...state, vodMeObjects: vodMeObjects };
+			return { ...state, list: list };
 		}
 
 		case 'REMOVE_VOD_ITEM':
 		{
 			const { url } = action.payload;
 
-			const vodMeObjects = [ ...state.vodMeObjects ];
+			const list = [ ...state.list ];
 
-			const tmp = vodMeObjects.filter(function(el)
+			const tmp = list.filter(function(el)
 			{
 				return el.url !== url;
 			});
 
-			return { ...state, vodMeObjects: tmp };
+			return { ...state, list: tmp };
 		}
 
-		case 'SET_VOD_UPLOAD_POSSIBLE_STATUS':
+		case 'SET_VOD_UPLOAD_CONDITIONS':
 		{
 			return { ...state, uploadConditions: action.payload };
 		}
 
-		case 'CLEAR_VOD_UPLOAD_POSSIBLE_STATUS':
+		case 'CLEAR_VOD_UPLOAD_CONDITIONS':
 		{
 			return { ...state, uploadConditions: action.payload };
 		}
@@ -85,4 +85,4 @@ const player = (state = initialState, action) =>
 	}
 };
 
-export default player;
+export default vod;

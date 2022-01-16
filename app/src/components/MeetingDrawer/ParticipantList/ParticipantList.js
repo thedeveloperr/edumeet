@@ -94,11 +94,11 @@ class ParticipantList extends React.PureComponent
 						<ListModerator />
 					</ul>
 				}
-				{(isPresenter || isVodEnabled || true) &&
+				{isPresenter && isVodEnabled &&
 				<ul className={classes.list}>
 					<li className={classes.listheader}>
 						<FormattedMessage
-							id='label.player'
+							id='label.vod'
 							defaultMessage='Vod Player'
 						/>
 					</li>
@@ -176,7 +176,7 @@ const makeMapStateToProps = () =>
 			participants  : participantListSelector(state),
 			spotlights    : state.room.spotlights,
 			selectedPeers : state.room.selectedPeers,
-			isVodEnabled  : state.player.enabled
+			isVodEnabled  : state.vod.enabled
 		};
 	};
 
@@ -195,7 +195,7 @@ const ParticipantListContainer = connect(
 				prev.room.selectedPeers === next.room.selectedPeers &&
 				prev.me.roles === next.me.roles &&
 				prev.peers === next.peers &&
-				prev.player === next.player
+				prev.vod === next.vod
 			);
 		}
 	}

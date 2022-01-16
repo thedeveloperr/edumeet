@@ -32,7 +32,7 @@ const ListModerator = (props) =>
 	const {
 		roomClient,
 		room,
-		player,
+		vod,
 		classes
 	} = props;
 
@@ -110,13 +110,13 @@ ListModerator.propTypes =
 {
 	roomClient : PropTypes.any.isRequired,
 	room       : PropTypes.object.isRequired,
-	player     : PropTypes.object.isRequired,
+	vod        : PropTypes.object.isRequired,
 	classes    : PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-	room   : state.room,
-	player : state.player
+	room : state.room,
+	vod  : state.vod
 });
 
 export default withRoomContext(connect(
@@ -128,7 +128,7 @@ export default withRoomContext(connect(
 		{
 			return (
 				prev.room === next.room &&
-				prev.player === next.player
+				prev.vod === next.vod
 			);
 		}
 	}

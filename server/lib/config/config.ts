@@ -481,7 +481,7 @@ const configSchema = convict({
 		format  : Array,
 		default : [ CHANGE_ROOM_LOCK ]
 	},
-	vodPlayer : {
+	vod : {
 		enabled : {
 			doc     : 'Enable/Disable vod player',
 			format  : Boolean,

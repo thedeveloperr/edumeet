@@ -8,7 +8,7 @@ import consumers from './consumers';
 import peerVolumes from './peerVolumes';
 import notifications from './notifications';
 import chat from './chat';
-import player from './player';
+import vod from './vod';
 import toolarea from './toolarea';
 import files from './files';
 import settings from './settings';
@@ -28,7 +28,7 @@ export default combineReducers({
 	peerVolumes,
 	notifications,
 	chat,
-	player,
+	vod,
 	toolarea,
 	files,
 	settings,

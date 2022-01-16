@@ -9,13 +9,13 @@ export default class Upload
 {
 	constructor(name, type, size, data, roomId, peerId)
 	{
-		this.path = config.vodPlayer.path;
-		this.memSize = config.vodPlayer.memSize;
+		this.path = config.vod.path;
+		this.memSize = config.vod.memSize;
 		this.memFree = null;
-		this.autoClearing = config.vodPlayer.autoClearing;
-		this.filesTypesAllowed = config.vodPlayer.filesTypesAllowed;
-		this.fileMaxSizeAllowed = config.vodPlayer.fileMaxSizeAllowed;
-		this.filesMaxNumberPerUser = config.vodPlayer.filesMaxNumberPerUser;
+		this.autoClearing = config.vod.autoClearing;
+		this.filesTypesAllowed = config.vod.filesTypesAllowed;
+		this.fileMaxSizeAllowed = config.vod.fileMaxSizeAllowed;
+		this.filesMaxNumberPerUser = config.vod.filesMaxNumberPerUser;
 		this.filesMeta = [];
 		this.filesTree =[];
 
@@ -27,7 +27,7 @@ export default class Upload
 		this.roomId = roomId;
 		this.peerId = peerId;
 		this.token = (Math.random() + 1).toString(30).substring(2);
-		this.url = `${config.vodPlayer.path}/r-${roomId}_p-${peerId}_${this.token}-${name}`;
+		this.url = `${config.vod.path}/r-${roomId}_p-${peerId}_${this.token}-${name}`;
 
 		this._getFilesMeta();
 		this._calcMemFree();
@@ -198,7 +198,7 @@ export default class Upload
 	/*
 					_calcMemFreeAlt : () =>
 					{
-						exec(`du -s ${config.vodPlayer.path}`, (err, stdout, stderr) =>
+						exec(`du -s ${config.vod.path}`, (err, stdout, stderr) =>
 						{
 							if (err) return;
 

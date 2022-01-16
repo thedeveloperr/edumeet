@@ -200,7 +200,7 @@ class Room extends EventEmitter
 			const router = await worker.createRouter({ mediaCodecs });
 
 			router.appData.workerId = worker.pid;
-			worker.appData.routerIds.add(router.id)
+			worker.appData.routerIds.add(router.id);
 			router.observer.on('close', () =>
 			{
 				const routerWorker = mediasoupWorkers.get(router.appData.workerId);
@@ -280,7 +280,7 @@ class Room extends EventEmitter
 
 		this._fileHistory = [];
 
-		this._vodHistory = null;
+		this._vod = null;
 
 		this._lastN = [];
 
@@ -330,7 +330,7 @@ class Room extends EventEmitter
 
 		this._fileHistory = null;
 
-		this._vodHistory = null;
+		this._vod = null;
 
 		this._lobby.close();
 
@@ -848,9 +848,9 @@ class Room extends EventEmitter
 		if (peer.joined)
 			this._notification(peer.socket, 'peerClosed', { peerId: peer.id }, true);
 
-		if (this._vodHistory && this._vodHistory.peerId === peer.id)
+		if (this._vod && this._vod.peerId === peer.id)
 		{
-			this._vodHistory = null;
+			this._vod = null;
 		}
 
 		// Remove from lastN
@@ -940,20 +940,15 @@ class Room extends EventEmitter
 					lobbyPeers = this._lobby.peerList();
 
 				// Make a copy in order not to change the stored object 
-				let vodObject = null;
+				const vod = (this._vod) ? { ...this._vod } : null;
 
-				if (this._vodHistory)
+				if (vod && vod.isPlaying)
 				{
-					vodObject = Object.assign({}, this._vodHistory);
-				}
+					// the +1000 ms is a magic number, as we cannot know exactly 
+					// the transmission and processing time
+					const offset = (Date.now() - vod.startPlayTimestamp + 1000) / 1000;
 
-				if (vodObject && vodObject.isPlaying)
-				{
-					// the +1000 ms is a magic number, as we cannot know exactly the transmission 
-					// and processing time
-					const vodOffset = (Date.now() - vodObject.startPlayTimestamp + 1000) / 1000;
-
-					vodObject.time = vodObject.time + vodOffset;
+					vod.time = vod.time + offset;
 				}
 
 				cb(null, {
@@ -966,8 +961,8 @@ class Room extends EventEmitter
 					allowWhenRoleMissing : roomAllowWhenRoleMissing,
 					chatHistory          : this._chatHistory,
 					fileHistory          : this._fileHistory,
-					vodEnabled           : config.vodPlayer.enabled,
-					vodHistory           : vodObject,
+					vodEnabled           : config.vod.enabled,
+					vodLoadedVideo       : vod,
 					lastNHistory         : this._lastN,
 					locked               : this._locked,
 					lobbyPeers           : lobbyPeers,
@@ -1176,6 +1171,7 @@ class Room extends EventEmitter
 						});
 
 						const pipeProducer = pipeToRouterResult.pipeProducer;
+
 						destinationRouter.appData.producerIds.add(pipeProducer.id);
 						pipeProducer.appData.routerId = destinationRouter.id;
 
@@ -1830,7 +1826,7 @@ class Room extends EventEmitter
 			// <vod>
 			case 'moderator:uploadVodFile':
 			{
-				if (config.vodPlayer.enabled)
+				if (config.vod.enabled)
 				{
 				// TODO-VoDSync a new permission for VoD sync showing should be introduced
 				// or now permission at all should be required
@@ -1871,9 +1867,9 @@ class Room extends EventEmitter
 
 					}
 
-					// const url = `${config.vodPlayer.path}/${name}`;
+					// const url = `${config.vod.path}/${name}`;
 
-					// const url = `${config.vodPlayer.path}/${name}`;
+					// const url = `${config.vod.path}/${name}`;
 
 					// const util = require('util');
 					// console.log('_getFilesTree'); // eslint-disable-line no-console
@@ -1890,20 +1886,20 @@ class Room extends EventEmitter
 
 			case 'moderator:loadVod':
 			{
-				if (config.vodPlayer.enabled)
+				if (config.vod.enabled)
 				{
 				// TODO-VoDSync a new permission for VoD sync showing should be introduced
 				// or now permission at all should be required
 					if (!this._hasPermission(peer, MODERATE_ROOM))
 						throw new Error('peer not authorized');
 
-					const { vodObject } = request.data;
+					const { loadedVideo } = request.data;
 
-					this._vodHistory = vodObject;
+					this._vod = loadedVideo;
 
 					// Spread to others
 					this._notification(peer.socket, 'updateVod', {
-						vodObject : vodObject
+						loadedVideo
 					}, true);
 
 					// Return no error
@@ -1915,33 +1911,33 @@ class Room extends EventEmitter
 			case 'moderator:updateVod':
 			{
 
-				if (config.vodPlayer.enabled)
+				if (config.vod.enabled)
 				{
 				// TODO-VoDSync a new permission for VoD sync showing should be introduced
 				// or now permission at all should be required
 					if (!this._hasPermission(peer, MODERATE_ROOM))
 						throw new Error('peer not authorized');
 
-					const { vodObject } = request.data;
+					const { loadedVideo } = request.data;
 
-					if (!this._vodHistory || this._vodHistory.peerId !== peer.id)
+					if (!this._vod || this._vod.peerId !== peer.id)
 						throw new Error('peer not authorized to change vod state');
 
-					if (!this._vodHistory.isPlaying && vodObject.isPlaying)
+					if (!this._vod.isPlaying && loadedVideo.isPlaying)
 					{
-						vodObject.startPlayTimestamp = Date.now();
+						loadedVideo.startPlayTimestamp = Date.now();
 					}
 
-					if (this._vodHistory.isPlaying && !vodObject.isPlaying)
+					if (this._vod.isPlaying && !loadedVideo.isPlaying)
 					{
-						vodObject.startPlayTimestamp = 0;
+						loadedVideo.startPlayTimestamp = 0;
 					}
 
-					this._vodHistory = vodObject;
+					this._vod = loadedVideo;
 
 					// Spread to others
 					this._notification(peer.socket, 'updateVod', {
-						vodObject : vodObject
+						loadedVideo
 					}, true, true);
 
 					// Return no error
@@ -1952,14 +1948,14 @@ class Room extends EventEmitter
 
 			case 'moderator:unloadVod':
 			{
-				if (config.vodPlayer.enabled)
+				if (config.vod.enabled)
 				{
 				// TODO-VoDSync a new permission for VoD sync showing should be introduced
 				// or now permission at all should be required
 					if (!this._hasPermission(peer, MODERATE_ROOM))
 						throw new Error('peer not authorized');
 
-					this._vodHistory = null;
+					this._vod = null;
 
 					// Spread to others
 					this._notification(peer.socket, 'unloadVod', null, true);
@@ -1972,7 +1968,7 @@ class Room extends EventEmitter
 
 			case 'moderator:removeVodFile':
 			{
-				if (config.vodPlayer.enabled)
+				if (config.vod.enabled)
 				{
 					return;
 				}
@@ -2400,6 +2396,7 @@ class Room extends EventEmitter
 				});
 
 				const pipeProducer = pipeToRouterResult.pipeProducer;
+
 				router.appData.producerIds.add(pipeProducer.id);
 				pipeProducer.appData.routerId = router.id;
 

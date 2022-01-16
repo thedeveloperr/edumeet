@@ -735,6 +735,7 @@ async function runWebSocketServer()
 			const room = await getOrCreateRoom({ roomId });
 
 			let token = null;
+
 			if (socket.handshake.session.peerId === peerId)
 			{
 				token = room.getToken(peerId);

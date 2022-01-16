@@ -20,7 +20,7 @@ const peersKeySelector = createSelector(
 	(peers) => Object.keys(peers)
 );
 
-export const showVodSelect = (state) => state.player.vodObject;
+export const showVodSelect = (state) => state.vod.loadedVideo;
 
 export const peersValueSelector = createSelector(
 	peersSelector,
@@ -197,7 +197,7 @@ export const videoBoxesSelector = createSelector(
 	meSelector,
 	(
 		isHidden,
-		vodObject,
+		loadedVideo,
 		spotlightsLength,
 		screenProducers,
 		screenConsumers,
@@ -209,7 +209,7 @@ export const videoBoxesSelector = createSelector(
 		return spotlightsLength + (isHidden ? 0 : 1) +
 			(isHidden ? 0 : screenProducers.length) + screenConsumers.length +
 			(isHidden ? 0 : extraVideoProducers.length) + extraVideoConsumers.length +
-			(vodObject ? (isHidden && me.id === vodObject.peerId ? 0 : 1) : 0);
+			(loadedVideo ? (isHidden && me.id === loadedVideo.peerId ? 0 : 1) : 0);
 	}
 );
 

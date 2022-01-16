@@ -4,16 +4,10 @@ export const isVodEnabled = (flag) =>
 		payload : { flag }
 	});
 
-export const loadVod = (vodObject) =>
+export const loadVod = (loadedVideo) =>
 	({
 		type    : 'LOAD_VOD',
-		payload : { vodObject }
-	});
-
-export const setToggleVodInProgress = (flag) =>
-	({
-		type    : 'SET_TOGGLE_VOD_IN_PROGRESS',
-		payload : { flag }
+		payload : { loadedVideo }
 	});
 
 export const unloadVod = () =>
@@ -37,7 +31,7 @@ export const setVodUploadConditions = (
 	isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed) =>
 {
 	return ({
-		type    : 'SET_VOD_UPLOAD_POSSIBLE_STATUS',
+		type    : 'SET_VOD_UPLOAD_CONDITIONS',
 		payload : { isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed }
 	});
 };
@@ -45,7 +39,13 @@ export const setVodUploadConditions = (
 export const clearVodUploadConditions = () =>
 {
 	return ({
-		type    : 'CLEAR_VOD_UPLOAD_POSSIBLE_STATUS',
+		type    : 'CLEAR_VOD_UPLOAD_CONDITIONS',
 		payload : {}
 	});
 };
+
+export const setToggleVodInProgress = (flag) =>
+	({
+		type    : 'SET_TOGGLE_VOD_IN_PROGRESS',
+		payload : { flag }
+	});

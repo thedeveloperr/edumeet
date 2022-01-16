@@ -38,8 +38,8 @@ const List = (props) =>
 	const {
 		roomClient,
 		classes,
-		vodObject,
-		vodMeObjects,
+		loadedVideo,
+		list,
 		me
 
 	} = props;
@@ -47,7 +47,7 @@ const List = (props) =>
 	return (
 		<Grid container className={classes.root}>
 			{
-				vodMeObjects.map((v, i) =>
+				list.map((v, i) =>
 				{
 					return (
 						<Grid
@@ -79,9 +79,9 @@ const List = (props) =>
 								</Tooltip>
 							</Grid>
 							{(
-								!vodObject.isPlaying ||
-								vodObject.peerId !== me.id ||
-								vodObject.url !== v.url
+								!loadedVideo.isPlaying ||
+								loadedVideo.peerId !== me.id ||
+								loadedVideo.url !== v.url
 							) ?
 								<Grid item xs={1}>
 									{/* Button start countdown */}
@@ -94,10 +94,10 @@ const List = (props) =>
 										color='secondary'
 										size='small'
 										disabled={
-											vodObject.peerId !== me.id ||
+											loadedVideo.peerId !== me.id ||
 											(
-												vodObject.peerId === me.id &&
-												vodObject.url !== v.url
+												loadedVideo.peerId === me.id &&
+												loadedVideo.url !== v.url
 											)
 										}
 										onClick={() => roomClient.updateVod('0', 'play')}
@@ -119,10 +119,10 @@ const List = (props) =>
 										size='small'
 
 										disabled={
-											vodObject.peerId !== me.id ||
+											loadedVideo.peerId !== me.id ||
 											(
-												vodObject.peerId === me.id &&
-												vodObject.url !== v.url
+												loadedVideo.peerId === me.id &&
+												loadedVideo.url !== v.url
 											)
 										}
 										// disabled={!isEnabled || left === '00:00:00'}
@@ -144,10 +144,10 @@ const List = (props) =>
 									variant='contained'
 									color='secondary'
 									disabled={
-										vodObject.isLoaded &&
+										loadedVideo.isLoaded &&
 										(
-											vodObject.peerId === me.id &&
-											vodObject.url === v.url
+											loadedVideo.peerId === me.id &&
+											loadedVideo.url === v.url
 										)
 									}
 
@@ -170,10 +170,10 @@ const List = (props) =>
 									color='secondary'
 									size='small'
 									disabled={
-										vodObject.isLoaded &&
+										loadedVideo.isLoaded &&
 										(
-											vodObject.peerId === me.id &&
-											vodObject.url === v.url
+											loadedVideo.peerId === me.id &&
+											loadedVideo.url === v.url
 										)
 									}
 									onClick={() => roomClient.removeVodFile(v.url)}
@@ -192,18 +192,18 @@ const List = (props) =>
 };
 
 List.propTypes = {
-	classes      : PropTypes.object.isRequired,
-	roomClient   : PropTypes.any.isRequired,
-	vodObject    : PropTypes.object.isRequired,
-	vodMeObjects : PropTypes.array.isRequired,
-	me           : PropTypes.object.isRequired
+	classes     : PropTypes.object.isRequired,
+	roomClient  : PropTypes.any.isRequired,
+	loadedVideo : PropTypes.object.isRequired,
+	list        : PropTypes.array.isRequired,
+	me          : PropTypes.object.isRequired
 
 };
 
 const mapStateToProps = (state) => ({
-	vodObject    : state.player.vodObject,
-	vodMeObjects : state.player.vodMeObjects,
-	me           : state.me
+	loadedVideo : state.vod.loadedVideo,
+	list        : state.vod.list,
+	me          : state.me
 });
 
 export default withRoomContext(connect(
@@ -214,9 +214,9 @@ export default withRoomContext(connect(
 		areStatesEqual : (next, prev) =>
 		{
 			return (
-				prev.player === next.player &&
-				prev.player.vodObject === next.player.vodObject &&
-				prev.player.vodMeObjects === next.player.vodMeObjects &&
+				prev.vod === next.vod &&
+				prev.vod.loadedVideo === next.vod.loadedVideo &&
+				prev.vod.list === next.vod.list &&
 				prev.me === next.me
 			);
 		}

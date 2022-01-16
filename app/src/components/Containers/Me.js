@@ -175,7 +175,7 @@ const Me = (props) =>
 		noiseVolume,
 		classes,
 		theme,
-		vodObject
+		loadedVideo
 	} = props;
 
 	// const width = style.width;
@@ -1015,13 +1015,13 @@ const Me = (props) =>
 					</div>
 				</div>
 			}
-			{(vodObject.isLoaded) && (vodObject.peerId === me.id) &&
+			{(loadedVideo.isLoaded) && (loadedVideo.peerId === me.id) &&
 			<div className={classnames(classes.root, 'vod')} style={spacingStyle}>
 				<div className={classes.viewContainer} style={style}>
 					<VideoView
 						isMe
 						isVod
-						vodObject={vodObject}
+						loadedVideo={loadedVideo}
 						vodOnEvent={(time, event) =>
 						{
 							roomClient.updateVod(time, event);
@@ -1054,7 +1054,7 @@ Me.propTypes =
 	classes             : PropTypes.object.isRequired,
 	theme               : PropTypes.object.isRequired,
 	transports          : PropTypes.object.isRequired,
-	vodObject           : PropTypes.object
+	loadedVideo         : PropTypes.object
 };
 
 const makeMapStateToProps = () =>
@@ -1090,7 +1090,7 @@ const makeMapStateToProps = () =>
 			hasScreenPermission : canShareScreen(state),
 			noiseVolume         : noise,
 			transports          : state.transports,
-			vodObject           : showVodSelect(state)
+			loadedVideo         : showVodSelect(state)
 		};
 	};
 
@@ -1108,7 +1108,7 @@ export default withRoomContext(connect(
 				Math.round(prev.peerVolumes[prev.me.id]) ===
 				Math.round(next.peerVolumes[next.me.id]) &&
 				prev.room === next.room &&
-				prev.player === next.player &&
+				prev.vod === next.vod &&
 				prev.me === next.me &&
 				prev.peers === next.peers &&
 				prev.producers === next.producers &&

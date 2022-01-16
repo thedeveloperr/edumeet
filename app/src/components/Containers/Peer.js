@@ -161,7 +161,7 @@ const Peer = (props) =>
 		isSelected,
 		mode,
 		theme,
-		vodObject,
+		loadedVideo,
 		openVodFullscreen
 	} = props;
 
@@ -1032,7 +1032,7 @@ const Peer = (props) =>
 					</div>
 				</div>
 			}
-			{(vodObject.isLoaded) && (vodObject.peerId === peer.id) &&
+			{(loadedVideo.isLoaded) && (loadedVideo.peerId === peer.id) &&
 				<div
 					className={classnames(classes.root, 'vod', hover ? 'hover' : null)}
 					onMouseOver={() => setHover(true)}
@@ -1105,7 +1105,7 @@ const Peer = (props) =>
 
 						<VideoView
 							isVod
-							vodObject={vodObject}
+							loadedVideo={loadedVideo}
 						/>
 					</div>
 				</div>
@@ -1136,7 +1136,7 @@ Peer.propTypes =
 	enableLayersSwitch       : PropTypes.bool,
 	isSelected               : PropTypes.bool,
 	mode                     : PropTypes.string.isRequired,
-	vodObject                : PropTypes.object,
+	loadedVideo              : PropTypes.object,
 	openVodFullscreen        : PropTypes.func.isRequired
 };
 
@@ -1155,7 +1155,7 @@ const makeMapStateToProps = (initialState, { id }) =>
 			browser            : state.me.browser,
 			isSelected         : state.room.selectedPeers.includes(id),
 			mode               : state.room.mode,
-			vodObject          : showVodSelect(state)
+			loadedVideo        : showVodSelect(state)
 		};
 	};
 
@@ -1214,7 +1214,7 @@ export default withRoomContext(connect(
 				prev.enableLayersSwitch === next.enableLayersSwitch &&
 				prev.width === next.width &&
 				prev.height === next.height &&
-				prev.player === next.player
+				prev.vod === next.vod
 			);
 		}
 	}

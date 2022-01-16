@@ -16,7 +16,7 @@ import * as consumerActions from './actions/consumerActions';
 import * as producerActions from './actions/producerActions';
 import * as notificationActions from './actions/notificationActions';
 import * as transportActions from './actions/transportActions';
-import * as playerActions from './actions/playerActions';
+import * as vodActions from './actions/vodActions';
 import Spotlights from './Spotlights';
 import { permissions } from './permissions';
 import * as locales from './translations/locales';
@@ -2111,7 +2111,7 @@ export default class RoomClient
 	{
 		logger.debug('uploadVodFile() [name:"%s", type:"%s", size:"%s", data:"%s"]', name, type, size, data);
 
-		store.dispatch(playerActions.setToggleVodInProgress(true));
+		store.dispatch(vodActions.setToggleVodInProgress(true));
 
 		try
 		{
@@ -2121,7 +2121,7 @@ export default class RoomClient
 				{
 					type : 'info',
 					text : intl.formatMessage({
-						id             : 'vodPlayer.x',
+						id             : 'vod.x',
 						defaultMessage : 'File uploading...'
 					})
 				}));
@@ -2135,17 +2135,17 @@ export default class RoomClient
 				{
 					type : 'info',
 					text : intl.formatMessage({
-						id             : 'vodPlayer.x',
+						id             : 'vod.x',
 						defaultMessage : 'Something went wrong'
 					})
 				}));
 
-			// store.dispatch(playerActions.unloadVod());
+			// store.dispatch(vodActions.unloadVod());
 		}
 
-		const conditions = store.getState().player.uploadConditions;
+		const conditions = store.getState().vod.uploadConditions;
 
-		// all condition === true
+		// all conditions === true
 		const canBeSend = Object.values(conditions).every(Boolean);
 
 		if (canBeSend)
@@ -2161,7 +2161,7 @@ export default class RoomClient
 					{
 						type : 'info',
 						text : intl.formatMessage({
-							id             : 'vodPlayer.x',
+							id             : 'vod.x',
 							defaultMessage : 'File added'
 						})
 					}));
@@ -2170,13 +2170,13 @@ export default class RoomClient
 			{
 				logger.error('uploadVodFile() [error:"%o"]', error);
 
-				store.dispatch(playerActions.unloadVod());
+				store.dispatch(vodActions.unloadVod());
 
 				store.dispatch(requestActions.notify(
 					{
 						type : 'error',
 						text : intl.formatMessage({
-							id             : 'vodPlayer.x',
+							id             : 'vod.x',
 							defaultMessage : 'Something went wrong'
 						})
 					}));
@@ -2196,7 +2196,7 @@ export default class RoomClient
 					{
 						type : 'error',
 						text : intl.formatMessage({
-							id             : 'vodPlayer.x',
+							id             : 'vod.x',
 							defaultMessage : 'No enough memory'
 						})
 					}));
@@ -2208,7 +2208,7 @@ export default class RoomClient
 					{
 						type : 'error',
 						text : intl.formatMessage({
-							id             : 'vodPlayer.x',
+							id             : 'vod.x',
 							defaultMessage : 'File already exists'
 						})
 					}));
@@ -2220,7 +2220,7 @@ export default class RoomClient
 					{
 						type : 'error',
 						text : intl.formatMessage({
-							id             : 'vodPlayer.x',
+							id             : 'vod.x',
 							defaultMessage : 'File size is to big'
 						})
 					}));
@@ -2232,64 +2232,64 @@ export default class RoomClient
 					{
 						type : 'error',
 						text : intl.formatMessage({
-							id             : 'vodPlayer.x',
+							id             : 'vod.x',
 							defaultMessage : 'File type not allowed'
 						})
 					}));
 			}
 		}
 
-		// store.dispatch(playerActions.clearVodUploadConditions());
+		// store.dispatch(vodActions.clearVodUploadConditions());
 
-		store.dispatch(playerActions.setToggleVodInProgress(false));
+		store.dispatch(vodActions.setToggleVodInProgress(false));
 	}
 
-	async loadVod(vodObject)
+	async loadVod(loadedVideo)
 	{
-		vodObject = {
-			...vodObject,
+		loadedVideo = {
+			...loadedVideo,
 			isLoaded : true,
 			peerId   : this._peerId
 		};
 
-		logger.debug('loadVod() [vodObject:"%o"]', vodObject);
+		logger.debug('loadVod() [loadedVideo:"%o"]', loadedVideo);
 
-		store.dispatch(playerActions.setToggleVodInProgress(true));
+		store.dispatch(vodActions.setToggleVodInProgress(true));
 
 		try
 		{
-			await this.sendRequest('moderator:loadVod', { vodObject });
+			await this.sendRequest('moderator:loadVod', { loadedVideo });
 
 			store.dispatch(
-				playerActions.loadVod(vodObject));
+				vodActions.loadVod(loadedVideo));
 		}
 		catch (error)
 		{
 			logger.error('loadVod() [error:"%o"]', error);
 		}
 
-		store.dispatch(playerActions.setToggleVodInProgress(false));
+		store.dispatch(vodActions.setToggleVodInProgress(false));
 	}
 
 	async updateVod(vodTime, event)
 	{
 		console.log({ 't': 'RC:updateVod', event }); // eslint-disable-line no-console
 
-		const vodObject = store.getState().player.vodObject;
+		const loadedVideo = store.getState().vod.loadedVideo;
 
-		vodObject.time = vodTime;
+		loadedVideo.time = vodTime;
 
 		switch (event)
 		{
 			case 'play':
 			{
-				vodObject.isPlaying = true;
+				loadedVideo.isPlaying = true;
 
 				break;
 			}
 			case 'pause':
 			{
-				vodObject.isPlaying = false;
+				loadedVideo.isPlaying = false;
 
 				break;
 			}
@@ -2298,32 +2298,32 @@ export default class RoomClient
 				break;
 		}
 
-		logger.debug('updateVod() [vodObject:"%o"]', vodObject);
+		logger.debug('updateVod() [loadedVideo:"%o"]', loadedVideo);
 
-		store.dispatch(playerActions.setToggleVodInProgress(true));
+		store.dispatch(vodActions.setToggleVodInProgress(true));
 		try
 		{
-			await this.sendRequest('moderator:updateVod', { vodObject });
+			await this.sendRequest('moderator:updateVod', { loadedVideo });
 		}
 		catch (error)
 		{
 			logger.error('updateVod() [error:"%o"]', error);
 
-			store.dispatch(playerActions.unloadVod());
+			store.dispatch(vodActions.unloadVod());
 		}
 
-		store.dispatch(playerActions.setToggleVodInProgress(false));
+		store.dispatch(vodActions.setToggleVodInProgress(false));
 	}
 
 	async unloadVod()
 	{
-		store.dispatch(playerActions.setToggleVodInProgress(true));
+		store.dispatch(vodActions.setToggleVodInProgress(true));
 
 		try
 		{
 			await this.sendRequest('moderator:unloadVod', {});
 
-			store.dispatch(playerActions.unloadVod());
+			store.dispatch(vodActions.unloadVod());
 		}
 		catch (error)
 		{
@@ -2331,7 +2331,7 @@ export default class RoomClient
 		}
 
 		store.dispatch(
-			playerActions.setToggleVodInProgress(false));
+			vodActions.setToggleVodInProgress(false));
 	}
 
 	async removeVodFile(url)
@@ -2340,7 +2340,7 @@ export default class RoomClient
 
 		logger.debug('removeVodFile() [url:"%s"]', url);
 
-		store.dispatch(playerActions.setToggleVodInProgress(true));
+		store.dispatch(vodActions.setToggleVodInProgress(true));
 
 		/*
 		try
@@ -2348,7 +2348,7 @@ export default class RoomClient
 			await this.sendRequest('moderator:removeVodFile', { url });
 
 			store.dispatch(
-				playerActions.loadVod(vodObject));
+				vodActions.loadVod(loadedVideo));
 		}
 		catch (error)
 		{
@@ -2356,9 +2356,9 @@ export default class RoomClient
 		}
 		*/
 
-		store.dispatch(playerActions.removeVodItem(url));
+		store.dispatch(vodActions.removeVodItem(url));
 
-		store.dispatch(playerActions.setToggleVodInProgress(false));
+		store.dispatch(vodActions.setToggleVodInProgress(false));
 	}
 	// </vod>
 
@@ -3448,7 +3448,7 @@ export default class RoomClient
 						const { name, type, size, url } = notification.data;
 
 						store.dispatch(
-							playerActions.addVodItem(name, type, size, url));
+							vodActions.addVodItem(name, type, size, url));
 
 						break;
 					}
@@ -3460,7 +3460,7 @@ export default class RoomClient
 						} = notification.data;
 
 						store.dispatch(
-							playerActions.setVodUploadConditions(
+							vodActions.setVodUploadConditions(
 								isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed)
 						);
 
@@ -3469,10 +3469,10 @@ export default class RoomClient
 
 					case 'updateVod':
 					{
-						const { vodObject } = notification.data;
+						const { loadedVideo } = notification.data;
 
 						store.dispatch(
-							playerActions.loadVod(vodObject));
+							vodActions.loadVod(loadedVideo));
 
 						break;
 					}
@@ -3480,7 +3480,7 @@ export default class RoomClient
 					case 'unloadVod':
 					{
 						store.dispatch(
-							playerActions.unloadVod());
+							vodActions.unloadVod());
 
 						break;
 					}
@@ -3605,11 +3605,11 @@ export default class RoomClient
 
 						this._spotlights.closePeer(peerId);
 
-						const vodObject = store.getState().player.vodObject;
+						const loadedVideo = store.getState().vod.loadedVideo;
 
-						if (vodObject && vodObject.peerId === peerId)
+						if (loadedVideo && loadedVideo.peerId === peerId)
 						{
-							store.dispatch(playerActions.unloadVod());
+							store.dispatch(vodActions.unloadVod());
 						}
 
 						store.dispatch(
@@ -4207,7 +4207,7 @@ export default class RoomClient
 				chatHistory,
 				fileHistory,
 				vodEnabled,
-				vodHistory,
+				vodLoadedVideo,
 				lastNHistory,
 				locked,
 				lobbyPeers,
@@ -4278,16 +4278,16 @@ export default class RoomClient
 
 			if (vodEnabled)
 			{
-				store.dispatch(playerActions.isVodEnabled(vodEnabled));
+				store.dispatch(vodActions.isVodEnabled(vodEnabled));
 			}
 
-			if (vodHistory)
+			if (vodLoadedVideo)
 			{
-				store.dispatch(playerActions.loadVod(vodHistory));
+				store.dispatch(vodActions.loadVod(vodLoadedVideo));
 			}
 			else
 			{
-				store.dispatch(playerActions.unloadVod());
+				store.dispatch(vodActions.unloadVod());
 			}
 
 			locked ?

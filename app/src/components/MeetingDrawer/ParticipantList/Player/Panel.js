@@ -43,12 +43,12 @@ const Player = (props) =>
 	const {
 		roomClient,
 		classes,
-		vodObject,
-		vodMeObjects,
+		loadedVideo,
+		list,
 		me
 	} = props;
 
-	const uploadedCount = vodMeObjects.length;
+	const uploadedCount = list.length;
 
 	const maxUploadedCount = 3;
 
@@ -118,10 +118,10 @@ const Player = (props) =>
 						// className={classes.button}
 						// className={classes.button}
 						disabled={
-							!vodObject ||
+							!loadedVideo ||
 							(
-								vodObject.peerId !== 'undefined' &&
-								vodObject.peerId !== me.id
+								loadedVideo.peerId !== 'undefined' &&
+								loadedVideo.peerId !== me.id
 							)
 						}
 						onClick={() =>
@@ -145,19 +145,19 @@ const Player = (props) =>
 
 Player.propTypes =
 {
-	roomClient   : PropTypes.any.isRequired,
-	classes      : PropTypes.object.isRequired,
-	left         : PropTypes.string.isRequired,
-	vodObject    : PropTypes.object.isRequired,
-	vodMeObjects : PropTypes.object.isRequired,
-	me           : PropTypes.object.isRequired
+	roomClient  : PropTypes.any.isRequired,
+	classes     : PropTypes.object.isRequired,
+	left        : PropTypes.string.isRequired,
+	loadedVideo : PropTypes.object.isRequired,
+	list        : PropTypes.object.isRequired,
+	me          : PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-	left         : state.player.left,
-	vodObject    : state.player.vodObject,
-	vodMeObjects : state.player.vodMeObjects,
-	me           : state.me
+	left        : state.vod.left,
+	loadedVideo : state.vod.loadedVideo,
+	list        : state.vod.list,
+	me          : state.me
 });
 
 export default withRoomContext(connect(
@@ -168,9 +168,9 @@ export default withRoomContext(connect(
 		areStatesEqual : (next, prev) =>
 		{
 			return (
-				prev.player.left === next.player.left &&
-				prev.player.vodObject === next.player.vodObject &&
-				prev.player.vodMeObjects === next.player.vodMeObjects &&
+				prev.vod.left === next.vod.left &&
+				prev.vod.loadedVideo === next.vod.loadedVideo &&
+				prev.vod.list === next.vod.list &&
 				prev.me === next.me
 			);
 		}
