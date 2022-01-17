@@ -2117,7 +2117,7 @@ export default class RoomClient
 
 		try
 		{
-			await this.sendRequest('moderator:uploadVodFile',
+			await this.sendRequest('uploadVodFile',
 				{
 					name,
 					type,
@@ -2165,7 +2165,7 @@ export default class RoomClient
 			try
 			{
 				await this.sendRequest(
-					'moderator:uploadVodFile',
+					'uploadVodFile',
 					{
 						name,
 						type,
@@ -2278,7 +2278,7 @@ export default class RoomClient
 
 		try
 		{
-			await this.sendRequest('moderator:loadVod', { loadedVideo });
+			await this.sendRequest('loadVod', { loadedVideo });
 
 			store.dispatch(
 				vodActions.loadVod(loadedVideo));
@@ -2323,7 +2323,7 @@ export default class RoomClient
 		store.dispatch(vodActions.setToggleVodInProgress(true));
 		try
 		{
-			await this.sendRequest('moderator:updateVod', { loadedVideo });
+			await this.sendRequest('updateVod', { loadedVideo });
 		}
 		catch (error)
 		{
@@ -2341,7 +2341,7 @@ export default class RoomClient
 
 		try
 		{
-			await this.sendRequest('moderator:unloadVod', {});
+			await this.sendRequest('unloadVod', {});
 
 			store.dispatch(vodActions.unloadVod());
 		}
@@ -2367,7 +2367,7 @@ export default class RoomClient
 
 		try
 		{
-			await this.sendRequest('moderator:removeVodFile',
+			await this.sendRequest('removeVodFile',
 				{
 					name,
 					roomId : this._roomId,

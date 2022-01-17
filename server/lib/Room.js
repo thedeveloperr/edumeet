@@ -1833,7 +1833,7 @@ class Room extends EventEmitter
 			}
 
 			// <vod>
-			case 'moderator:uploadVodFile':
+			case 'uploadVodFile':
 			{
 				if (config.vod.enabled)
 				{
@@ -1877,7 +1877,7 @@ class Room extends EventEmitter
 				break;
 			}
 
-			case 'moderator:loadVod':
+			case 'loadVod':
 			{
 				if (config.vod.enabled)
 				{
@@ -1901,7 +1901,7 @@ class Room extends EventEmitter
 				break;
 			}
 
-			case 'moderator:updateVod':
+			case 'updateVod':
 			{
 
 				if (config.vod.enabled)
@@ -1939,7 +1939,7 @@ class Room extends EventEmitter
 				break;
 			}
 
-			case 'moderator:unloadVod':
+			case 'unloadVod':
 			{
 				if (config.vod.enabled)
 				{
@@ -1959,7 +1959,7 @@ class Room extends EventEmitter
 				break;
 			}
 
-			case 'moderator:removeVodFile':
+			case 'removeVodFile':
 			{
 				if (config.vod.enabled)
 				{
