@@ -1848,7 +1848,7 @@ class Room extends EventEmitter
 
 					const uploadRestrictions = {
 						isMemEnough       : this._upload.isMemEnough(size),
-						isFileNotExisting : this._upload.isFileNotExisting(name),
+						isFileNotExisting : this._upload.isFileNotExisting(name, roomId, peerId, hash),
 						isFileSizeAllowed : this._upload.isFileSizeAllowed(size),
 						isFileTypeAllowed : this._upload.isFileTypeAllowed(type)
 					};

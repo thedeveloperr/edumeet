@@ -15,9 +15,9 @@ export const unloadVod = () =>
 		type : 'UNLOAD_VOD'
 	});
 
-export const addVodItem = (name, type, size, url, hash) =>
+export const uploadVodFile = (name, type, size, url, hash) =>
 	({
-		type    : 'ADD_VOD_ITEM',
+		type    : 'UPLOAD_VOD_FILE',
 		payload : { name, type, size, url, hash }
 	});
 

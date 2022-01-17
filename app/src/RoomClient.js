@@ -3473,7 +3473,7 @@ export default class RoomClient
 						const { name, type, size, url, hash } = notification.data;
 
 						store.dispatch(
-							vodActions.addVodItem(name, type, size, url, hash));
+							vodActions.uploadVodFile(name, type, size, url, hash));
 
 						break;
 					}

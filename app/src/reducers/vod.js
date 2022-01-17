@@ -46,7 +46,7 @@ const vod = (state = initialState, action) =>
 			return { ...state, toggleVodInProgress: action.payload.flag };
 		}
 
-		case 'ADD_VOD_ITEM':
+		case 'UPLOAD_VOD_FILE':
 		{
 			const { name, type, size, url, hash } = action.payload;
 

@@ -74,11 +74,13 @@ export default class Upload
 	{
 		return (this.filesMaxNumberPerUser);
 	}
-	isFileNotExisting(name)
+	isFileNotExisting(name, roomId, peerId, hash)
 	{
 		// return (!fs.existsSync(this.url)) ? true : false;
 
-		return true;
+		const fullName = `r-${roomId}_p-${peerId}_h-${hash}_${name}`;
+
+		return (this.filesMeta.find((el) => el.name === fullName) === undefined) ? true : false;
 	}
 	isFileSizeAllowed(size)
 	{
@@ -90,36 +92,28 @@ export default class Upload
 	}
 	savePeerFile(name, data, roomId, peerId, hash)
 	{
-		const url = `${this.path}/r-${roomId}_p-${peerId}_t-${hash}_${name}`;
+		const fullName = `${this.path}/r-${roomId}_p-${peerId}_h-${hash}_${name}`;
 
-		fs.writeFile(url, data, function(err)
+		fs.writeFile(fullName, data, function(err)
 		{
 			if (err)
 			{
 				return logger.error('writeFile [err:"%o"]', err);
 			}
 
-			// logger.debug(`writeFile "The ${name} saved in ${url}"`);
+			// logger.debug(`writeFile "The ${name} saved in ${fullName}"`);
 		});
 
-		return url;
+		return fullName;
 	}
 	removePeerFile(name, roomId, peerId, hash)
 	{
-		const name2 = `r-${roomId}_p-${peerId}_t-${hash}_${name}`;
-		const url = `${this.path}/r-${roomId}_p-${peerId}_t-${hash}_${name}`;
-		const found = (this.filesMeta.find((item) => item === name2) !== undefined) ? true : false;
+		const pathFullName = `${this.path}/r-${roomId}_p-${peerId}_h-${hash}_${name}`;
 
-		console.log({ title: 'removePeerFile:', name, roomId, peerId, hash }); // eslint-disable-line no-console
-		console.log({ title: 'this.filesMeta:', filesMeta: { ...this.filesMeta } }); // eslint-disable-line no-console
-		console.log({ title: 'name2:', name2 }); // eslint-disable-line no-console
-		console.log({ title: 'url:', url }); // eslint-disable-line no-console
-		console.log({ title: 'found:', found }); // eslint-disable-line no-console
+		this.isFileNotExisting(name, roomId, peerId, hash);
 
-		// const url = `${this.path}/r-${roomId}_p-${peerId}_t-${hash}_${url}`;
-
-		if (fs.existsSync(url))
-			fs.unlinkSync(url);
+		if (fs.existsSync(pathFullName))
+			fs.unlinkSync(pathFullName);
 
 		return;
 	}
