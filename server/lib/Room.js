@@ -1839,7 +1839,7 @@ class Room extends EventEmitter
 				{
 				// TODO-VoDSync a new permission for VoD sync showing should be introduced
 				// or now permission at all should be required
-					if (!this._hasPermission(peer, MODERATE_ROOM))
+					if (!this._hasPermission(peer, SHARE_VOD))
 						throw new Error('peer not authorized');
 
 					const { name, type, size, data, roomId, peerId, hash } = request.data;
@@ -1883,7 +1883,7 @@ class Room extends EventEmitter
 				{
 				// TODO-VoDSync a new permission for VoD sync showing should be introduced
 				// or now permission at all should be required
-					if (!this._hasPermission(peer, MODERATE_ROOM))
+					if (!this._hasPermission(peer, SHARE_VOD))
 						throw new Error('peer not authorized');
 
 					const { loadedVideo } = request.data;
@@ -1908,7 +1908,7 @@ class Room extends EventEmitter
 				{
 				// TODO-VoDSync a new permission for VoD sync showing should be introduced
 				// or now permission at all should be required
-					if (!this._hasPermission(peer, MODERATE_ROOM))
+					if (!this._hasPermission(peer, SHARE_VOD))
 						throw new Error('peer not authorized');
 
 					const { loadedVideo } = request.data;
@@ -1945,7 +1945,7 @@ class Room extends EventEmitter
 				{
 				// TODO-VoDSync a new permission for VoD sync showing should be introduced
 				// or now permission at all should be required
-					if (!this._hasPermission(peer, MODERATE_ROOM))
+					if (!this._hasPermission(peer, SHARE_VOD))
 						throw new Error('peer not authorized');
 
 					this._vod = null;
@@ -1965,7 +1965,7 @@ class Room extends EventEmitter
 				{
 					// TODO-VoDSync a new permission for VoD sync showing should be introduced
 					// or now permission at all should be required
-					if (!this._hasPermission(peer, MODERATE_ROOM))
+					if (!this._hasPermission(peer, SHARE_VOD))
 						throw new Error('peer not authorized');
 
 					const { name, roomId, peerId, hash } = request.data;
