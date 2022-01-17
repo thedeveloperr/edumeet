@@ -1,5 +1,4 @@
 import fs from 'fs';
-// import path from 'path';
 import Logger from './logger/Logger';
 import { config } from './config/config';
 
@@ -17,9 +16,7 @@ export default class Upload
 		this.fileMaxSizeAllowed = config.vod.fileMaxSizeAllowed;
 		this.filesMaxNumberPerUser = config.vod.filesMaxNumberPerUser;
 		this.filesMeta = [];
-		this.filesTree =[];
 
-		// this._getFilesTree();
 		this.name = name;
 		this.type = type;
 		this.size = size;
@@ -53,37 +50,6 @@ export default class Upload
 		this.filesMeta = list;
 	}
 
-	/*
-	_getFilesTree : () =>
-	{
-		const filename = this.path;
-
-		const stats = fs.lstatSync(filename);
-		const info = {
-			path : filename,
-			name : path.basename(filename)
-		};
-
-		if (stats.isDirectory())
-		{
-			info.type = 'folder';
-			info.children = fs.readdirSync(filename).map(function(child)
-			{
-				return this._getFilesTree(`${this.path}/${filename}/${child}`);
-			});
-		}
-		else
-		{
-			// Assuming it's a file. In real life it could be a symlink or
-			// something else!
-			info.type = 'file';
-		}
-
-		return info;
-
-	},
-	*/
-
 	_calcMemFree()
 	{
 		const totalUsedSpace = this.filesMeta.reduce((a, b) =>
@@ -113,12 +79,8 @@ export default class Upload
 	}
 	isFileNotExisting()
 	{
-		// const peerFile = `${this.path}/${roomId}/${peerId}/${name}`;
-		// const peerFile = `${this.token}-${this.path}/room_${this.roomId}_peer_${this.peerId}_${this.name}`;
-
-		// return (!fs.existsSync(peerFile)) ? true : false;
+		// return (!fs.existsSync(this.url)) ? true : false;
 		return true;
-
 	}
 	isFileSizeAllowed()
 	{
