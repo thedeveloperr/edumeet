@@ -1857,7 +1857,7 @@ class Room extends EventEmitter
 
 					if (!data)
 					{
-						this._notification(peer.socket, 'uploadVodFileConditions', {
+						this._notification(peer.socket, 'uploadVodFileRestrictions', {
 							...uploadRestrictions
 						}, false, false);
 					}

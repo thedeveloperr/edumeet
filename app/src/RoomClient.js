@@ -2155,10 +2155,10 @@ export default class RoomClient
 			// store.dispatch(vodActions.unloadVod());
 		}
 
-		const conditions = store.getState().vod.uploadConditions;
+		const restrictions = store.getState().vod.uploadRestrictions;
 
-		// all conditions === true
-		const canBeSend = Object.values(conditions).every(Boolean);
+		// all restrictions === true
+		const canBeSend = Object.values(restrictions).every(Boolean);
 
 		if (canBeSend)
 		{
@@ -2208,7 +2208,7 @@ export default class RoomClient
 		else
 		{
 			const { isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed
-			} = conditions;
+			} = restrictions;
 
 			if (!isMemEnough)
 			{
@@ -2259,7 +2259,7 @@ export default class RoomClient
 			}
 		}
 
-		// store.dispatch(vodActions.clearVodUploadConditions());
+		// store.dispatch(vodActions.clearVodUploadRestrictions());
 
 		store.dispatch(vodActions.setToggleVodInProgress(false));
 	}
@@ -3478,14 +3478,14 @@ export default class RoomClient
 						break;
 					}
 
-					case 'uploadVodFileConditions':
+					case 'uploadVodFileRestrictions':
 					{
 						const {
 							isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed
 						} = notification.data;
 
 						store.dispatch(
-							vodActions.setVodUploadConditions(
+							vodActions.setVodUploadRestrictions(
 								isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed)
 						);
 

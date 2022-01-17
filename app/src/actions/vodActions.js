@@ -27,19 +27,19 @@ export const removeVodItem = (hash) =>
 		payload : { hash }
 	});
 
-export const setVodUploadConditions = (
+export const setVodUploadRestrictions = (
 	isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed) =>
 {
 	return ({
-		type    : 'SET_VOD_UPLOAD_CONDITIONS',
+		type    : 'SET_VOD_UPLOAD_RESTRICTIONS',
 		payload : { isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed }
 	});
 };
 
-export const clearVodUploadConditions = () =>
+export const clearVodUploadRestrictions = () =>
 {
 	return ({
-		type    : 'CLEAR_VOD_UPLOAD_CONDITIONS',
+		type    : 'CLEAR_VOD_UPLOAD_RESTRICTIONS',
 		payload : {}
 	});
 };
