@@ -176,7 +176,14 @@ const List = (props) =>
 											loadedVideo.url === v.url
 										)
 									}
-									onClick={() => roomClient.removeVodFile(v.url)}
+									onClick={() =>
+									{
+										console.log({ 'title': 'removeVodFile', hash: v.hash }); // eslint-disable-line no-console
+
+										roomClient.removeVodFile(
+											v.name, v.type, v.size, v.hash
+										);
+									}}
 								>
 									<HighlightOffIcon/>
 								</IconButton>

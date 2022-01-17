@@ -88,10 +88,8 @@ export default class Upload
 	{
 		return (this.filesTypesAllowed.includes(type)) ? true : false;
 	}
-	savePeerFile(name, data, roomId, peerId)
+	savePeerFile(name, data, roomId, peerId, hash)
 	{
-		const hash = (Math.random() + 1).toString(30).substring(2);
-
 		const url = `${this.path}/r-${roomId}_p-${peerId}_t-${hash}_${name}`;
 
 		fs.writeFile(url, data, function(err)
@@ -106,10 +104,17 @@ export default class Upload
 
 		return url;
 	}
-	removePeerFile(url, roomId, peerId)
+	removePeerFile(name, roomId, peerId, hash)
 	{
-		console.log({ title: 'removePeerFile:', url, roomId, peerId }); // eslint-disable-line no-console
+		const name2 = `r-${roomId}_p-${peerId}_t-${hash}_${name}`;
+		const url = `${this.path}/r-${roomId}_p-${peerId}_t-${hash}_${name}`;
+		const found = (this.filesMeta.find((item) => item === name2) !== undefined) ? true : false;
+
+		console.log({ title: 'removePeerFile:', name, roomId, peerId, hash }); // eslint-disable-line no-console
 		console.log({ title: 'this.filesMeta:', filesMeta: { ...this.filesMeta } }); // eslint-disable-line no-console
+		console.log({ title: 'name2:', name2 }); // eslint-disable-line no-console
+		console.log({ title: 'url:', url }); // eslint-disable-line no-console
+		console.log({ title: 'found:', found }); // eslint-disable-line no-console
 
 		// const url = `${this.path}/r-${roomId}_p-${peerId}_t-${hash}_${url}`;
 

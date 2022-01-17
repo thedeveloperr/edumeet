@@ -2113,9 +2113,21 @@ export default class RoomClient
 
 		store.dispatch(vodActions.setToggleVodInProgress(true));
 
+		const hash = (Math.random() + 1).toString(30).substring(2);
+
 		try
 		{
-			await this.sendRequest('moderator:uploadVodFile', { name, type, size });
+			await this.sendRequest('moderator:uploadVodFile',
+				{
+					name,
+					type,
+					size,
+					data   : null,
+					roomId : this._roomId,
+					peerId : this._peerId,
+					hash
+				}
+			);
 
 			store.dispatch(requestActions.notify(
 				{
@@ -2154,7 +2166,15 @@ export default class RoomClient
 			{
 				await this.sendRequest(
 					'moderator:uploadVodFile',
-					{ name, type, size, data, roomId: this._roomId, peerId: this._peerId }
+					{
+						name,
+						type,
+						size,
+						data,
+						roomId : this._roomId,
+						peerId : this._peerId,
+						hash
+					}
 				);
 
 				store.dispatch(requestActions.notify(
@@ -2334,19 +2354,31 @@ export default class RoomClient
 			vodActions.setToggleVodInProgress(false));
 	}
 
-	async removeVodFile(url)
+	async removeVodFile(name, type, size, hash)
 	{
+
+		console.log({ 'title': 'removeVodFile', name, type, size, hash }); // eslint-disable-line no-console
+
 		// console.log({ title: 'RC.removeVodFile()', url }); // eslint-disable-line no-console
 
-		logger.debug('removeVodFile() [url:"%s"]', url);
+		// logger.debug('removeVodFile() [url:"%s"]', name, type, size, hash);
 
 		store.dispatch(vodActions.setToggleVodInProgress(true));
 
 		try
 		{
-			await this.sendRequest('moderator:removeVodFile', { url, roomId: this._roomId, peerId: this._peerId });
+			await this.sendRequest('moderator:removeVodFile',
+				{
+					name,
+					type,
+					size,
+					roomId : this._roomId,
+					peerId : this._peerId,
+					hash
+				}
+			);
 
-			store.dispatch(vodActions.removeVodItem(url));
+			store.dispatch(vodActions.removeVodItem(hash));
 		}
 		catch (error)
 		{
@@ -3440,10 +3472,10 @@ export default class RoomClient
 					// <vod>
 					case 'uploadVodFile':
 					{
-						const { name, type, size, url } = notification.data;
+						const { name, type, size, url, hash } = notification.data;
 
 						store.dispatch(
-							vodActions.addVodItem(name, type, size, url));
+							vodActions.addVodItem(name, type, size, url, hash));
 
 						break;
 					}

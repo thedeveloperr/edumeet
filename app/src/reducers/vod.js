@@ -10,7 +10,8 @@ const initialState =
 		isLoaded           : false,
 		isPlaying          : false,
 		startPlayTimestamp : 0,
-		peerId             : null
+		peerId             : null,
+		hash               : null
 	},
 	list                : [],
 	toggleVodInProgress : null,
@@ -47,25 +48,22 @@ const vod = (state = initialState, action) =>
 
 		case 'ADD_VOD_ITEM':
 		{
-			const { name, type, size, url } = action.payload;
+			const { name, type, size, url, hash } = action.payload;
 
 			const list = [ ...state.list ];
 
-			list.push({ ...initialState.loadedVideo, name, type, size, url });
+			list.push({ ...initialState.loadedVideo, name, type, size, url, hash });
 
 			return { ...state, list: list };
 		}
 
 		case 'REMOVE_VOD_ITEM':
 		{
-			const { url } = action.payload;
+			const { hash } = action.payload;
 
 			const list = [ ...state.list ];
 
-			const tmp = list.filter(function(el)
-			{
-				return el.url !== url;
-			});
+			const tmp = list.filter((el) => el.hash !== hash);
 
 			return { ...state, list: tmp };
 		}

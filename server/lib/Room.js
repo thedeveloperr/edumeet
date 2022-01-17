@@ -1842,7 +1842,7 @@ class Room extends EventEmitter
 					if (!this._hasPermission(peer, MODERATE_ROOM))
 						throw new Error('peer not authorized');
 
-					const { name, type, size, data, roomId, peerId } = request.data;
+					const { name, type, size, data, roomId, peerId, hash } = request.data;
 
 					this._upload.refresh();
 
@@ -1863,13 +1863,12 @@ class Room extends EventEmitter
 					}
 					else if (data !== '' && canBeUploaded)
 					{
-						const url = this._upload.savePeerFile(name, data, roomId, peerId);
+						const url = this._upload.savePeerFile(name, data, roomId, peerId, hash);
 
 						// Spread to others
 						this._notification(peer.socket, 'uploadVodFile', {
-							name, type, size, url
+							name, type, size, url, hash
 						}, false, false);
-
 					}
 
 					// Return no error
@@ -1969,11 +1968,11 @@ class Room extends EventEmitter
 					if (!this._hasPermission(peer, MODERATE_ROOM))
 						throw new Error('peer not authorized');
 
-					const { url, roomId, peerId } = request.data;
+					const { name, type, size, roomId, peerId, hash } = request.data;
 
 					this._upload.refresh();
 
-					this._upload.removePeerFile(url, roomId, peerId);
+					this._upload.removePeerFile(name, roomId, peerId, hash);
 
 					// Spread to others
 					// this._notification(peer.socket, 'uploadVodFile', {

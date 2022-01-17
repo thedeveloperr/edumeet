@@ -15,16 +15,16 @@ export const unloadVod = () =>
 		type : 'UNLOAD_VOD'
 	});
 
-export const addVodItem = (name, type, size, url) =>
+export const addVodItem = (name, type, size, url, hash) =>
 	({
 		type    : 'ADD_VOD_ITEM',
-		payload : { name, type, size, url }
+		payload : { name, type, size, url, hash }
 	});
 
-export const removeVodItem = (url) =>
+export const removeVodItem = (hash) =>
 	({
 		type    : 'REMOVE_VOD_ITEM',
-		payload : { url }
+		payload : { hash }
 	});
 
 export const setVodUploadConditions = (
