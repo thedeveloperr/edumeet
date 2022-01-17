@@ -2342,21 +2342,16 @@ export default class RoomClient
 
 		store.dispatch(vodActions.setToggleVodInProgress(true));
 
-		/*
 		try
 		{
-			await this.sendRequest('moderator:removeVodFile', { url });
+			await this.sendRequest('moderator:removeVodFile', { url, roomId: this._roomId, peerId: this._peerId });
 
-			store.dispatch(
-				vodActions.loadVod(loadedVideo));
+			store.dispatch(vodActions.removeVodItem(url));
 		}
 		catch (error)
 		{
 			logger.error('loadVod() [error:"%o"]', error);
 		}
-		*/
-
-		store.dispatch(vodActions.removeVodItem(url));
 
 		store.dispatch(vodActions.setToggleVodInProgress(false));
 	}

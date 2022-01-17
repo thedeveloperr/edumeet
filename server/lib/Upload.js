@@ -106,12 +106,15 @@ export default class Upload
 
 		return url;
 	}
-	removePeerFile(name, roomId, peerId)
+	removePeerFile(url, roomId, peerId)
 	{
-		// const url = `${this.path}/r-${roomId}_p-${peerId}_t-${hash}_${name}`;
+		console.log({ title: 'removePeerFile:', url, roomId, peerId }); // eslint-disable-line no-console
+		console.log({ title: 'this.filesMeta:', filesMeta: { ...this.filesMeta } }); // eslint-disable-line no-console
 
-		// if (fs.existsSync(url))
-		// fs.unlinkSync(url);
+		// const url = `${this.path}/r-${roomId}_p-${peerId}_t-${hash}_${url}`;
+
+		if (fs.existsSync(url))
+			fs.unlinkSync(url);
 
 		return;
 	}

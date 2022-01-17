@@ -1964,9 +1964,25 @@ class Room extends EventEmitter
 			{
 				if (config.vod.enabled)
 				{
-					return;
-				}
+					// TODO-VoDSync a new permission for VoD sync showing should be introduced
+					// or now permission at all should be required
+					if (!this._hasPermission(peer, MODERATE_ROOM))
+						throw new Error('peer not authorized');
 
+					const { url, roomId, peerId } = request.data;
+
+					this._upload.refresh();
+
+					this._upload.removePeerFile(url, roomId, peerId);
+
+					// Spread to others
+					// this._notification(peer.socket, 'uploadVodFile', {
+					// name, type, size, url
+					// }, false, false);
+
+					// Return no error
+					cb();
+				}
 				break;
 			}
 			// </vod>
