@@ -2354,10 +2354,10 @@ export default class RoomClient
 			vodActions.setToggleVodInProgress(false));
 	}
 
-	async removeVodFile(name, type, size, hash)
+	async removeVodFile(name, hash)
 	{
 
-		console.log({ 'title': 'removeVodFile', name, type, size, hash }); // eslint-disable-line no-console
+		console.log({ 'title': 'removeVodFile', name, hash }); // eslint-disable-line no-console
 
 		// console.log({ title: 'RC.removeVodFile()', url }); // eslint-disable-line no-console
 
@@ -2370,8 +2370,6 @@ export default class RoomClient
 			await this.sendRequest('moderator:removeVodFile',
 				{
 					name,
-					type,
-					size,
 					roomId : this._roomId,
 					peerId : this._peerId,
 					hash

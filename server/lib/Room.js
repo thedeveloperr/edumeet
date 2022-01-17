@@ -1855,13 +1855,13 @@ class Room extends EventEmitter
 
 					const canBeUploaded = Object.values(uploadRestrictions).every(Boolean);
 
-					if (data === undefined)
+					if (!data)
 					{
 						this._notification(peer.socket, 'uploadVodFileConditions', {
 							...uploadRestrictions
 						}, false, false);
 					}
-					else if (data !== '' && canBeUploaded)
+					else if (data && canBeUploaded)
 					{
 						const url = this._upload.savePeerFile(name, data, roomId, peerId, hash);
 
@@ -1968,7 +1968,7 @@ class Room extends EventEmitter
 					if (!this._hasPermission(peer, MODERATE_ROOM))
 						throw new Error('peer not authorized');
 
-					const { name, type, size, roomId, peerId, hash } = request.data;
+					const { name, roomId, peerId, hash } = request.data;
 
 					this._upload.refresh();
 

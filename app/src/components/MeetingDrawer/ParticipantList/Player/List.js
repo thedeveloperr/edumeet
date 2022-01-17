@@ -180,9 +180,7 @@ const List = (props) =>
 									{
 										console.log({ 'title': 'removeVodFile', hash: v.hash }); // eslint-disable-line no-console
 
-										roomClient.removeVodFile(
-											v.name, v.type, v.size, v.hash
-										);
+										roomClient.removeVodFile(v.name, v.hash);
 									}}
 								>
 									<HighlightOffIcon/>
