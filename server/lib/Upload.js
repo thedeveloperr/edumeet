@@ -1,35 +1,33 @@
 import fs from 'fs';
 import Logger from './logger/Logger';
-import { config } from './config/config';
 
 const logger = new Logger('Room');
 
 export default class Upload
 {
-	constructor(name, type, size, data, roomId, peerId)
+	constructor(
+		path, memSize, autoClearing,
+		filesTypesAllowed, fileMaxSizeAllowed, filesMaxNumberPerUser)
 	{
-		this.path = config.vod.path;
-		this.memSize = config.vod.memSize;
+		this.path = path;
+		this.memSize = memSize;
 		this.memFree = null;
-		this.autoClearing = config.vod.autoClearing;
-		this.filesTypesAllowed = config.vod.filesTypesAllowed;
-		this.fileMaxSizeAllowed = config.vod.fileMaxSizeAllowed;
-		this.filesMaxNumberPerUser = config.vod.filesMaxNumberPerUser;
+		this.autoClearing = autoClearing;
+		this.filesTypesAllowed = filesTypesAllowed;
+		this.fileMaxSizeAllowed = fileMaxSizeAllowed;
+		this.filesMaxNumberPerUser = filesMaxNumberPerUser;
+
 		this.filesMeta = [];
 
-		this.name = name;
-		this.type = type;
-		this.size = size;
-		this.data = data;
-		this.roomId = roomId;
-		this.peerId = peerId;
-		this.token = (Math.random() + 1).toString(30).substring(2);
-		this.url = `${config.vod.path}/r-${roomId}_p-${peerId}_${this.token}-${name}`;
-
-		this._getFilesMeta();
-		this._calcMemFree();
+		this.refresh();
 
 	}
+	refresh()
+	{
+		this._getFilesMeta();
+		this._getMemFree();
+	}
+
 	_getFilesMeta()
 	{
 		const list = [];
@@ -49,8 +47,7 @@ export default class Upload
 
 		this.filesMeta = list;
 	}
-
-	_calcMemFree()
+	_getMemFree()
 	{
 		const totalUsedSpace = this.filesMeta.reduce((a, b) =>
 			({ size: a.size + b.size }), { size: 0 }).size;
@@ -69,106 +66,60 @@ export default class Upload
 	{
 		return this.filesMeta.length;
 	}
-	isMemEnough()
+	isMemEnough(size)
 	{
-		return (this.size <= (this.memFree)) ? true : false;
+		console.log('size', size); // eslint-disable-line no-console
+		console.log('this.memFree', this.memFree); // eslint-disable-line no-console
+
+		return (size <= (this.memFree)) ? true : false;
 	}
 	isFilesMaxNumberExceeded()
 	{
 		return (this.filesMaxNumberPerUser);
 	}
-	isFileNotExisting()
+	isFileNotExisting(name)
 	{
 		// return (!fs.existsSync(this.url)) ? true : false;
+
 		return true;
 	}
-	isFileSizeAllowed()
+	isFileSizeAllowed(size)
 	{
-		return (this.size <= this.fileMaxSizeAllowed) ? true : false;
+		return (size <= this.fileMaxSizeAllowed) ? true : false;
 	}
-	isFileTypeAllowed()
+	isFileTypeAllowed(type)
 	{
-		return (this.filesTypesAllowed.includes(this.type)) ? true : false;
+		return (this.filesTypesAllowed.includes(type)) ? true : false;
 	}
-	savePeerFile()
+	savePeerFile(name, data, roomId, peerId)
 	{
-		// const roomDir = `${this.path}/${roomId}`;
-		// const peerDir = `${this.path}/${roomId}/${peerId}`;
-		// const peerFile = `${this.path}/${roomId}/${peerId}/${name}`;
+		const hash = (Math.random() + 1).toString(30).substring(2);
 
-		// const roomDir = `${this.path}/${roomId}`;
-		// const peerDir = `${this.path}/${roomId}${peerId}`;
+		const url = `${this.path}/r-${roomId}_p-${peerId}_t-${hash}_${name}`;
 
-		/*
-			if (!fs.existsSync(roomDir))
-				fs.mkdirSync(roomDir, { recursive: true });
-
-			if (!fs.existsSync(peerDir))
-				fs.mkdirSync(peerDir, { recursive: true });
-		*/
-
-		fs.writeFile(this.url, this.data, function(err)
+		fs.writeFile(url, data, function(err)
 		{
 			if (err)
 			{
 				return logger.error('writeFile [err:"%o"]', err);
 			}
 
-			// logger.debug(`writeFile "The ${this.name} saved in ${this.url}"`);
+			// logger.debug(`writeFile "The ${name} saved in ${url}"`);
 		});
-	}
-	removePeerFile()
-	{
-		// const peerFile = `${this.path}/${roomId}/${peerId}/${name}`;
-		const peerFile = `${this.token}-${this.path}/room_${this.roomId}_peer_${this.peerId}_${this.name}`;
 
-		if (fs.existsSync(peerFile))
-			fs.unlinkSync(peerFile);
+		return url;
+	}
+	removePeerFile(name, roomId, peerId)
+	{
+		// const url = `${this.path}/r-${roomId}_p-${peerId}_t-${hash}_${name}`;
+
+		// if (fs.existsSync(url))
+		// fs.unlinkSync(url);
+
+		return;
 	}
 	removePeerAllFiles()
 	{
-		// const peerDir = `${upload.path}/${roomId}/${peerId}`;
-		const peerDir = `${this.path}/${this.roomId}${this.peerId}`;
-
-		fs.rmdirSync(peerDir, { recursive: true, force: true });
+		return;
 	}
-
-	/*
-	removeAllRoomFiles()
-	{
-		// const roomDir = `${this.path}/${roomId}`;
-		const roomDir = `${this.path}/`;
-
-		// fs.rmdirSync(roomDir, { recursive: true, force: true });
-
-		fs.readdir(roomDir, (err, files) =>
-		{
-			if (err) throw err;
-
-			for (const file of files)
-			{
-				fs.unlink(path.join(roomDir, file), (err) =>
-				{
-					if (err) throw err;
-				});
-			}
-		});
-
-	}
-	*/
-
-	/*
-					_calcMemFreeAlt : () =>
-					{
-						exec(`du -s ${config.vod.path}`, (err, stdout, stderr) =>
-						{
-							if (err) return;
-
-							// eslint-disable-next-line no-console
-							console.log(`stdout: ${stdout}`, `stderr: ${stderr}`);
-
-							return process.stdout;
-						});
-					}
-					*/
 }

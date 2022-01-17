@@ -282,6 +282,15 @@ class Room extends EventEmitter
 
 		this._vod = null;
 
+		this._upload = new Upload(
+			config.vod.path,
+			config.vod.memSize,
+			config.vod.autoClearing,
+			config.vod.filesTypesAllowed,
+			config.vod.fileMaxSizeAllowed,
+			config.vod.filesMaxNumberPerUser
+		);
+
 		this._lastN = [];
 
 		this._peers = {};
@@ -1835,30 +1844,26 @@ class Room extends EventEmitter
 
 					const { name, type, size, data, roomId, peerId } = request.data;
 
-					const upload = new Upload(name, type, size, data, roomId, peerId);
+					this._upload.refresh();
 
-					let canBeSend = false;
-
-					const conditions = {
-						isMemEnough       : upload.isMemEnough(),
-						isFileNotExisting : upload.isFileNotExisting(),
-						isFileSizeAllowed : upload.isFileSizeAllowed(),
-						isFileTypeAllowed : upload.isFileTypeAllowed()
+					const uploadRestrictions = {
+						isMemEnough       : this._upload.isMemEnough(size),
+						isFileNotExisting : this._upload.isFileNotExisting(name),
+						isFileSizeAllowed : this._upload.isFileSizeAllowed(size),
+						isFileTypeAllowed : this._upload.isFileTypeAllowed(type)
 					};
 
-					canBeSend = Object.values(conditions).every(Boolean);
+					const canBeUploaded = Object.values(uploadRestrictions).every(Boolean);
 
 					if (data === undefined)
 					{
 						this._notification(peer.socket, 'uploadVodFileConditions', {
-							...conditions
+							...uploadRestrictions
 						}, false, false);
 					}
-					else if (data !== '' && canBeSend)
+					else if (data !== '' && canBeUploaded)
 					{
-						upload.savePeerFile();
-
-						const url = upload.url;
+						const url = this._upload.savePeerFile(name, data, roomId, peerId);
 
 						// Spread to others
 						this._notification(peer.socket, 'uploadVodFile', {
@@ -1867,19 +1872,8 @@ class Room extends EventEmitter
 
 					}
 
-					// const url = `${config.vod.path}/${name}`;
-
-					// const url = `${config.vod.path}/${name}`;
-
-					// const util = require('util');
-					// console.log('_getFilesTree'); // eslint-disable-line no-console
-					// console.log(util.inspect(upload._getFilesTree(upload.path), false, null)); // eslint-disable-line no-console
-					// console.log('_getFilesTree22'); // eslint-disable-line no-console
-					// console.log(upload._getFilesTree(upload.path), false, null); // eslint-disable-line no-console
-
 					// Return no error
 					cb();
-
 				}
 				break;
 			}
