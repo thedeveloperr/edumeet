@@ -1853,7 +1853,7 @@ class Room extends EventEmitter
 						isFileTypeAllowed : this._upload.isFileTypeAllowed(type)
 					};
 
-					const canBeUploaded = Object.values(uploadRestrictions).every(Boolean);
+					const canBeSaved = Object.values(uploadRestrictions).every(Boolean);
 
 					if (!data)
 					{
@@ -1861,7 +1861,7 @@ class Room extends EventEmitter
 							...uploadRestrictions
 						}, false, false);
 					}
-					else if (data && canBeUploaded)
+					else if (data && canBeSaved)
 					{
 						const url = this._upload.savePeerFile(name, data, roomId, peerId, hash);
 
