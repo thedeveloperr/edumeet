@@ -495,7 +495,7 @@ const configSchema = convict({
 		memSize : {
 			doc     : 'Maximum disk space for uploading files.',
 			format  : Number,
-			default : 200000 * 1048576 // nMB * 1MB (in bytes)
+			default : 0.2 // GB
 		},
 		autoClearing : {
 			doc     : 'Clear files of peer after leaving the room.',
@@ -510,8 +510,8 @@ const configSchema = convict({
 		fileMaxSizeAllowed : {
 			doc     : 'Maximum file size allowed to be uploaded.',
 			format  : Number,
-			default : 1000 * 1048576
-		}, // nMB * 1MB (in bytes) 
+			default : 0.1 // GB
+		},
 		filesMaxNumberPerUser : {
 			doc     : 'Maximum number of files uploaded by peer in on room',
 			format  : Number,

@@ -10,11 +10,11 @@ export default class Upload
 		filesTypesAllowed, fileMaxSizeAllowed, filesMaxNumberPerUser)
 	{
 		this.path = path;
-		this.memSize = memSize;
+		this.memSize = memSize * 1073741824; // GB -> bytes
 		this.memFree = null;
 		this.autoClearing = autoClearing;
 		this.filesTypesAllowed = filesTypesAllowed;
-		this.fileMaxSizeAllowed = fileMaxSizeAllowed;
+		this.fileMaxSizeAllowed = fileMaxSizeAllowed * 1073741824; // GB -> bytes
 		this.filesMaxNumberPerUser = filesMaxNumberPerUser;
 
 		this.filesMeta = [];
@@ -68,9 +68,6 @@ export default class Upload
 	}
 	isMemEnough(size)
 	{
-		console.log('size', size); // eslint-disable-line no-console
-		console.log('this.memFree', this.memFree); // eslint-disable-line no-console
-
 		return (size <= (this.memFree)) ? true : false;
 	}
 	isFilesMaxNumberExceeded()
