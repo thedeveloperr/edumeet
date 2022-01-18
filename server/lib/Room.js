@@ -1848,11 +1848,14 @@ class Room extends EventEmitter
 
 					this._upload.refresh();
 
+					console.log({ 'isFilesMaxNumberPerPeerNotExceeded():': this._upload.isFilesMaxNumberPerPeerNotExceeded(roomId, peerId) }); // eslint-disable-line no-console
+
 					const uploadRestrictions = {
-						isMemEnough       : this._upload.isMemEnough(size),
-						isFileNotExisting : this._upload.isFileNotExisting(name, roomId, peerId, hash),
-						isFileSizeAllowed : this._upload.isFileSizeAllowed(size),
-						isFileTypeAllowed : this._upload.isFileTypeAllowed(type)
+						isMemEnough                        : this._upload.isMemEnough(size),
+						isFileNotExisting                  : this._upload.isFileNotExisting(name, roomId, peerId, hash),
+						isFileSizeAllowed                  : this._upload.isFileSizeAllowed(size),
+						isFileTypeAllowed                  : this._upload.isFileTypeAllowed(type),
+						isFilesMaxNumberPerPeerNotExceeded : this._upload.isFilesMaxNumberPerPeerNotExceeded(roomId, peerId)
 					};
 
 					const canBeSaved = Object.values(uploadRestrictions).every(Boolean);

@@ -54,9 +54,15 @@ export default class Upload
 
 		this.memFree = this.memSize - totalUsedSpace;
 	}
-	_countPeerFiles()
+	_countPeerFiles(roomId, peerId)
 	{
-		return this.filesMeta.length;
+		this.refresh();
+
+		const peerFilesNumber = this.filesMeta.filter(
+			(v) => v.name.startsWith(`r-${roomId}_p-${peerId}`)
+		).length;
+
+		return peerFilesNumber;
 	}
 	_countRoomFiles()
 	{
@@ -70,9 +76,13 @@ export default class Upload
 	{
 		return (size <= (this.memFree)) ? true : false;
 	}
-	isFilesMaxNumberExceeded()
+	isFilesMaxNumberPerPeerNotExceeded(roomId, peerId)
 	{
-		return (this.filesMaxNumberPerUser);
+		this.refresh();
+
+		const peerFilesNumber = this._countPeerFiles(roomId, peerId);
+
+		return (peerFilesNumber < this.filesMaxNumberPerUser) ? true : false;
 	}
 	isFileNotExisting(name, roomId, peerId, hash)
 	{
@@ -105,8 +115,6 @@ export default class Upload
 			{
 				return logger.error('writeFile [err:"%o"]', err);
 			}
-
-			// logger.debug(`writeFile "The ${name} saved in ${fullName}"`);
 		});
 
 		return fullName;

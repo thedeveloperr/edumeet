@@ -2207,7 +2207,12 @@ export default class RoomClient
 
 		else
 		{
-			const { isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed
+			const {
+				isMemEnough,
+				isFileNotExisting,
+				isFileSizeAllowed,
+				isFileTypeAllowed,
+				isFilesMaxNumberPerPeerNotExceeded
 			} = restrictions;
 
 			if (!isMemEnough)
@@ -2257,6 +2262,19 @@ export default class RoomClient
 						})
 					}));
 			}
+
+			if (!isFilesMaxNumberPerPeerNotExceeded)
+			{
+				store.dispatch(requestActions.notify(
+					{
+						type : 'error',
+						text : intl.formatMessage({
+							id             : 'vod.x',
+							defaultMessage : 'Files upload limit exceeded'
+						})
+					}));
+			}
+
 		}
 
 		// store.dispatch(vodActions.clearVodUploadRestrictions());
@@ -3481,12 +3499,21 @@ export default class RoomClient
 					case 'uploadVodFileRestrictions':
 					{
 						const {
-							isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed
+							isMemEnough,
+							isFileNotExisting,
+							isFileSizeAllowed,
+							isFileTypeAllowed,
+							isFilesMaxNumberPerPeerNotExceeded
 						} = notification.data;
 
 						store.dispatch(
 							vodActions.setVodUploadRestrictions(
-								isMemEnough, isFileNotExisting, isFileSizeAllowed, isFileTypeAllowed)
+								isMemEnough,
+								isFileNotExisting,
+								isFileSizeAllowed,
+								isFileTypeAllowed,
+								isFilesMaxNumberPerPeerNotExceeded
+							)
 						);
 
 						break;
