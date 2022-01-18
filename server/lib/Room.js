@@ -972,12 +972,18 @@ class Room extends EventEmitter
 					allowWhenRoleMissing : roomAllowWhenRoleMissing,
 					chatHistory          : this._chatHistory,
 					fileHistory          : this._fileHistory,
-					vodEnabled           : config.vod.enabled,
-					vodLoadedVideo       : vod,
-					lastNHistory         : this._lastN,
-					locked               : this._locked,
-					lobbyPeers           : lobbyPeers,
-					accessCode           : this._accessCode
+					vod               :
+					{
+						config : {
+							enabled               : config.vod.enabled,
+							filesMaxNumberPerUser : config.vod.filesMaxNumberPerUser
+						},
+						loadedVideo : vod
+					},
+					lastNHistory : this._lastN,
+					locked       : this._locked,
+					lobbyPeers   : lobbyPeers,
+					accessCode   : this._accessCode
 				});
 
 				// Mark the new Peer as joined.

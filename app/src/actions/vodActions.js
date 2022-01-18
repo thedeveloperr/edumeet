@@ -1,7 +1,7 @@
-export const isVodEnabled = (flag) =>
+export const setVodConfig = (config) =>
 	({
-		type    : 'IS_VOD_ENABLED',
-		payload : { flag }
+		type    : 'SET_VOD_CONFIG',
+		payload : { config }
 	});
 
 export const loadVod = (loadedVideo) =>

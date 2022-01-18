@@ -4258,8 +4258,7 @@ export default class RoomClient
 				allowWhenRoleMissing,
 				chatHistory,
 				fileHistory,
-				vodEnabled,
-				vodLoadedVideo,
+				vod,
 				lastNHistory,
 				locked,
 				lobbyPeers,
@@ -4328,18 +4327,13 @@ export default class RoomClient
 			(fileHistory.length > 0) && store.dispatch(
 				fileActions.addFileHistory(fileHistory));
 
-			if (vodEnabled)
+			if (vod)
 			{
-				store.dispatch(vodActions.isVodEnabled(vodEnabled));
-			}
+				store.dispatch(vodActions.setVodConfig(vod.config));
 
-			if (vodLoadedVideo)
-			{
-				store.dispatch(vodActions.loadVod(vodLoadedVideo));
-			}
-			else
-			{
-				store.dispatch(vodActions.unloadVod());
+				vod.loadedVideo ?
+					store.dispatch(vodActions.loadVod(vod.loadedVideo)) :
+					store.dispatch(vodActions.unloadVod());
 			}
 
 			locked ?

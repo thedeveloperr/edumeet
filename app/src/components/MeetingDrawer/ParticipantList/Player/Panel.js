@@ -45,12 +45,11 @@ const Player = (props) =>
 		classes,
 		loadedVideo,
 		list,
-		me
+		me,
+		filesMaxNumberPerUser
 	} = props;
 
-	const uploadedCount = list.length;
-
-	const maxUploadedCount = 3;
+	const uploadedNumber = list.length;
 
 	const handleUploadVod = ({ target }) =>
 	{
@@ -97,13 +96,13 @@ const Player = (props) =>
 						<Button
 							aria-label='upload video'
 							color='secondary'
-							disabled={uploadedCount >= maxUploadedCount}
+							disabled={uploadedNumber >= filesMaxNumberPerUser}
 							component='span'
 							startIcon={<BackupIcon />}
 							variant='contained'
 							// className={classes.button}
 						>
-							{`Upload ${uploadedCount}/${maxUploadedCount}`}
+							{`Upload ${uploadedNumber}/${filesMaxNumberPerUser}`}
 						</Button>
 					</label>
 					{/* /Button upload */}
@@ -145,19 +144,21 @@ const Player = (props) =>
 
 Player.propTypes =
 {
-	roomClient  : PropTypes.any.isRequired,
-	classes     : PropTypes.object.isRequired,
-	left        : PropTypes.string.isRequired,
-	loadedVideo : PropTypes.object.isRequired,
-	list        : PropTypes.object.isRequired,
-	me          : PropTypes.object.isRequired
+	roomClient            : PropTypes.any.isRequired,
+	classes               : PropTypes.object.isRequired,
+	left                  : PropTypes.string.isRequired,
+	loadedVideo           : PropTypes.object.isRequired,
+	list                  : PropTypes.object.isRequired,
+	me                    : PropTypes.object.isRequired,
+	filesMaxNumberPerUser : PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
-	left        : state.vod.left,
-	loadedVideo : state.vod.loadedVideo,
-	list        : state.vod.list,
-	me          : state.me
+	left                  : state.vod.left,
+	loadedVideo           : state.vod.loadedVideo,
+	list                  : state.vod.list,
+	filesMaxNumberPerUser : state.vod.filesMaxNumberPerUser,
+	me                    : state.me
 });
 
 export default withRoomContext(connect(
@@ -171,6 +172,7 @@ export default withRoomContext(connect(
 				prev.vod.left === next.vod.left &&
 				prev.vod.loadedVideo === next.vod.loadedVideo &&
 				prev.vod.list === next.vod.list &&
+				prev.vod.filesMaxNumberPerUser === next.vod.filesMaxNumberPerUser &&
 				prev.me === next.me
 			);
 		}

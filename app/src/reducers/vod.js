@@ -1,7 +1,8 @@
 const initialState =
 {
-	enabled     : false,
-	loadedVideo : {
+	enabled               : false,
+	filesMaxNumberPerUser : null,
+	loadedVideo           : {
 		name               : null,
 		type               : null,
 		size               : null,
@@ -22,11 +23,11 @@ const vod = (state = initialState, action) =>
 {
 	switch (action.type)
 	{
-		case 'IS_VOD_ENABLED':
+		case 'SET_VOD_CONFIG':
 		{
-			const { flag } = action.payload;
+			const { config } = action.payload;
 
-			return { ...state, enabled: flag };
+			return { ...state, ...config };
 		}
 
 		case 'LOAD_VOD':
