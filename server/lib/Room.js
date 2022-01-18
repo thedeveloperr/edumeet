@@ -862,6 +862,8 @@ class Room extends EventEmitter
 			this._vod = null;
 		}
 
+		this._upload.removePeerAllFiles(this._roomId, peer.id);
+
 		// Remove from lastN
 		this._lastN = this._lastN.filter((id) => id !== peer.id);
 

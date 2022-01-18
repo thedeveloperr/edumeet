@@ -76,11 +76,16 @@ export default class Upload
 	}
 	isFileNotExisting(name, roomId, peerId, hash)
 	{
-		// return (!fs.existsSync(this.url)) ? true : false;
-
+		const pathFullName = `${this.path}/r-${roomId}_p-${peerId}_h-${hash}_${name}`;
 		const fullName = `r-${roomId}_p-${peerId}_h-${hash}_${name}`;
 
-		return (this.filesMeta.find((el) => el.name === fullName) === undefined) ? true : false;
+		const isNotInfilesMeta = (
+			this.filesMeta.find((el) => el.name === fullName
+			) === undefined) ? true : false;
+
+		const isNotInFs = (!fs.existsSync(pathFullName)) ? true : false;
+
+		return (isNotInfilesMeta && isNotInFs) ? true : false;
 	}
 	isFileSizeAllowed(size)
 	{
@@ -110,15 +115,24 @@ export default class Upload
 	{
 		const pathFullName = `${this.path}/r-${roomId}_p-${peerId}_h-${hash}_${name}`;
 
-		this.isFileNotExisting(name, roomId, peerId, hash);
-
 		if (fs.existsSync(pathFullName))
 			fs.unlinkSync(pathFullName);
 
 		return;
 	}
-	removePeerAllFiles()
+	removePeerAllFiles(roomId, peerId)
 	{
-		return;
+		this.refresh();
+
+		this.filesMeta.map((v) =>
+		{
+			if (v.name.startsWith(`r-${roomId}_p-${peerId}`))
+			{
+				if (fs.existsSync(`${this.path}/${v.name}`))
+					fs.unlinkSync(`${this.path}/${v.name}`);
+			}
+		});
+
+		return true;
 	}
 }
