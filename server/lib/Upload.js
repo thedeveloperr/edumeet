@@ -1,5 +1,6 @@
 import fs from 'fs';
 import Logger from './logger/Logger';
+import path from 'path';
 
 const logger = new Logger('Room');
 
@@ -34,13 +35,13 @@ export default class Upload
 
 		fs.readdirSync(this.path).forEach((file) =>
 		{
-			const dest = `${this.path}/${file}`;
+			const fullPath = path.join(this.path, file);
 
-			if (!fs.statSync(dest).isDirectory())
+			if (!fs.statSync(fullPath).isDirectory())
 			{
 				list.push({
 					name : file,
-					size : fs.statSync(dest).size
+					size : fs.statSync(fullPath).size
 				});
 			}
 		});
@@ -58,8 +59,10 @@ export default class Upload
 	{
 		this.refresh();
 
+		const prefix =`room_${roomId}_peer_${peerId}`;
+
 		const peerFilesNumber = this.filesMeta.filter(
-			(v) => v.name.startsWith(`r-${roomId}_p-${peerId}`)
+			(v) => v.name.startsWith(prefix)
 		).length;
 
 		return peerFilesNumber;
@@ -86,14 +89,16 @@ export default class Upload
 	}
 	isFileNotExisting(name, roomId, peerId, hash)
 	{
-		const pathFullName = `${this.path}/r-${roomId}_p-${peerId}_h-${hash}_${name}`;
-		const fullName = `r-${roomId}_p-${peerId}_h-${hash}_${name}`;
+		name = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
+			.replace(/[^A-Za-z0-9._-]+/g, '');
+
+		const fullPath = path.join(this.path, name);
 
 		const isNotInfilesMeta = (
-			this.filesMeta.find((el) => el.name === fullName
+			this.filesMeta.find((el) => el.name === name
 			) === undefined) ? true : false;
 
-		const isNotInFs = (!fs.existsSync(pathFullName)) ? true : false;
+		const isNotInFs = (!fs.existsSync(fullPath)) ? true : false;
 
 		return (isNotInfilesMeta && isNotInFs) ? true : false;
 	}
@@ -107,9 +112,14 @@ export default class Upload
 	}
 	savePeerFile(name, data, roomId, peerId, hash)
 	{
-		const fullName = `${this.path}/r-${roomId}_p-${peerId}_h-${hash}_${name}`;
+		name = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
+			.replace(/[^A-Za-z0-9._-]+/g, '');
 
-		fs.writeFile(fullName, data, function(err)
+		const fullPath = path.join(this.path, name);
+
+		console.log({ fullPath }); // eslint-disable-line no-console
+
+		fs.writeFile(fullPath, data, function(err)
 		{
 			if (err)
 			{
@@ -117,14 +127,17 @@ export default class Upload
 			}
 		});
 
-		return fullName;
+		return fullPath;
 	}
 	removePeerFile(name, roomId, peerId, hash)
 	{
-		const pathFullName = `${this.path}/r-${roomId}_p-${peerId}_h-${hash}_${name}`;
+		name = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
+			.replace(/[^A-Za-z0-9._-]+/g, '');
 
-		if (fs.existsSync(pathFullName))
-			fs.unlinkSync(pathFullName);
+		const fullPath = path.join(this.path, name);
+
+		if (fs.existsSync(fullPath))
+			fs.unlinkSync(fullPath);
 
 		return;
 	}
@@ -134,10 +147,12 @@ export default class Upload
 
 		this.filesMeta.map((v) =>
 		{
-			if (v.name.startsWith(`r-${roomId}_p-${peerId}`))
+			if (v.name.startsWith(`room_${roomId}_peer_${peerId}`))
 			{
-				if (fs.existsSync(`${this.path}/${v.name}`))
-					fs.unlinkSync(`${this.path}/${v.name}`);
+				const fullPath = path.join(this.path, v.name);
+
+				if (fs.existsSync(fullPath))
+					fs.unlinkSync(fullPath);
 			}
 		});
 

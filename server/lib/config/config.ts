@@ -490,7 +490,7 @@ const configSchema = convict({
 		path : {
 			doc     : 'Upload dir.',
 			format  : String,
-			default : 'upload'
+			default : 'upload/'
 		},
 		memSize : {
 			doc     : 'Maximum disk space for uploading files.',
