@@ -8,7 +8,6 @@ const { SocketTimeoutError, NotFoundInMediasoupError } = require('./helpers/erro
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const userRoles = require('./access/roles');
-const path = require('path');
 
 import Upload from './Upload';
 
@@ -282,14 +281,7 @@ class Room extends EventEmitter
 
 		this._vod = null;
 
-		this._upload = new Upload(
-			config.vod.path,
-			config.vod.memSize,
-			config.vod.autoClearing,
-			config.vod.filesTypesAllowed,
-			config.vod.fileMaxSizeAllowed,
-			config.vod.filesMaxNumberPerUser
-		);
+		this._upload = new Upload();
 
 		this._lastN = [];
 
@@ -1855,7 +1847,7 @@ class Room extends EventEmitter
 					this._upload.refresh();
 
 					const uploadRestrictions = {
-						isMemEnough                        : this._upload.isMemEnough(size),
+						isDirEnoughSize                    : this._upload.isDirEnoughSize(size),
 						isFileNotExisting                  : this._upload.isFileNotExisting(name, roomId, peerId, hash),
 						isFileSizeAllowed                  : this._upload.isFileSizeAllowed(size),
 						isFileTypeAllowed                  : this._upload.isFileTypeAllowed(type),
@@ -1872,7 +1864,10 @@ class Room extends EventEmitter
 					}
 					else if (data && canBeSaved)
 					{
-						const url = this._upload.savePeerFile(name, data, roomId, peerId, hash);
+						const fullName = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
+							.replace(/[^A-Za-z0-9._-]+/g, '');
+
+						const url = this._upload.saveFile(fullName, data);
 
 						// Spread to others
 						this._notification(peer.socket, 'uploadVodFile', {
@@ -1981,7 +1976,10 @@ class Room extends EventEmitter
 
 					this._upload.refresh();
 
-					this._upload.removePeerFile(name, roomId, peerId, hash);
+					const fullName = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
+						.replace(/[^A-Za-z0-9._-]+/g, '');
+
+					this._upload.removeFile(fullName);
 
 					// Spread to others
 					// this._notification(peer.socket, 'uploadVodFile', {

@@ -736,8 +736,7 @@ export default class RoomClient
 
 		if (notificationSounds)
 		{
-			const soundAlert = this._soundAlerts[type] === undefined
-				? this._soundAlerts['default'] : this._soundAlerts[type];
+			const soundAlert = this._soundAlerts[type] === undefined;
 
 			const now = Date.now();
 
@@ -2208,14 +2207,14 @@ export default class RoomClient
 		else
 		{
 			const {
-				isMemEnough,
+				isDirEnoughSize,
 				isFileNotExisting,
 				isFileSizeAllowed,
 				isFileTypeAllowed,
 				isFilesMaxNumberPerPeerNotExceeded
 			} = restrictions;
 
-			if (!isMemEnough)
+			if (!isDirEnoughSize)
 			{
 				store.dispatch(requestActions.notify(
 					{
@@ -3499,7 +3498,7 @@ export default class RoomClient
 					case 'uploadVodFileRestrictions':
 					{
 						const {
-							isMemEnough,
+							isDirEnoughSize,
 							isFileNotExisting,
 							isFileSizeAllowed,
 							isFileTypeAllowed,
@@ -3508,7 +3507,7 @@ export default class RoomClient
 
 						store.dispatch(
 							vodActions.setVodUploadRestrictions(
-								isMemEnough,
+								isDirEnoughSize,
 								isFileNotExisting,
 								isFileSizeAllowed,
 								isFileTypeAllowed,

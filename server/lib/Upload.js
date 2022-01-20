@@ -1,41 +1,47 @@
 import fs from 'fs';
 import Logger from './logger/Logger';
 import path from 'path';
+const { config } = require('./config/config');
 
 const logger = new Logger('Room');
 
 export default class Upload
 {
-	constructor(
-		path, memSize, autoClearing,
-		filesTypesAllowed, fileMaxSizeAllowed, filesMaxNumberPerUser)
+	constructor()
 	{
-		this.path = path;
-		this.memSize = memSize * 1073741824; // GB -> bytes
-		this.memFree = null;
-		this.autoClearing = autoClearing;
-		this.filesTypesAllowed = filesTypesAllowed;
-		this.fileMaxSizeAllowed = fileMaxSizeAllowed * 1073741824; // GB -> bytes
-		this.filesMaxNumberPerUser = filesMaxNumberPerUser;
+		this.dir = {
+			path : config.upload.dir.path,
+			size : config.upload.dir.size * 1073741824, // GB -> bytes
+			free : null
+		};
 
-		this.filesMeta = [];
+		this.files = {
+			list   : [],
+			number : null,
+			rules  : {
+				types   : config.upload.files.rules.types,
+				maxSize : config.upload.files.rules.maxSize * 1073741824 // GB -> bytes
+			}
+		};
+
+		this.filesMaxNumberPerUser = config.vod.filesMaxNumberPerUser;
 
 		this.refresh();
 
 	}
 	refresh()
 	{
-		this._getFilesMeta();
-		this._getMemFree();
+		this._getFilesList();
+		this._getDirFree();
 	}
 
-	_getFilesMeta()
+	_getFilesList()
 	{
 		const list = [];
 
-		fs.readdirSync(this.path).forEach((file) =>
+		fs.readdirSync(this.dir.path).forEach((file) =>
 		{
-			const fullPath = path.join(this.path, file);
+			const fullPath = path.join(this.dir.path, file);
 
 			if (!fs.statSync(fullPath).isDirectory())
 			{
@@ -46,78 +52,49 @@ export default class Upload
 			}
 		});
 
-		this.filesMeta = list;
+		this.files.list = list;
 	}
-	_getMemFree()
+	_getDirFree()
 	{
-		const totalUsedSpace = this.filesMeta.reduce((a, b) =>
+		const totalUsedSpace = this.files.list.reduce((a, b) =>
 			({ size: a.size + b.size }), { size: 0 }).size;
 
-		this.memFree = this.memSize - totalUsedSpace;
+		this.dir.free = this.dir.size - totalUsedSpace;
 	}
-	_countPeerFiles(roomId, peerId)
+	countFiles()
 	{
-		this.refresh();
-
-		const prefix =`room_${roomId}_peer_${peerId}`;
-
-		const peerFilesNumber = this.filesMeta.filter(
-			(v) => v.name.startsWith(prefix)
-		).length;
-
-		return peerFilesNumber;
+		return this.files.list.length;
 	}
-	_countRoomFiles()
+	isDirEnoughSize(size)
 	{
-		return this.filesMeta.length;
-	}
-	_countAllFiles()
-	{
-		return this.filesMeta.length;
-	}
-	isMemEnough(size)
-	{
-		return (size <= (this.memFree)) ? true : false;
-	}
-	isFilesMaxNumberPerPeerNotExceeded(roomId, peerId)
-	{
-		this.refresh();
-
-		const peerFilesNumber = this._countPeerFiles(roomId, peerId);
-
-		return (peerFilesNumber < this.filesMaxNumberPerUser) ? true : false;
+		return (size <= (this.dir.free)) ? true : false;
 	}
 	isFileNotExisting(name, roomId, peerId, hash)
 	{
 		name = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
 			.replace(/[^A-Za-z0-9._-]+/g, '');
 
-		const fullPath = path.join(this.path, name);
+		const fullPath = path.join(this.dir.path, name);
 
-		const isNotInfilesMeta = (
-			this.filesMeta.find((el) => el.name === name
+		const isNotInfiles = (
+			this.files.list.find((el) => el.name === name
 			) === undefined) ? true : false;
 
 		const isNotInFs = (!fs.existsSync(fullPath)) ? true : false;
 
-		return (isNotInfilesMeta && isNotInFs) ? true : false;
+		return (isNotInfiles && isNotInFs) ? true : false;
 	}
 	isFileSizeAllowed(size)
 	{
-		return (size <= this.fileMaxSizeAllowed) ? true : false;
+		return (size <= this.files.rules.maxSize) ? true : false;
 	}
 	isFileTypeAllowed(type)
 	{
-		return (this.filesTypesAllowed.includes(type)) ? true : false;
+		return (this.files.rules.types.includes(type)) ? true : false;
 	}
-	savePeerFile(name, data, roomId, peerId, hash)
+	saveFile(name, data)
 	{
-		name = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
-			.replace(/[^A-Za-z0-9._-]+/g, '');
-
-		const fullPath = path.join(this.path, name);
-
-		console.log({ fullPath }); // eslint-disable-line no-console
+		const fullPath = path.join(this.dir.path, name);
 
 		fs.writeFile(fullPath, data, function(err)
 		{
@@ -129,27 +106,50 @@ export default class Upload
 
 		return fullPath;
 	}
-	removePeerFile(name, roomId, peerId, hash)
+	removeFile(name)
 	{
-		name = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
-			.replace(/[^A-Za-z0-9._-]+/g, '');
-
-		const fullPath = path.join(this.path, name);
+		const fullPath = path.join(this.dir.path, name);
 
 		if (fs.existsSync(fullPath))
 			fs.unlinkSync(fullPath);
 
 		return;
 	}
+
+	// vod
+	_countRoomFiles()
+	{
+		return this.files.list.length;
+	}
+	_countPeerFiles(roomId, peerId)
+	{
+		this.refresh();
+
+		const prefix =`room_${roomId}_peer_${peerId}`;
+
+		const peerFilesNumber = this.files.list.filter(
+			(v) => v.name.startsWith(prefix)
+		).length;
+
+		return peerFilesNumber;
+	}
+	isFilesMaxNumberPerPeerNotExceeded(roomId, peerId)
+	{
+		this.refresh();
+
+		const peerFilesNumber = this._countPeerFiles(roomId, peerId);
+
+		return (peerFilesNumber < this.filesMaxNumberPerUser) ? true : false;
+	}
 	removePeerAllFiles(roomId, peerId)
 	{
 		this.refresh();
 
-		this.filesMeta.map((v) =>
+		this.files.list.map((v) =>
 		{
 			if (v.name.startsWith(`room_${roomId}_peer_${peerId}`))
 			{
-				const fullPath = path.join(this.path, v.name);
+				const fullPath = path.join(this.dir.path, v.name);
 
 				if (fs.existsSync(fullPath))
 					fs.unlinkSync(fullPath);

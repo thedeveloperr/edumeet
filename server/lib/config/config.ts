@@ -481,36 +481,37 @@ const configSchema = convict({
 		format  : Array,
 		default : [ CHANGE_ROOM_LOCK ]
 	},
+	upload : {
+		dir : {
+			path : {
+				doc     : 'Upload dirname',
+				format  : String,
+				default : 'upload/'
+			},
+			size : {
+				doc     : 'Maximum disk space for uploading files.',
+				format  : Number,
+				default : 0.2 // GB
+			} },
+		files : {
+			rules : {
+				types : {
+					doc     : 'Files format allowed to be uploaded.',
+					format  : Array,
+					default : [ 'video/mp4' ]
+				},
+				maxSize : {
+					doc     : 'Maximum file size allowed to be uploaded.',
+					format  : Number,
+					default : 0.1 // GB
+				} }
+		}
+	},
 	vod : {
 		enabled : {
 			doc     : 'Enable/Disable vod player',
 			format  : Boolean,
 			default : true
-		},
-		path : {
-			doc     : 'Upload dir.',
-			format  : String,
-			default : 'upload/'
-		},
-		memSize : {
-			doc     : 'Maximum disk space for uploading files.',
-			format  : Number,
-			default : 0.2 // GB
-		},
-		autoClearing : {
-			doc     : 'Clear files of peer after leaving the room.',
-			format  : Boolean,
-			default : true
-		},
-		filesTypesAllowed : {
-			doc     : 'Files format allowed to be uploaded.',
-			format  : Array,
-			default : [ 'video/mp4' ]
-		},
-		fileMaxSizeAllowed : {
-			doc     : 'Maximum file size allowed to be uploaded.',
-			format  : Number,
-			default : 0.1 // GB
 		},
 		filesMaxNumberPerUser : {
 			doc     : 'Maximum number of files uploaded by peer in on room',
