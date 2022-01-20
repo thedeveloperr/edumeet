@@ -972,7 +972,7 @@ class Room extends EventEmitter
 					allowWhenRoleMissing : roomAllowWhenRoleMissing,
 					chatHistory          : this._chatHistory,
 					fileHistory          : this._fileHistory,
-					vod               :
+					vod                  :
 					{
 						config : {
 							enabled               : config.vod.enabled,
