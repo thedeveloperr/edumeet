@@ -92,6 +92,7 @@ const Player = (props) =>
 							id='icon-button-file'
 							type='file'
 							onChange={handleUploadVod}
+							disabled={uploadedNumber >= filesMaxNumberPerUser}
 						/>
 						<Button
 							aria-label='upload video'
