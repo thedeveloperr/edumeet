@@ -2108,7 +2108,10 @@ export default class RoomClient
 	// <vod>
 	async uploadVodFile(name, type, size, data)
 	{
-		logger.debug('uploadVodFile() [name:"%s", type:"%s", size:"%s", data:"%s"]', name, type, size, data);
+		logger.debug(
+			'uploadVodFile() [name:"%s", type:"%s", size:"%s", data:"%s"]',
+			name, type, size, data
+		);
 
 		store.dispatch(vodActions.setToggleVodInProgress(true));
 
@@ -2132,7 +2135,7 @@ export default class RoomClient
 				{
 					type : 'info',
 					text : intl.formatMessage({
-						id             : 'vod.x',
+						id             : 'vod.fileUploading',
 						defaultMessage : 'File uploading...'
 					})
 				}));
@@ -2146,18 +2149,15 @@ export default class RoomClient
 				{
 					type : 'info',
 					text : intl.formatMessage({
-						id             : 'vod.x',
+						id             : 'vod.somethingWentWrong',
 						defaultMessage : 'Something went wrong'
 					})
 				}));
-
-			// store.dispatch(vodActions.unloadVod());
 		}
 
-		const restrictions = store.getState().vod.uploadRestrictions;
+		const rules = store.getState().vod.uploadFileRules;
 
-		// all restrictions === true
-		const canBeSend = Object.values(restrictions).every(Boolean);
+		const canBeSend = Object.values(rules).every(Boolean);
 
 		if (canBeSend)
 		{
@@ -2199,9 +2199,7 @@ export default class RoomClient
 							defaultMessage : 'Something went wrong'
 						})
 					}));
-
 			}
-
 		}
 
 		else
@@ -2211,7 +2209,7 @@ export default class RoomClient
 				isFileSizeOk,
 				isFileTypeOk,
 				isFileNotOverLimit
-			} = restrictions;
+			} = rules;
 
 			if (!isDirFree)
 			{
@@ -2260,10 +2258,9 @@ export default class RoomClient
 						})
 					}));
 			}
-
 		}
 
-		// store.dispatch(vodActions.clearVodUploadRestrictions());
+		store.dispatch(vodActions.clearVodUploadFileRules());
 
 		store.dispatch(vodActions.setToggleVodInProgress(false));
 	}
@@ -3482,7 +3479,7 @@ export default class RoomClient
 						break;
 					}
 
-					case 'uploadVodFileRestrictions':
+					case 'setVodUploadFileRules':
 					{
 						const {
 							isDirFree,
@@ -3492,7 +3489,7 @@ export default class RoomClient
 						} = notification.data;
 
 						store.dispatch(
-							vodActions.setVodUploadRestrictions(
+							vodActions.setVodUploadFileRules(
 								isDirFree,
 								isFileSizeOk,
 								isFileTypeOk,

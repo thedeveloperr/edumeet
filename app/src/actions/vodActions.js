@@ -27,7 +27,7 @@ export const removeVodItem = (hash) =>
 		payload : { hash }
 	});
 
-export const setVodUploadRestrictions = (
+export const setVodUploadFileRules = (
 	isDirFree,
 	isFileSizeOk,
 	isFileTypeOk,
@@ -35,7 +35,7 @@ export const setVodUploadRestrictions = (
 ) =>
 {
 	return ({
-		type    : 'SET_VOD_UPLOAD_RESTRICTIONS',
+		type    : 'SET_VOD_UPLOAD_FILE_RULES',
 		payload : {
 			isDirFree,
 			isFileSizeOk,
@@ -45,10 +45,10 @@ export const setVodUploadRestrictions = (
 	});
 };
 
-export const clearVodUploadRestrictions = () =>
+export const clearVodUploadFileRules = () =>
 {
 	return ({
-		type    : 'CLEAR_VOD_UPLOAD_RESTRICTIONS',
+		type    : 'CLEAR_VOD_UPLOAD_FILE_RULES',
 		payload : {}
 	});
 };

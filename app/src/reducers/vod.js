@@ -16,7 +16,7 @@ const initialState =
 	},
 	list                : [],
 	toggleVodInProgress : null,
-	uploadRestrictions  : {}
+	uploadFileRules     : {}
 };
 
 const vod = (state = initialState, action) =>
@@ -69,14 +69,14 @@ const vod = (state = initialState, action) =>
 			return { ...state, list: tmp };
 		}
 
-		case 'SET_VOD_UPLOAD_RESTRICTIONS':
+		case 'SET_VOD_UPLOAD_FILE_RULES':
 		{
-			return { ...state, uploadRestrictions: action.payload };
+			return { ...state, uploadFileRules: action.payload };
 		}
 
-		case 'CLEAR_VOD_UPLOAD_RESTRICTIONS':
+		case 'CLEAR_VOD_UPLOAD_FILE_RULES':
 		{
-			return { ...state, uploadRestrictions: action.payload };
+			return { ...state, uploadFileRules: action.payload };
 		}
 
 		default:

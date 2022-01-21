@@ -1846,19 +1846,19 @@ class Room extends EventEmitter
 
 					this._upload.refresh();
 
-					const uploadRestrictions = {
+					const rules = {
 						isDirFree          : this._upload.isDirFree(size),
 						isFileSizeOk       : this._upload.isFileSizeOk(size),
 						isFileTypeOk       : this._upload.isFileTypeOk(type),
 						isFileNotOverLimit : this._upload.isFileNotOverLimit(roomId, peerId)
 					};
 
-					const canBeSaved = Object.values(uploadRestrictions).every(Boolean);
+					const canBeSaved = Object.values(rules).every(Boolean);
 
 					if (!data)
 					{
-						this._notification(peer.socket, 'uploadVodFileRestrictions', {
-							...uploadRestrictions
+						this._notification(peer.socket, 'setVodUploadFileRules', {
+							...rules
 						}, false, false);
 					}
 					else if (data && canBeSaved)
