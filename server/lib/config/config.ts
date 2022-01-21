@@ -490,7 +490,7 @@ const configSchema = convict({
 		upload : {
 			dir : {
 				path : {
-					doc     : 'Upload dirname',
+					doc     : 'Path to store uploaded files',
 					format  : String,
 					default : 'tmp/'
 				},
