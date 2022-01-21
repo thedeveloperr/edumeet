@@ -2207,14 +2207,13 @@ export default class RoomClient
 		else
 		{
 			const {
-				isDirEnoughSize,
-				isFileNotExisting,
-				isFileSizeAllowed,
-				isFileTypeAllowed,
+				isDirFree,
+				isFileSizeOk,
+				isFileTypeOk,
 				isFilesMaxNumberPerPeerNotExceeded
 			} = restrictions;
 
-			if (!isDirEnoughSize)
+			if (!isDirFree)
 			{
 				store.dispatch(requestActions.notify(
 					{
@@ -2226,19 +2225,7 @@ export default class RoomClient
 					}));
 			}
 
-			if (!isFileNotExisting)
-			{
-				store.dispatch(requestActions.notify(
-					{
-						type : 'error',
-						text : intl.formatMessage({
-							id             : 'vod.x',
-							defaultMessage : 'File already exists'
-						})
-					}));
-			}
-
-			if (!isFileSizeAllowed)
+			if (!isFileSizeOk)
 			{
 				store.dispatch(requestActions.notify(
 					{
@@ -2250,7 +2237,7 @@ export default class RoomClient
 					}));
 			}
 
-			if (!isFileTypeAllowed)
+			if (!isFileTypeOk)
 			{
 				store.dispatch(requestActions.notify(
 					{
@@ -3498,19 +3485,17 @@ export default class RoomClient
 					case 'uploadVodFileRestrictions':
 					{
 						const {
-							isDirEnoughSize,
-							isFileNotExisting,
-							isFileSizeAllowed,
-							isFileTypeAllowed,
+							isDirFree,
+							isFileSizeOk,
+							isFileTypeOk,
 							isFilesMaxNumberPerPeerNotExceeded
 						} = notification.data;
 
 						store.dispatch(
 							vodActions.setVodUploadRestrictions(
-								isDirEnoughSize,
-								isFileNotExisting,
-								isFileSizeAllowed,
-								isFileTypeAllowed,
+								isDirFree,
+								isFileSizeOk,
+								isFileTypeOk,
 								isFilesMaxNumberPerPeerNotExceeded
 							)
 						);

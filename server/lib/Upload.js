@@ -65,32 +65,21 @@ export default class Upload
 	{
 		return this.files.list.length;
 	}
-	isDirEnoughSize(size)
+	isDirFree(size)
 	{
 		return (size <= (this.dir.free)) ? true : false;
 	}
-	isFileNotExisting(name, roomId, peerId, hash)
+	isFileNameExisting(name)
 	{
-		name = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
-			.replace(/[^A-Za-z0-9._-]+/g, '');
-
-		const fullPath = path.join(this.dir.path, name);
-
-		const isNotInfiles = (
-			this.files.list.find((el) => el.name === name
-			) === undefined) ? true : false;
-
-		const isNotInFs = (!fs.existsSync(fullPath)) ? true : false;
-
-		return (isNotInfiles && isNotInFs) ? true : false;
+		return (this.files.list.find((el) => el.name === name) === undefined);
 	}
-	isFileSizeAllowed(size)
+	isFileSizeOk(size)
 	{
-		return (size <= this.files.rules.maxSize) ? true : false;
+		return (size <= this.files.rules.maxSize);
 	}
-	isFileTypeAllowed(type)
+	isFileTypeOk(type)
 	{
-		return (this.files.rules.types.includes(type)) ? true : false;
+		return (this.files.rules.types.includes(type));
 	}
 	saveFile(name, data)
 	{

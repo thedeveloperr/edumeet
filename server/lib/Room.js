@@ -1847,10 +1847,9 @@ class Room extends EventEmitter
 					this._upload.refresh();
 
 					const uploadRestrictions = {
-						isDirEnoughSize                    : this._upload.isDirEnoughSize(size),
-						isFileNotExisting                  : this._upload.isFileNotExisting(name, roomId, peerId, hash),
-						isFileSizeAllowed                  : this._upload.isFileSizeAllowed(size),
-						isFileTypeAllowed                  : this._upload.isFileTypeAllowed(type),
+						isDirFree                    : this._upload.isDirFree(size),
+						isFileSizeOk                       : this._upload.isFileSizeOk(size),
+						isFileTypeOk                       : this._upload.isFileTypeOk(type),
 						isFilesMaxNumberPerPeerNotExceeded : this._upload.isFilesMaxNumberPerPeerNotExceeded(roomId, peerId)
 					};
 

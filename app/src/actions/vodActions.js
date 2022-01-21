@@ -28,20 +28,18 @@ export const removeVodItem = (hash) =>
 	});
 
 export const setVodUploadRestrictions = (
-	isDirEnoughSize,
-	isFileNotExisting,
-	isFileSizeAllowed,
-	isFileTypeAllowed,
+	isDirFree,
+	isFileSizeOk,
+	isFileTypeOk,
 	isFilesMaxNumberPerPeerNotExceeded
 ) =>
 {
 	return ({
 		type    : 'SET_VOD_UPLOAD_RESTRICTIONS',
 		payload : {
-			isDirEnoughSize,
-			isFileNotExisting,
-			isFileSizeAllowed,
-			isFileTypeAllowed,
+			isDirFree,
+			isFileSizeOk,
+			isFileTypeOk,
 			isFilesMaxNumberPerPeerNotExceeded
 		}
 	});
