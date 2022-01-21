@@ -83,7 +83,7 @@ const List = (props) =>
 								loadedVideo.peerId !== me.id ||
 								loadedVideo.url !== v.url
 							) ?
-								<Grid item xs={1}>
+								<Grid item>
 									{/* Button start countdown */}
 									<IconButton
 										aria-label={intl.formatMessage({
@@ -107,7 +107,7 @@ const List = (props) =>
 									{/* /Button start countdown */}
 								</Grid>
 								:
-								<Grid item xs={1}>
+								<Grid item>
 									{/* Button stop countdown */}
 									<IconButton
 										aria-label={intl.formatMessage({
