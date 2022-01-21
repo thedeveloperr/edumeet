@@ -967,8 +967,8 @@ class Room extends EventEmitter
 					vod                  :
 					{
 						config : {
-							enabled               : config.vod.enabled,
-							filesMaxNumberPerUser : config.vod.upload.files.rules.limitPerPeer
+							enabled      : config.vod.enabled,
+							limitPerPeer : config.vod.upload.files.rules.limitPerPeer
 						},
 						loadedVideo : vod
 					},

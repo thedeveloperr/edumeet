@@ -24,7 +24,7 @@ export default class Upload
 			}
 		};
 
-		this.filesMaxNumberPerUser = config.vod.upload.files.rules.limitPerPeer;
+		this.limitPerPeer = config.vod.upload.files.rules.limitPerPeer;
 
 		this.refresh();
 
@@ -127,7 +127,7 @@ export default class Upload
 
 		const peerFilesNumber = this._countPeerFiles(roomId, peerId);
 
-		return (peerFilesNumber < this.filesMaxNumberPerUser) ? true : false;
+		return (peerFilesNumber < this.limitPerPeer) ? true : false;
 	}
 	removePeerAllFiles(roomId, peerId)
 	{

@@ -1,8 +1,8 @@
 const initialState =
 {
-	enabled               : false,
-	filesMaxNumberPerUser : null,
-	loadedVideo           : {
+	enabled      : false,
+	limitPerPeer : null,
+	loadedVideo  : {
 		name               : null,
 		type               : null,
 		size               : null,

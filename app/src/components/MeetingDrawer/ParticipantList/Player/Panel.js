@@ -46,7 +46,7 @@ const Player = (props) =>
 		loadedVideo,
 		list,
 		me,
-		filesMaxNumberPerUser
+		limitPerPeer
 	} = props;
 
 	const uploadedNumber = list.length;
@@ -92,18 +92,18 @@ const Player = (props) =>
 							id='icon-button-file'
 							type='file'
 							onChange={handleUploadVod}
-							disabled={uploadedNumber >= filesMaxNumberPerUser}
+							disabled={uploadedNumber >= limitPerPeer}
 						/>
 						<Button
 							aria-label='upload video'
 							color='secondary'
-							disabled={uploadedNumber >= filesMaxNumberPerUser}
+							disabled={uploadedNumber >= limitPerPeer}
 							component='span'
 							startIcon={<BackupIcon />}
 							variant='contained'
 							// className={classes.button}
 						>
-							{`Upload ${uploadedNumber}/${filesMaxNumberPerUser}`}
+							{`Upload ${uploadedNumber}/${limitPerPeer}`}
 						</Button>
 					</label>
 					{/* /Button upload */}
@@ -145,21 +145,21 @@ const Player = (props) =>
 
 Player.propTypes =
 {
-	roomClient            : PropTypes.any.isRequired,
-	classes               : PropTypes.object.isRequired,
-	left                  : PropTypes.string.isRequired,
-	loadedVideo           : PropTypes.object.isRequired,
-	list                  : PropTypes.object.isRequired,
-	me                    : PropTypes.object.isRequired,
-	filesMaxNumberPerUser : PropTypes.number.isRequired
+	roomClient   : PropTypes.any.isRequired,
+	classes      : PropTypes.object.isRequired,
+	left         : PropTypes.string.isRequired,
+	loadedVideo  : PropTypes.object.isRequired,
+	list         : PropTypes.object.isRequired,
+	me           : PropTypes.object.isRequired,
+	limitPerPeer : PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
-	left                  : state.vod.left,
-	loadedVideo           : state.vod.loadedVideo,
-	list                  : state.vod.list,
-	filesMaxNumberPerUser : state.vod.filesMaxNumberPerUser,
-	me                    : state.me
+	left         : state.vod.left,
+	loadedVideo  : state.vod.loadedVideo,
+	list         : state.vod.list,
+	limitPerPeer : state.vod.limitPerPeer,
+	me           : state.me
 });
 
 export default withRoomContext(connect(
@@ -173,7 +173,7 @@ export default withRoomContext(connect(
 				prev.vod.left === next.vod.left &&
 				prev.vod.loadedVideo === next.vod.loadedVideo &&
 				prev.vod.list === next.vod.list &&
-				prev.vod.filesMaxNumberPerUser === next.vod.filesMaxNumberPerUser &&
+				prev.vod.limitPerPeer === next.vod.limitPerPeer &&
 				prev.me === next.me
 			);
 		}
