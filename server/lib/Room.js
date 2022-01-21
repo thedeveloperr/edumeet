@@ -9,7 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const userRoles = require('./access/roles');
 
-import Upload from './Upload';
+import Upload from './Vod/Upload';
 
 import {
 	BYPASS_ROOM_LOCK,
@@ -968,7 +968,7 @@ class Room extends EventEmitter
 					{
 						config : {
 							enabled               : config.vod.enabled,
-							filesMaxNumberPerUser : config.vod.filesMaxNumberPerUser
+							filesMaxNumberPerUser : config.vod.upload.files.rules.limitPerPeer
 						},
 						loadedVideo : vod
 					},
@@ -1847,10 +1847,10 @@ class Room extends EventEmitter
 					this._upload.refresh();
 
 					const uploadRestrictions = {
-						isDirFree                    : this._upload.isDirFree(size),
-						isFileSizeOk                       : this._upload.isFileSizeOk(size),
-						isFileTypeOk                       : this._upload.isFileTypeOk(type),
-						isFilesMaxNumberPerPeerNotExceeded : this._upload.isFilesMaxNumberPerPeerNotExceeded(roomId, peerId)
+						isDirFree          : this._upload.isDirFree(size),
+						isFileSizeOk       : this._upload.isFileSizeOk(size),
+						isFileTypeOk       : this._upload.isFileTypeOk(type),
+						isFileNotOverLimit : this._upload.isFileNotOverLimit(roomId, peerId)
 					};
 
 					const canBeSaved = Object.values(uploadRestrictions).every(Boolean);

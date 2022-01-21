@@ -1,7 +1,7 @@
+import { config } from '../config/config';
 import fs from 'fs';
-import Logger from './logger/Logger';
 import path from 'path';
-const { config } = require('./config/config');
+import Logger from '../logger/Logger';
 
 const logger = new Logger('Room');
 
@@ -10,8 +10,8 @@ export default class Upload
 	constructor()
 	{
 		this.dir = {
-			path : config.upload.dir.path,
-			size : config.upload.dir.size * 1073741824, // GB -> bytes
+			path : config.vod.upload.dir.path,
+			size : config.vod.upload.dir.size * 1073741824, // GB -> bytes
 			free : null
 		};
 
@@ -19,12 +19,12 @@ export default class Upload
 			list   : [],
 			number : null,
 			rules  : {
-				types   : config.upload.files.rules.types,
-				maxSize : config.upload.files.rules.maxSize * 1073741824 // GB -> bytes
+				types   : config.vod.upload.files.rules.types,
+				maxSize : config.vod.upload.files.rules.maxSize * 1073741824 // GB -> bytes
 			}
 		};
 
-		this.filesMaxNumberPerUser = config.vod.filesMaxNumberPerUser;
+		this.filesMaxNumberPerUser = config.vod.upload.files.rules.limitPerPeer;
 
 		this.refresh();
 
@@ -105,7 +105,6 @@ export default class Upload
 		return;
 	}
 
-	// vod
 	_countRoomFiles()
 	{
 		return this.files.list.length;
@@ -122,7 +121,7 @@ export default class Upload
 
 		return peerFilesNumber;
 	}
-	isFilesMaxNumberPerPeerNotExceeded(roomId, peerId)
+	isFileNotOverLimit(roomId, peerId)
 	{
 		this.refresh();
 

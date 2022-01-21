@@ -31,7 +31,7 @@ export const setVodUploadRestrictions = (
 	isDirFree,
 	isFileSizeOk,
 	isFileTypeOk,
-	isFilesMaxNumberPerPeerNotExceeded
+	isFileNotOverLimit
 ) =>
 {
 	return ({
@@ -40,7 +40,7 @@ export const setVodUploadRestrictions = (
 			isDirFree,
 			isFileSizeOk,
 			isFileTypeOk,
-			isFilesMaxNumberPerPeerNotExceeded
+			isFileNotOverLimit
 		}
 	});
 };

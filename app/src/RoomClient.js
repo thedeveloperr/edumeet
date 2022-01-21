@@ -2210,7 +2210,7 @@ export default class RoomClient
 				isDirFree,
 				isFileSizeOk,
 				isFileTypeOk,
-				isFilesMaxNumberPerPeerNotExceeded
+				isFileNotOverLimit
 			} = restrictions;
 
 			if (!isDirFree)
@@ -2249,7 +2249,7 @@ export default class RoomClient
 					}));
 			}
 
-			if (!isFilesMaxNumberPerPeerNotExceeded)
+			if (!isFileNotOverLimit)
 			{
 				store.dispatch(requestActions.notify(
 					{
@@ -3488,7 +3488,7 @@ export default class RoomClient
 							isDirFree,
 							isFileSizeOk,
 							isFileTypeOk,
-							isFilesMaxNumberPerPeerNotExceeded
+							isFileNotOverLimit
 						} = notification.data;
 
 						store.dispatch(
@@ -3496,7 +3496,7 @@ export default class RoomClient
 								isDirFree,
 								isFileSizeOk,
 								isFileTypeOk,
-								isFilesMaxNumberPerPeerNotExceeded
+								isFileNotOverLimit
 							)
 						);
 
