@@ -1,8 +1,7 @@
 const initialState =
 {
-	enabled      : false,
-	limitPerPeer : null,
-	loadedVideo  : {
+	enabled     : false,
+	loadedVideo : {
 		name               : null,
 		type               : null,
 		size               : null,
@@ -16,7 +15,8 @@ const initialState =
 	},
 	list                : [],
 	toggleVodInProgress : null,
-	uploadFileRules     : {}
+	uploadFileRules     : {},
+	limitPerPeer        : null
 };
 
 const vod = (state = initialState, action) =>

@@ -103,7 +103,7 @@ const Player = (props) =>
 							variant='contained'
 							// className={classes.button}
 						>
-							{`Upload ${uploadedNumber}/${limitPerPeer}`}
+							Upload {limitPerPeer > 1 && `${uploadedNumber}/${limitPerPeer}`}
 						</Button>
 					</label>
 					{/* /Button upload */}
