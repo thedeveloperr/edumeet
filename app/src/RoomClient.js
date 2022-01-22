@@ -736,7 +736,8 @@ export default class RoomClient
 
 		if (notificationSounds)
 		{
-			const soundAlert = this._soundAlerts[type] === undefined;
+			const soundAlert = this._soundAlerts[type] === undefined
+				? this._soundAlerts['default'] : this._soundAlerts[type];
 
 			const now = Date.now();
 
