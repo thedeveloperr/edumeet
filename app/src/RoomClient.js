@@ -2108,70 +2108,12 @@ export default class RoomClient
 			peerActions.setStopPeerScreenSharingInProgress(peerId, false));
 	}
 
-	async uploadVodFile2(name, type, size, data)
-	{
-		const stream = ss.createStream();
-
-		// console.log({ tree: stream }); // eslint-disable-line no-console
-
-		ss(this._signalingSocket).emit('sendStream', stream, { size: size });
-
-		let uploadedSize = 0;
-
-		// console.log('ALEALE'); // eslint-disable-line no-console
-
-		ss.createBlobReadStream(data)
-			.on('data', (chunk) =>
-			{
-				uploadedSize += chunk.length;
-				// ret.emit('progress', ~~(uploadedSize / totalSize * 100));
-
-				console.log('%:', `${Math.floor(uploadedSize / size * 100) }%`); // eslint-disable-line no-console
-
-				// console.log(chunk); // eslint-disable-line no-console
-			})
-			.pipe(stream);
-
-		/*
-		ss(this._signalingSocket).on('sending', function(stream2)
-		{
-			// stream.pipe(fs.createWriteStream(filename));
-			// ss.createBlobReadStream(data).pipe(stream);
-			console.log('sending:'); // eslint-disable-line no-console
-
-			console.log({ stream2 }); // eslint-disable-line no-console
-
-			stream2.on('end', function()
-			{
-				console.log('file received'); // eslint-disable-line no-console
-			});
-		});
-
-		// ss.createBlobReadStream(data).pipe(stream);
-		*/
-
-		/*
-		const blobStream = ss.createBlobReadStream(data);
-
-		let size2 = 0;
-
-		blobStream.on('data', function(chunk)
-		{
-			size2 += chunk.length;
-
-			console.log(`${Math.floor(size2 / size * 100) }%`); // eslint-disable-line no-console
-		});
-
-		blobStream.pipe(stream);
-		*/
-	}
-
 	// <vod>
 	async uploadVodFile(name, type, size, data)
 	{
 		logger.debug(
 			'uploadVodFile() [name:"%s", type:"%s", size:"%s"',
-			name, type, size
+			name, type, size, data
 		);
 
 		store.dispatch(vodActions.setToggleVodInProgress(true));
@@ -2180,18 +2122,6 @@ export default class RoomClient
 
 		try
 		{
-			await this.sendRequest('uploadVodFile',
-				{
-					name,
-					type,
-					size,
-					data   : null,
-					roomId : this._roomId,
-					peerId : this._peerId,
-					hash
-				}
-			);
-
 			store.dispatch(requestActions.notify(
 				{
 					type : 'info',
@@ -2201,169 +2131,87 @@ export default class RoomClient
 					})
 				}));
 
+			const stream = ss.createStream();
+
+			ss(this._signalingSocket).emit('uplodVodFileStream',
+				stream,
+				{
+					name,
+					type,
+					size,
+					data,
+					roomId : this._roomId,
+					peerId : this._peerId,
+					hash
+				}
+			);
+
+			let uploadedSize = 0;
+
+			await ss.createBlobReadStream(data)
+				.on('data', (chunk) =>
+				{
+					uploadedSize += chunk.length;
+
+					const percent = `${Math.floor(uploadedSize / size * 100)}`;
+
+					store.dispatch(vodActions.setVodUploadProgressValue(percent));
+
+				})
+				.on('error', () =>
+				{
+					store.dispatch(requestActions.notify(
+						{
+							type : 'error',
+							text : intl.formatMessage({
+								id             : 'vod.connectionAborted',
+								defaultMessage : 'Connection aborted.'
+							})
+						}));
+
+				})
+				.on('end', () =>
+				{
+					store.dispatch(requestActions.notify(
+						{
+							type : 'info',
+							text : intl.formatMessage({
+								id             : 'vod.x',
+								defaultMessage : 'File added'
+							})
+						}));
+
+				})
+				.on('close', () =>
+				{
+					store.dispatch(requestActions.notify(
+						{
+							type : 'info',
+							text : intl.formatMessage({
+								id             : 'vod.x',
+								defaultMessage : 'File closed'
+							})
+						}));
+
+				})
+				.pipe(stream);
+
 		}
 		catch (error)
 		{
 			logger.error('uploadVodFile() [error:"%o"]', error);
 
+			store.dispatch(vodActions.unloadVod());
+
 			store.dispatch(requestActions.notify(
 				{
-					type : 'info',
+					type : 'error',
 					text : intl.formatMessage({
-						id             : 'vod.somethingWentWrong',
+						id             : 'vod.x',
 						defaultMessage : 'Something went wrong'
 					})
 				}));
 		}
-
-		const rules = store.getState().vod.uploadFileRules;
-
-		const canBeSend = Object.values(rules).every(Boolean);
-
-		if (canBeSend)
-		{
-			try
-			{
-				/*
-				await this.sendRequest(
-					'uploadVodFile',
-					{
-						name,
-						type,
-						size,
-						data,
-						roomId : this._roomId,
-						peerId : this._peerId,
-						hash
-					}
-				);
-				*/
-
-				// const file = data;
-
-				const stream = ss.createStream();
-
-				// console.log({ tree: stream }); // eslint-disable-line no-console
-
-				ss(this._signalingSocket).emit(
-					'sendStream',
-					stream,
-					{
-						size : size
-					}
-				);
-
-				let uploadedSize = 0;
-
-				// console.log('ALEALE'); // eslint-disable-line no-console
-
-				// const percent = 10;
-
-				ss.createBlobReadStream(data)
-					.on('data', (chunk) =>
-					{
-						uploadedSize += chunk.length;
-						// ret.emit('progress', ~~(uploadedSize / totalSize * 100));
-
-						console.log('%:', `${Math.floor(uploadedSize / size * 100)}`); // eslint-disable-line no-console
-
-						const percent = `${Math.floor(uploadedSize / size * 100)}`;
-
-						// const percent = Math.floor(Math.random() * 10);
-
-						// console.log({ percent }); // eslint-disable-line no-console
-
-						store.dispatch(vodActions.setVodUploadProgressValue(percent));
-
-						// console.log(chunk); // eslint-disable-line no-console
-					})
-					.pipe(stream);
-
-				store.dispatch(requestActions.notify(
-					{
-						type : 'info',
-						text : intl.formatMessage({
-							id             : 'vod.x',
-							defaultMessage : 'File added'
-						})
-					}));
-			}
-			catch (error)
-			{
-				logger.error('uploadVodFile() [error:"%o"]', error);
-
-				store.dispatch(vodActions.unloadVod());
-
-				store.dispatch(requestActions.notify(
-					{
-						type : 'error',
-						text : intl.formatMessage({
-							id             : 'vod.x',
-							defaultMessage : 'Something went wrong'
-						})
-					}));
-			}
-		}
-
-		else
-		{
-			const {
-				isDirFree,
-				isFileSizeOk,
-				isFileTypeOk,
-				isFileNotOverLimit
-			} = rules;
-
-			if (!isDirFree)
-			{
-				store.dispatch(requestActions.notify(
-					{
-						type : 'error',
-						text : intl.formatMessage({
-							id             : 'vod.x',
-							defaultMessage : 'No enough memory'
-						})
-					}));
-			}
-
-			if (!isFileSizeOk)
-			{
-				store.dispatch(requestActions.notify(
-					{
-						type : 'error',
-						text : intl.formatMessage({
-							id             : 'vod.x',
-							defaultMessage : 'File size is to big'
-						})
-					}));
-			}
-
-			if (!isFileTypeOk)
-			{
-				store.dispatch(requestActions.notify(
-					{
-						type : 'error',
-						text : intl.formatMessage({
-							id             : 'vod.x',
-							defaultMessage : 'File type not allowed'
-						})
-					}));
-			}
-
-			if (!isFileNotOverLimit)
-			{
-				store.dispatch(requestActions.notify(
-					{
-						type : 'error',
-						text : intl.formatMessage({
-							id             : 'vod.x',
-							defaultMessage : 'Files upload limit exceeded'
-						})
-					}));
-			}
-		}
-
-		store.dispatch(vodActions.clearVodUploadFileRules());
 
 		store.dispatch(vodActions.setToggleVodInProgress(false));
 	}
@@ -2397,8 +2245,6 @@ export default class RoomClient
 
 	async updateVod(vodTime, event)
 	{
-		console.log({ 't': 'RC:updateVod', event }); // eslint-disable-line no-console
-
 		const loadedVideo = store.getState().vod.loadedVideo;
 
 		loadedVideo.time = vodTime;
@@ -2461,11 +2307,7 @@ export default class RoomClient
 	async removeVodFile(name, hash)
 	{
 
-		console.log({ 'title': 'removeVodFile', name, hash }); // eslint-disable-line no-console
-
-		// console.log({ title: 'RC.removeVodFile()', url }); // eslint-disable-line no-console
-
-		// logger.debug('removeVodFile() [url:"%s"]', name, type, size, hash);
+		logger.debug('removeVodFile() [name:"%s", hash: "%s"]', name, hash);
 
 		store.dispatch(vodActions.setToggleVodInProgress(true));
 
@@ -3589,7 +3431,7 @@ export default class RoomClient
 						break;
 					}
 
-					case 'setVodUploadFileRules':
+					case 'notifyVodUploadRestrictions':
 					{
 						const {
 							isDirFree,
@@ -3598,14 +3440,53 @@ export default class RoomClient
 							isFileNotOverLimit
 						} = notification.data;
 
-						store.dispatch(
-							vodActions.setVodUploadFileRules(
-								isDirFree,
-								isFileSizeOk,
-								isFileTypeOk,
-								isFileNotOverLimit
-							)
-						);
+						if (!isDirFree)
+						{
+							store.dispatch(requestActions.notify(
+								{
+									type : 'error',
+									text : intl.formatMessage({
+										id             : 'vod.x',
+										defaultMessage : 'No enough memory'
+									})
+								}));
+						}
+
+						if (!isFileSizeOk)
+						{
+							store.dispatch(requestActions.notify(
+								{
+									type : 'error',
+									text : intl.formatMessage({
+										id             : 'vod.x',
+										defaultMessage : 'File size is to big'
+									})
+								}));
+						}
+
+						if (!isFileTypeOk)
+						{
+							store.dispatch(requestActions.notify(
+								{
+									type : 'error',
+									text : intl.formatMessage({
+										id             : 'vod.x',
+										defaultMessage : 'File type not allowed'
+									})
+								}));
+						}
+
+						if (!isFileNotOverLimit)
+						{
+							store.dispatch(requestActions.notify(
+								{
+									type : 'error',
+									text : intl.formatMessage({
+										id             : 'vod.x',
+										defaultMessage : 'Files upload limit exceeded'
+									})
+								}));
+						}
 
 						break;
 					}

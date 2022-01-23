@@ -81,10 +81,13 @@ export default class Upload
 	{
 		return (this.files.rules.types.includes(type));
 	}
-	saveFile(name, data)
+	saveFile(name, stream)
 	{
 		const fullPath = path.join(this.dir.path, name);
 
+		stream.pipe(fs.createWriteStream(fullPath));
+
+		/*
 		fs.writeFile(fullPath, data, function(err)
 		{
 			if (err)
@@ -92,6 +95,7 @@ export default class Upload
 				return logger.error('writeFile [err:"%o"]', err);
 			}
 		});
+		*/
 
 		return fullPath;
 	}

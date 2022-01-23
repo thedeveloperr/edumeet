@@ -178,14 +178,11 @@ const List = (props) =>
 									}
 									onClick={() =>
 									{
-										console.log({ 'title': 'removeVodFile', hash: v.hash }); // eslint-disable-line no-console
-
 										roomClient.removeVodFile(v.name, v.hash);
 									}}
 								>
 									<HighlightOffIcon/>
 								</IconButton>
-
 							</Grid>
 						</Grid>
 					);

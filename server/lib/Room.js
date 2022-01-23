@@ -815,17 +815,43 @@ class Room extends EventEmitter
 			}, true, true);
 		});
 
-		ss(peer.socket).on('sendStream', function(stream, data)
+		ss(peer.socket).on('uplodVodFileStream', (stream, data2) =>
 		{
+			if (!this._hasPermission(peer, SHARE_VOD))
+				throw new Error('peer not authorized');
 
-			// console.log('XYZ1'); // eslint-disable-line no-console
-			// console.log({ stream: stream }); // eslint-disable-line no-console
+			const { name, type, size, data, roomId, peerId, hash } = data2;
 
-			stream.on('end', function()
+			const fullName = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`.replace(/[^A-Za-z0-9._-]+/g, '');
+
+			this._upload.refresh();
+
+			const rules = {
+				isDirFree          : this._upload.isDirFree(size),
+				isFileSizeOk       : this._upload.isFileSizeOk(size),
+				isFileTypeOk       : this._upload.isFileTypeOk(type),
+				isFileNotOverLimit : this._upload.isFileNotOverLimit(roomId, peerId)
+			};
+
+			const allRulesMet = Object.values(rules).every(Boolean);
+
+			if (allRulesMet)
 			{
-				console.log('file received'); // eslint-disable-line no-console
-			});
-			stream.pipe(fs.createWriteStream('tmp/file.mp4'));
+				const url = this._upload.saveFile(fullName, stream);
+
+				stream.on('end', () =>
+				{
+					// Spread to others
+					this._notification(peer.socket, 'uploadVodFile', {
+						name, type, size, url, hash
+					}, false, false);
+				});
+			}
+
+			else
+			{
+				this._notification(peer.socket, 'notifyVodUploadRestrictions', { ...rules }, false, false);
+			}
 		});
 
 		peer.socket.on('request', (request, cb) =>
@@ -1846,54 +1872,6 @@ class Room extends EventEmitter
 
 				cb();
 
-				break;
-			}
-
-			// <vod>
-			case 'uploadVodFile':
-			{
-				if (config.vod.enabled)
-				{
-				// TODO-VoDSync a new permission for VoD sync showing should be introduced
-				// or now permission at all should be required
-					if (!this._hasPermission(peer, SHARE_VOD))
-						throw new Error('peer not authorized');
-
-					const { name, type, size, data, roomId, peerId, hash } = request.data;
-
-					this._upload.refresh();
-
-					const rules = {
-						isDirFree          : this._upload.isDirFree(size),
-						isFileSizeOk       : this._upload.isFileSizeOk(size),
-						isFileTypeOk       : this._upload.isFileTypeOk(type),
-						isFileNotOverLimit : this._upload.isFileNotOverLimit(roomId, peerId)
-					};
-
-					const canBeSaved = Object.values(rules).every(Boolean);
-
-					if (!data)
-					{
-						this._notification(peer.socket, 'setVodUploadFileRules', {
-							...rules
-						}, false, false);
-					}
-					else if (data && canBeSaved)
-					{
-						const fullName = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
-							.replace(/[^A-Za-z0-9._-]+/g, '');
-
-						const url = this._upload.saveFile(fullName, data);
-
-						// Spread to others
-						this._notification(peer.socket, 'uploadVodFile', {
-							name, type, size, url, hash
-						}, false, false);
-					}
-
-					// Return no error
-					cb();
-				}
 				break;
 			}
 

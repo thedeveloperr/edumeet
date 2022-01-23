@@ -27,32 +27,6 @@ export const removeVodItem = (hash) =>
 		payload : { hash }
 	});
 
-export const setVodUploadFileRules = (
-	isDirFree,
-	isFileSizeOk,
-	isFileTypeOk,
-	isFileNotOverLimit
-) =>
-{
-	return ({
-		type    : 'SET_VOD_UPLOAD_FILE_RULES',
-		payload : {
-			isDirFree,
-			isFileSizeOk,
-			isFileTypeOk,
-			isFileNotOverLimit
-		}
-	});
-};
-
-export const clearVodUploadFileRules = () =>
-{
-	return ({
-		type    : 'CLEAR_VOD_UPLOAD_FILE_RULES',
-		payload : {}
-	});
-};
-
 export const setToggleVodInProgress = (flag) =>
 	({
 		type    : 'SET_TOGGLE_VOD_IN_PROGRESS',
