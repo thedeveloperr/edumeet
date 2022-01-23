@@ -35,6 +35,8 @@ let mediasoupClient;
 
 let io;
 
+let ss;
+
 let ScreenShare;
 
 const logger = new Logger('RoomClient');
@@ -2106,12 +2108,70 @@ export default class RoomClient
 			peerActions.setStopPeerScreenSharingInProgress(peerId, false));
 	}
 
+	async uploadVodFile2(name, type, size, data)
+	{
+		const stream = ss.createStream();
+
+		// console.log({ tree: stream }); // eslint-disable-line no-console
+
+		ss(this._signalingSocket).emit('sendStream', stream, { size: size });
+
+		let uploadedSize = 0;
+
+		// console.log('ALEALE'); // eslint-disable-line no-console
+
+		ss.createBlobReadStream(data)
+			.on('data', (chunk) =>
+			{
+				uploadedSize += chunk.length;
+				// ret.emit('progress', ~~(uploadedSize / totalSize * 100));
+
+				console.log('%:', `${Math.floor(uploadedSize / size * 100) }%`); // eslint-disable-line no-console
+
+				// console.log(chunk); // eslint-disable-line no-console
+			})
+			.pipe(stream);
+
+		/*
+		ss(this._signalingSocket).on('sending', function(stream2)
+		{
+			// stream.pipe(fs.createWriteStream(filename));
+			// ss.createBlobReadStream(data).pipe(stream);
+			console.log('sending:'); // eslint-disable-line no-console
+
+			console.log({ stream2 }); // eslint-disable-line no-console
+
+			stream2.on('end', function()
+			{
+				console.log('file received'); // eslint-disable-line no-console
+			});
+		});
+
+		// ss.createBlobReadStream(data).pipe(stream);
+		*/
+
+		/*
+		const blobStream = ss.createBlobReadStream(data);
+
+		let size2 = 0;
+
+		blobStream.on('data', function(chunk)
+		{
+			size2 += chunk.length;
+
+			console.log(`${Math.floor(size2 / size * 100) }%`); // eslint-disable-line no-console
+		});
+
+		blobStream.pipe(stream);
+		*/
+	}
+
 	// <vod>
 	async uploadVodFile(name, type, size, data)
 	{
 		logger.debug(
-			'uploadVodFile() [name:"%s", type:"%s", size:"%s", data:"%s"]',
-			name, type, size, data
+			'uploadVodFile() [name:"%s", type:"%s", size:"%s"',
+			name, type, size
 		);
 
 		store.dispatch(vodActions.setToggleVodInProgress(true));
@@ -2164,6 +2224,7 @@ export default class RoomClient
 		{
 			try
 			{
+				/*
 				await this.sendRequest(
 					'uploadVodFile',
 					{
@@ -2176,6 +2237,47 @@ export default class RoomClient
 						hash
 					}
 				);
+				*/
+
+				// const file = data;
+
+				const stream = ss.createStream();
+
+				// console.log({ tree: stream }); // eslint-disable-line no-console
+
+				ss(this._signalingSocket).emit(
+					'sendStream',
+					stream,
+					{
+						size : size
+					}
+				);
+
+				let uploadedSize = 0;
+
+				// console.log('ALEALE'); // eslint-disable-line no-console
+
+				// const percent = 10;
+
+				ss.createBlobReadStream(data)
+					.on('data', (chunk) =>
+					{
+						uploadedSize += chunk.length;
+						// ret.emit('progress', ~~(uploadedSize / totalSize * 100));
+
+						console.log('%:', `${Math.floor(uploadedSize / size * 100)}`); // eslint-disable-line no-console
+
+						const percent = `${Math.floor(uploadedSize / size * 100)}`;
+
+						// const percent = Math.floor(Math.random() * 10);
+
+						// console.log({ percent }); // eslint-disable-line no-console
+
+						store.dispatch(vodActions.setVodUploadProgressValue(percent));
+
+						// console.log(chunk); // eslint-disable-line no-console
+					})
+					.pipe(stream);
 
 				store.dispatch(requestActions.notify(
 					{
@@ -2916,6 +3018,13 @@ export default class RoomClient
 			/* webpackPrefetch: true */
 			/* webpackChunkName: "socket.io" */
 			'socket.io-client'
+		));
+
+		({ default: ss } = await import(
+
+			/* webpackPrefetch: true */
+			/* webpackChunkName: "socket.io-stream" */
+			'socket.io-stream'
 		));
 	}
 

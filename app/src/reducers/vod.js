@@ -16,6 +16,7 @@ const initialState =
 	list                : [],
 	toggleVodInProgress : null,
 	uploadFileRules     : {},
+	uploadProgress      : 0,
 	limitPerPeer        : null
 };
 
@@ -77,6 +78,13 @@ const vod = (state = initialState, action) =>
 		case 'CLEAR_VOD_UPLOAD_FILE_RULES':
 		{
 			return { ...state, uploadFileRules: action.payload };
+		}
+
+		case 'SET_VOD_UPLOAD_PROGRESS_VALUE':
+		{
+			const { percent } = action.payload;
+
+			return { ...state, uploadProgress: percent };
 		}
 
 		default:

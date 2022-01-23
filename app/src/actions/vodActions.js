@@ -58,3 +58,9 @@ export const setToggleVodInProgress = (flag) =>
 		type    : 'SET_TOGGLE_VOD_IN_PROGRESS',
 		payload : { flag }
 	});
+
+export const setVodUploadProgressValue = (percent) =>
+	({
+		type    : 'SET_VOD_UPLOAD_PROGRESS_VALUE',
+		payload : { percent }
+	});

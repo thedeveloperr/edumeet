@@ -9,6 +9,10 @@ const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const userRoles = require('./access/roles');
 
+import fs from 'fs';
+import path from 'path';
+const ss = require('socket.io-stream');
+
 import Upload from './Vod/Upload';
 
 import {
@@ -809,6 +813,19 @@ class Room extends EventEmitter
 				peerId : peer.id,
 				roleId : oldRole.id
 			}, true, true);
+		});
+
+		ss(peer.socket).on('sendStream', function(stream, data)
+		{
+
+			// console.log('XYZ1'); // eslint-disable-line no-console
+			// console.log({ stream: stream }); // eslint-disable-line no-console
+
+			stream.on('end', function()
+			{
+				console.log('file received'); // eslint-disable-line no-console
+			});
+			stream.pipe(fs.createWriteStream('tmp/file.mp4'));
 		});
 
 		peer.socket.on('request', (request, cb) =>
