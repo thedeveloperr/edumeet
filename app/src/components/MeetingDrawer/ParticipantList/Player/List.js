@@ -81,7 +81,11 @@ const List = (props) =>
 								</Tooltip>
 
 								{(v.uploadProgress > 0 && v.uploadProgress < 100) &&
-								<LinearProgress variant='determinate' value={v.uploadProgress} />
+								<LinearProgress
+									color='secondary'
+									variant='determinate'
+									value={v.uploadProgress}
+								/>
 								}
 							</Grid>
 							{(
