@@ -13,8 +13,8 @@ const initialState =
 		peerId             : null,
 		hash               : null
 	},
-	list            : [],
-	limitPerPeer    : null
+	list         : [],
+	limitPerPeer : null
 };
 
 const vod = (state = initialState, action) =>
