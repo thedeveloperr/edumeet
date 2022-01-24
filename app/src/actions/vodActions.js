@@ -33,8 +33,8 @@ export const setToggleVodInProgress = (flag) =>
 		payload : { flag }
 	});
 
-export const setVodUploadProgressValue = (percent) =>
+export const setVodUploadProgressValue = (hash, percent) =>
 	({
 		type    : 'SET_VOD_UPLOAD_PROGRESS_VALUE',
-		payload : { percent }
+		payload : { hash, percent }
 	});

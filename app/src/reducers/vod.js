@@ -16,7 +16,6 @@ const initialState =
 	list                : [],
 	toggleVodInProgress : null,
 	uploadFileRules     : {},
-	uploadProgress      : 0,
 	limitPerPeer        : null
 };
 
@@ -54,7 +53,14 @@ const vod = (state = initialState, action) =>
 
 			const list = [ ...state.list ];
 
-			list.push({ ...initialState.loadedVideo, name, type, size, url, hash });
+			list.push({ ...initialState.loadedVideo,
+				name,
+				type,
+				size,
+				url,
+				hash,
+				uploadProgress : 0
+			});
 
 			return { ...state, list: list };
 		}
@@ -72,9 +78,19 @@ const vod = (state = initialState, action) =>
 
 		case 'SET_VOD_UPLOAD_PROGRESS_VALUE':
 		{
-			const { percent } = action.payload;
+			const { hash, percent } = action.payload;
 
-			return { ...state, uploadProgress: percent };
+			const list = [ ...state.list ];
+
+			list.forEach((v, i) =>
+			{
+				if (list[i].hash === hash)
+				{
+					list[i].uploadProgress = percent;
+				}
+			});
+
+			return { ...state, list };
 		}
 
 		default:

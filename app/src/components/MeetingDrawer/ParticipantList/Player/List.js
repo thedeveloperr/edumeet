@@ -42,7 +42,6 @@ const List = (props) =>
 		roomClient,
 		classes,
 		loadedVideo,
-		uploadProgress,
 		list,
 		me
 	} = props;
@@ -81,8 +80,8 @@ const List = (props) =>
 									>{v.name}</Typography>
 								</Tooltip>
 
-								{(uploadProgress > 0 && uploadProgress < 100) &&
-								<LinearProgress variant='determinate' value={uploadProgress} />
+								{(v.uploadProgress > 0 && v.uploadProgress < 100) &&
+								<LinearProgress variant='determinate' value={v.uploadProgress} />
 								}
 							</Grid>
 							{(
@@ -201,20 +200,18 @@ const List = (props) =>
 };
 
 List.propTypes = {
-	classes        : PropTypes.object.isRequired,
-	roomClient     : PropTypes.any.isRequired,
-	loadedVideo    : PropTypes.object.isRequired,
-	uploadProgress : PropTypes.number.isRequired,
-	list           : PropTypes.array.isRequired,
-	me             : PropTypes.object.isRequired
+	classes     : PropTypes.object.isRequired,
+	roomClient  : PropTypes.any.isRequired,
+	loadedVideo : PropTypes.object.isRequired,
+	list        : PropTypes.array.isRequired,
+	me          : PropTypes.object.isRequired
 
 };
 
 const mapStateToProps = (state) => ({
-	loadedVideo    : state.vod.loadedVideo,
-	uploadProgress : state.vod.uploadProgress,
-	list           : state.vod.list,
-	me             : state.me
+	loadedVideo : state.vod.loadedVideo,
+	list        : state.vod.list,
+	me          : state.me
 });
 
 export default withRoomContext(connect(
@@ -227,7 +224,6 @@ export default withRoomContext(connect(
 			return (
 				prev.vod === next.vod &&
 				prev.vod.loadedVideo === next.vod.loadedVideo &&
-				prev.vod.uploadProgress === next.vod.uploadProgress &&
 				prev.vod.list === next.vod.list &&
 				prev.me === next.me
 			);

@@ -2155,7 +2155,7 @@ export default class RoomClient
 
 					const percent = `${Math.floor(uploadedSize / size * 100)}`;
 
-					store.dispatch(vodActions.setVodUploadProgressValue(percent));
+					store.dispatch(vodActions.setVodUploadProgressValue(hash, percent));
 
 				})
 				.on('error', () =>
@@ -3508,6 +3508,16 @@ export default class RoomClient
 
 						break;
 					}
+
+					case 'removeVodFile':
+					{
+						const { hash } = notification.data;
+
+						store.dispatch(vodActions.removeVodItem(hash));
+
+						break;
+					}
+
 					// </vod>
 
 					case 'moderator:clearChat':
