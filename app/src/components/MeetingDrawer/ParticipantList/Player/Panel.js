@@ -62,25 +62,10 @@ const Player = (props) =>
 		const name = file.name;
 		const type = file.type;
 		const size = file.size;
-		// const type = target.accept.includes('image') ? 'images' : 'videos';
 
-		/*
-		const fileReader = new FileReader();
-
-		fileReader.readAsArrayBuffer(file);
-		fileReader.onload = (e) =>
-		{
-			// const data= e.target.result;
-			*/
 		roomClient.uploadVodFile(name, type, size, file);
-		// roomClient.uploadVodFile(name, type, size, data);
-
-		/*
-		};
-		*/
 
 		target.value = '';
-
 	};
 
 	return (
