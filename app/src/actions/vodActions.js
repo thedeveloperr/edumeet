@@ -16,12 +16,6 @@ export const addVodFileProgress = (hash, percent) =>
 		payload : { hash, percent }
 	});
 
-export const setVodAddFileInProgress = (flag) =>
-	({
-		type    : 'SET_VOD_ADD_FILE_IN_PROGRESS',
-		payload : { flag }
-	});
-
 export const loadVod = (loadedVideo) =>
 	({
 		type    : 'LOAD_VOD',

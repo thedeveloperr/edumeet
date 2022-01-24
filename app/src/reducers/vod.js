@@ -13,10 +13,8 @@ const initialState =
 		peerId             : null,
 		hash               : null
 	},
-	list                : [],
-	toggleVodInProgress : null,
-	uploadFileRules     : {},
-	limitPerPeer        : null
+	list            : [],
+	limitPerPeer    : null
 };
 
 const vod = (state = initialState, action) =>
@@ -63,11 +61,6 @@ const vod = (state = initialState, action) =>
 			});
 
 			return { ...state, list };
-		}
-
-		case 'SET_VOD_ADD_FILE_IN_PROGRESS':
-		{
-			return { ...state, toggleVodInProgress: action.payload.flag };
 		}
 
 		case 'LOAD_VOD':

@@ -2116,8 +2116,6 @@ export default class RoomClient
 			name, type, size, data
 		);
 
-		store.dispatch(vodActions.setVodAddFileInProgress(true));
-
 		const hash = (Math.random() + 1).toString(30).substring(2);
 
 		try
@@ -2212,8 +2210,6 @@ export default class RoomClient
 					})
 				}));
 		}
-
-		store.dispatch(vodActions.setVodAddFileInProgress(false));
 	}
 
 	async loadVod(loadedVideo)
@@ -2226,8 +2222,6 @@ export default class RoomClient
 
 		logger.debug('loadVod() [loadedVideo:"%o"]', loadedVideo);
 
-		store.dispatch(vodActions.setVodAddFileInProgress(true));
-
 		try
 		{
 			await this.sendRequest('loadVod', { loadedVideo });
@@ -2239,8 +2233,6 @@ export default class RoomClient
 		{
 			logger.error('loadVod() [error:"%o"]', error);
 		}
-
-		store.dispatch(vodActions.setVodAddFileInProgress(false));
 	}
 
 	async updateVod(vodTime, event)
@@ -2270,7 +2262,6 @@ export default class RoomClient
 
 		logger.debug('updateVod() [loadedVideo:"%o"]', loadedVideo);
 
-		store.dispatch(vodActions.setVodAddFileInProgress(true));
 		try
 		{
 			await this.sendRequest('updateVod', { loadedVideo });
@@ -2281,14 +2272,10 @@ export default class RoomClient
 
 			store.dispatch(vodActions.unloadVod());
 		}
-
-		store.dispatch(vodActions.setVodAddFileInProgress(false));
 	}
 
 	async unloadVod()
 	{
-		store.dispatch(vodActions.setVodAddFileInProgress(true));
-
 		try
 		{
 			await this.sendRequest('unloadVod', {});
@@ -2299,17 +2286,11 @@ export default class RoomClient
 		{
 			logger.error('unloadVod() [error:"%o"]', error);
 		}
-
-		store.dispatch(
-			vodActions.setVodAddFileInProgress(false));
 	}
 
 	async removeVodFile(name, hash)
 	{
-
 		logger.debug('removeVodFile() [name:"%s", hash: "%s"]', name, hash);
-
-		store.dispatch(vodActions.setVodAddFileInProgress(true));
 
 		try
 		{
@@ -2328,8 +2309,6 @@ export default class RoomClient
 		{
 			logger.error('loadVod() [error:"%o"]', error);
 		}
-
-		store.dispatch(vodActions.setVodAddFileInProgress(false));
 	}
 	// </vod>
 
