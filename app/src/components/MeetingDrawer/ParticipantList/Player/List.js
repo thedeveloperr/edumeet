@@ -5,11 +5,14 @@ import PropTypes from 'prop-types';
 import { withRoomContext } from '../../../../RoomContext';
 import { useIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
@@ -39,9 +42,9 @@ const List = (props) =>
 		roomClient,
 		classes,
 		loadedVideo,
+		uploadProgress,
 		list,
 		me
-
 	} = props;
 
 	return (
@@ -77,6 +80,10 @@ const List = (props) =>
 									}}
 									>{v.name}</Typography>
 								</Tooltip>
+
+								{(uploadProgress > 0 && uploadProgress < 100) &&
+								<LinearProgress variant='determinate' value={uploadProgress} />
+								}
 							</Grid>
 							{(
 								!loadedVideo.isPlaying ||
@@ -194,18 +201,20 @@ const List = (props) =>
 };
 
 List.propTypes = {
-	classes     : PropTypes.object.isRequired,
-	roomClient  : PropTypes.any.isRequired,
-	loadedVideo : PropTypes.object.isRequired,
-	list        : PropTypes.array.isRequired,
-	me          : PropTypes.object.isRequired
+	classes        : PropTypes.object.isRequired,
+	roomClient     : PropTypes.any.isRequired,
+	loadedVideo    : PropTypes.object.isRequired,
+	uploadProgress : PropTypes.number.isRequired,
+	list           : PropTypes.array.isRequired,
+	me             : PropTypes.object.isRequired
 
 };
 
 const mapStateToProps = (state) => ({
-	loadedVideo : state.vod.loadedVideo,
-	list        : state.vod.list,
-	me          : state.me
+	loadedVideo    : state.vod.loadedVideo,
+	uploadProgress : state.vod.uploadProgress,
+	list           : state.vod.list,
+	me             : state.me
 });
 
 export default withRoomContext(connect(
@@ -218,6 +227,7 @@ export default withRoomContext(connect(
 			return (
 				prev.vod === next.vod &&
 				prev.vod.loadedVideo === next.vod.loadedVideo &&
+				prev.vod.uploadProgress === next.vod.uploadProgress &&
 				prev.vod.list === next.vod.list &&
 				prev.me === next.me
 			);

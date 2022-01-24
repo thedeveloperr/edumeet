@@ -4,16 +4,15 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { withRoomContext } from '../../../../RoomContext';
 import { useIntl, FormattedMessage } from 'react-intl';
-import Grid from '@material-ui/core/Grid';
-import BackupIcon from '@material-ui/icons/Backup';
 import { styled } from '@material-ui/styles';
+
+import Grid from '@material-ui/core/Grid';
 import List from './List';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import BackupIcon from '@material-ui/icons/Backup';
 import CloseIcon from '@material-ui/icons/Close';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 const styles = (theme) =>
 	({
@@ -49,8 +48,7 @@ const Player = (props) =>
 		loadedVideo,
 		list,
 		me,
-		limitPerPeer,
-		uploadProgress
+		limitPerPeer
 	} = props;
 
 	const uploadedNumber = list.length;
@@ -93,29 +91,7 @@ const Player = (props) =>
 							color='secondary'
 							disabled={uploadedNumber >= limitPerPeer}
 							component='span'
-							startIcon={
-								<Box position='relative' display='inline-flex'>
-									<CircularProgress variant='determinate' size={20} value={uploadProgress} />
-									<Box
-										top={0}
-										left={0}
-										bottom={0}
-										right={0}
-										position='absolute'
-										display='flex'
-										alignItems='center'
-										justifyContent='center'
-									>
-										<Typography
-											variant='caption'
-											component='div'
-											color='textSecondary'
-										>{uploadProgress}
-										</Typography>
-									</Box>
-								</Box>
-
-							}
+							startIcon={<BackupIcon/>}
 							variant='contained'
 							// className={classes.button}
 						>
@@ -161,23 +137,21 @@ const Player = (props) =>
 
 Player.propTypes =
 {
-	roomClient     : PropTypes.any.isRequired,
-	classes        : PropTypes.object.isRequired,
-	left           : PropTypes.string.isRequired,
-	loadedVideo    : PropTypes.object.isRequired,
-	list           : PropTypes.object.isRequired,
-	me             : PropTypes.object.isRequired,
-	limitPerPeer   : PropTypes.number.isRequired,
-	uploadProgress : PropTypes.number.isRequired
+	roomClient   : PropTypes.any.isRequired,
+	classes      : PropTypes.object.isRequired,
+	left         : PropTypes.string.isRequired,
+	loadedVideo  : PropTypes.object.isRequired,
+	list         : PropTypes.object.isRequired,
+	me           : PropTypes.object.isRequired,
+	limitPerPeer : PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
-	left           : state.vod.left,
-	loadedVideo    : state.vod.loadedVideo,
-	uploadProgress : state.vod.uploadProgress,
-	list           : state.vod.list,
-	limitPerPeer   : state.vod.limitPerPeer,
-	me             : state.me
+	left         : state.vod.left,
+	loadedVideo  : state.vod.loadedVideo,
+	list         : state.vod.list,
+	limitPerPeer : state.vod.limitPerPeer,
+	me           : state.me
 });
 
 export default withRoomContext(connect(
@@ -190,7 +164,6 @@ export default withRoomContext(connect(
 			return (
 				prev.vod.left === next.vod.left &&
 				prev.vod.loadedVideo === next.vod.loadedVideo &&
-				prev.vod.uploadProgress === next.vod.uploadProgress &&
 				prev.vod.list === next.vod.list &&
 				prev.vod.limitPerPeer === next.vod.limitPerPeer &&
 				prev.me === next.me
