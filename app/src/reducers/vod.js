@@ -30,24 +30,7 @@ const vod = (state = initialState, action) =>
 			return { ...state, ...config };
 		}
 
-		case 'LOAD_VOD':
-		{
-			const { loadedVideo } = action.payload;
-
-			return { ...state, loadedVideo: { ...loadedVideo } };
-		}
-
-		case 'UNLOAD_VOD':
-		{
-			return { ...state, loadedVideo: initialState.loadedVideo };
-		}
-
-		case 'SET_TOGGLE_VOD_IN_PROGRESS':
-		{
-			return { ...state, toggleVodInProgress: action.payload.flag };
-		}
-
-		case 'UPLOAD_VOD_FILE':
+		case 'ADD_VOD_FILE':
 		{
 			const { name, type, size, url, hash } = action.payload;
 
@@ -65,18 +48,7 @@ const vod = (state = initialState, action) =>
 			return { ...state, list: list };
 		}
 
-		case 'REMOVE_VOD_ITEM':
-		{
-			const { hash } = action.payload;
-
-			const list = [ ...state.list ];
-
-			const tmp = list.filter((el) => el.hash !== hash);
-
-			return { ...state, list: tmp };
-		}
-
-		case 'SET_VOD_UPLOAD_PROGRESS_VALUE':
+		case 'ADD_VOD_FILE_PROGRESS':
 		{
 			const { hash, percent } = action.payload;
 
@@ -91,6 +63,34 @@ const vod = (state = initialState, action) =>
 			});
 
 			return { ...state, list };
+		}
+
+		case 'SET_VOD_ADD_FILE_IN_PROGRESS':
+		{
+			return { ...state, toggleVodInProgress: action.payload.flag };
+		}
+
+		case 'LOAD_VOD':
+		{
+			const { loadedVideo } = action.payload;
+
+			return { ...state, loadedVideo: { ...loadedVideo } };
+		}
+
+		case 'UNLOAD_VOD':
+		{
+			return { ...state, loadedVideo: initialState.loadedVideo };
+		}
+
+		case 'REMOVE_VOD_FILE':
+		{
+			const { hash } = action.payload;
+
+			const list = [ ...state.list ];
+
+			const tmp = list.filter((el) => el.hash !== hash);
+
+			return { ...state, list: tmp };
 		}
 
 		default:

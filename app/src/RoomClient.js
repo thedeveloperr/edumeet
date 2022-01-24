@@ -2109,14 +2109,14 @@ export default class RoomClient
 	}
 
 	// <vod>
-	async uploadVodFile(name, type, size, data)
+	async addVodFile(name, type, size, data)
 	{
 		logger.debug(
-			'uploadVodFile() [name:"%s", type:"%s", size:"%s"',
+			'addVodFile() [name:"%s", type:"%s", size:"%s"',
 			name, type, size, data
 		);
 
-		store.dispatch(vodActions.setToggleVodInProgress(true));
+		store.dispatch(vodActions.setVodAddFileInProgress(true));
 
 		const hash = (Math.random() + 1).toString(30).substring(2);
 
@@ -2155,7 +2155,7 @@ export default class RoomClient
 
 					const percent = `${Math.floor(uploadedSize / size * 100)}`;
 
-					store.dispatch(vodActions.setVodUploadProgressValue(hash, percent));
+					store.dispatch(vodActions.addVodFileProgress(hash, percent));
 
 				})
 				.on('error', () =>
@@ -2199,7 +2199,7 @@ export default class RoomClient
 		}
 		catch (error)
 		{
-			logger.error('uploadVodFile() [error:"%o"]', error);
+			logger.error('addVodFile() [error:"%o"]', error);
 
 			store.dispatch(vodActions.unloadVod());
 
@@ -2213,7 +2213,7 @@ export default class RoomClient
 				}));
 		}
 
-		store.dispatch(vodActions.setToggleVodInProgress(false));
+		store.dispatch(vodActions.setVodAddFileInProgress(false));
 	}
 
 	async loadVod(loadedVideo)
@@ -2226,7 +2226,7 @@ export default class RoomClient
 
 		logger.debug('loadVod() [loadedVideo:"%o"]', loadedVideo);
 
-		store.dispatch(vodActions.setToggleVodInProgress(true));
+		store.dispatch(vodActions.setVodAddFileInProgress(true));
 
 		try
 		{
@@ -2240,7 +2240,7 @@ export default class RoomClient
 			logger.error('loadVod() [error:"%o"]', error);
 		}
 
-		store.dispatch(vodActions.setToggleVodInProgress(false));
+		store.dispatch(vodActions.setVodAddFileInProgress(false));
 	}
 
 	async updateVod(vodTime, event)
@@ -2270,7 +2270,7 @@ export default class RoomClient
 
 		logger.debug('updateVod() [loadedVideo:"%o"]', loadedVideo);
 
-		store.dispatch(vodActions.setToggleVodInProgress(true));
+		store.dispatch(vodActions.setVodAddFileInProgress(true));
 		try
 		{
 			await this.sendRequest('updateVod', { loadedVideo });
@@ -2282,12 +2282,12 @@ export default class RoomClient
 			store.dispatch(vodActions.unloadVod());
 		}
 
-		store.dispatch(vodActions.setToggleVodInProgress(false));
+		store.dispatch(vodActions.setVodAddFileInProgress(false));
 	}
 
 	async unloadVod()
 	{
-		store.dispatch(vodActions.setToggleVodInProgress(true));
+		store.dispatch(vodActions.setVodAddFileInProgress(true));
 
 		try
 		{
@@ -2301,7 +2301,7 @@ export default class RoomClient
 		}
 
 		store.dispatch(
-			vodActions.setToggleVodInProgress(false));
+			vodActions.setVodAddFileInProgress(false));
 	}
 
 	async removeVodFile(name, hash)
@@ -2309,7 +2309,7 @@ export default class RoomClient
 
 		logger.debug('removeVodFile() [name:"%s", hash: "%s"]', name, hash);
 
-		store.dispatch(vodActions.setToggleVodInProgress(true));
+		store.dispatch(vodActions.setVodAddFileInProgress(true));
 
 		try
 		{
@@ -2322,14 +2322,14 @@ export default class RoomClient
 				}
 			);
 
-			store.dispatch(vodActions.removeVodItem(hash));
+			store.dispatch(vodActions.removeVodFile(hash));
 		}
 		catch (error)
 		{
 			logger.error('loadVod() [error:"%o"]', error);
 		}
 
-		store.dispatch(vodActions.setToggleVodInProgress(false));
+		store.dispatch(vodActions.setVodAddFileInProgress(false));
 	}
 	// </vod>
 
@@ -3421,12 +3421,12 @@ export default class RoomClient
 					}
 
 					// <vod>
-					case 'uploadVodFile':
+					case 'addVodFile':
 					{
 						const { name, type, size, url, hash } = notification.data;
 
 						store.dispatch(
-							vodActions.uploadVodFile(name, type, size, url, hash));
+							vodActions.addVodFile(name, type, size, url, hash));
 
 						break;
 					}
@@ -3513,7 +3513,7 @@ export default class RoomClient
 					{
 						const { hash } = notification.data;
 
-						store.dispatch(vodActions.removeVodItem(hash));
+						store.dispatch(vodActions.removeVodFile(hash));
 
 						break;
 					}

@@ -4,6 +4,24 @@ export const setVodConfig = (config) =>
 		payload : { config }
 	});
 
+export const addVodFile = (name, type, size, url, hash) =>
+	({
+		type    : 'ADD_VOD_FILE',
+		payload : { name, type, size, url, hash }
+	});
+
+export const addVodFileProgress = (hash, percent) =>
+	({
+		type    : 'ADD_VOD_FILE_PROGRESS',
+		payload : { hash, percent }
+	});
+
+export const setVodAddFileInProgress = (flag) =>
+	({
+		type    : 'SET_VOD_ADD_FILE_IN_PROGRESS',
+		payload : { flag }
+	});
+
 export const loadVod = (loadedVideo) =>
 	({
 		type    : 'LOAD_VOD',
@@ -15,26 +33,8 @@ export const unloadVod = () =>
 		type : 'UNLOAD_VOD'
 	});
 
-export const uploadVodFile = (name, type, size, url, hash) =>
+export const removeVodFile = (hash) =>
 	({
-		type    : 'UPLOAD_VOD_FILE',
-		payload : { name, type, size, url, hash }
-	});
-
-export const removeVodItem = (hash) =>
-	({
-		type    : 'REMOVE_VOD_ITEM',
+		type    : 'REMOVE_VOD_FILE',
 		payload : { hash }
-	});
-
-export const setToggleVodInProgress = (flag) =>
-	({
-		type    : 'SET_TOGGLE_VOD_IN_PROGRESS',
-		payload : { flag }
-	});
-
-export const setVodUploadProgressValue = (hash, percent) =>
-	({
-		type    : 'SET_VOD_UPLOAD_PROGRESS_VALUE',
-		payload : { hash, percent }
 	});

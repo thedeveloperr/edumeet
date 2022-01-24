@@ -839,7 +839,7 @@ class Room extends EventEmitter
 			{
 				const url = this._upload.saveFile(fullName, stream);
 
-				this._notification(peer.socket, 'uploadVodFile', {
+				this._notification(peer.socket, 'addVodFile', {
 					name, type, size, url, hash
 				}, false, false);
 
@@ -1979,7 +1979,7 @@ class Room extends EventEmitter
 					this._upload.removeFile(fullName);
 
 					// Spread to others
-					// this._notification(peer.socket, 'uploadVodFile', {
+					// this._notification(peer.socket, 'addVodFile', {
 					// name, type, size, url
 					// }, false, false);
 

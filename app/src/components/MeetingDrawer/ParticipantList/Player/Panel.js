@@ -61,7 +61,7 @@ const Player = (props) =>
 		const type = file.type;
 		const size = file.size;
 
-		roomClient.uploadVodFile(name, type, size, file);
+		roomClient.addVodFile(name, type, size, file);
 
 		target.value = '';
 	};
