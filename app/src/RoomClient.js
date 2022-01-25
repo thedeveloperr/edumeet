@@ -2163,10 +2163,11 @@ export default class RoomClient
 							type : 'error',
 							text : intl.formatMessage({
 								id             : 'vod.connectionAborted',
-								defaultMessage : 'Connection aborted.'
+								defaultMessage : 'Something went wrong'
 							})
 						}));
 
+					store.dispatch(vodActions.removeVodFile(hash));
 				})
 				.on('end', () =>
 				{
@@ -2190,10 +2191,8 @@ export default class RoomClient
 								defaultMessage : 'File closed'
 							})
 						}));
-
 				})
 				.pipe(stream);
-
 		}
 		catch (error)
 		{
