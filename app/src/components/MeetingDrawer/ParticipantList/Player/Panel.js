@@ -50,9 +50,9 @@ const Player = (props) =>
 		me
 	} = props;
 
-	const uploadedNumber = list.length;
+	const addedNumber = list.length;
 
-	const handleUploadVod = ({ target }) =>
+	const handleAddFile = ({ target }) =>
 	{
 		const file = target.files[0];
 
@@ -76,32 +76,32 @@ const Player = (props) =>
 				justifyContent='space-between'
 			>
 				<Grid item>
-					{/* Button upload */}
+					{/* Button add file */}
 					<label htmlFor='icon-button-file'>
 						<Input
 							id='icon-button-file'
 							type='file'
-							onChange={handleUploadVod}
-							disabled={uploadedNumber >= limitPerPeer}
+							onChange={handleAddFile}
+							disabled={addedNumber >= limitPerPeer}
 						/>
 						<Button
 							aria-label={intl.formatMessage({
 								id             : 'vod.addFile',
-								defaultMessage : 'Upload'
+								defaultMessage : 'Add file'
 							})}
 							color='secondary'
-							disabled={uploadedNumber >= limitPerPeer}
+							disabled={addedNumber >= limitPerPeer}
 							component='span'
 							startIcon={<BackupIcon/>}
 							variant='contained'
 						>
 							<FormattedMessage
 								id='vod.addFile'
-								defaultMessage='Upload'
-							/> {limitPerPeer > 1 && `${uploadedNumber}/${limitPerPeer}`}
+								defaultMessage='Add file'
+							/> {limitPerPeer > 1 && `${addedNumber}/${limitPerPeer}`}
 						</Button>
 					</label>
-					{/* /Button upload */}
+					{/* /Button add file */}
 				</Grid>
 
 				<Grid item>

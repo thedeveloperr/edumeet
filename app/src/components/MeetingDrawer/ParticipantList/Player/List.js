@@ -78,11 +78,11 @@ const List = (props) =>
 									>{v.name}</Typography>
 								</Tooltip>
 
-								{(v.uploadProgress > 0 && v.uploadProgress < 100) &&
+								{(v.addingProgress > 0 && v.addingProgress < 100) &&
 								<LinearProgress
 									color='secondary'
 									variant='determinate'
-									value={v.uploadProgress}
+									value={v.addingProgress}
 								/>
 								}
 							</Grid>
@@ -155,7 +155,7 @@ const List = (props) =>
 											loadedVideo.peerId === me.id &&
 											loadedVideo.url === v.url
 										)) ||
-										(v.uploadProgress > 0 && v.uploadProgress < 100)
+										(v.addingProgress > 0 && v.addingProgress < 100)
 									}
 									size='small'
 									// disabled={!isEnabled || left === '00:00:00'}
@@ -181,7 +181,7 @@ const List = (props) =>
 											loadedVideo.peerId === me.id &&
 											loadedVideo.url === v.url
 										)) ||
-										(v.uploadProgress > 0 && v.uploadProgress < 100)
+										(v.addingProgress > 0 && v.addingProgress < 100)
 									}
 									onClick={() =>
 									{

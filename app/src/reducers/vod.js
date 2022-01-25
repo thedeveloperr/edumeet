@@ -34,13 +34,14 @@ const vod = (state = initialState, action) =>
 
 			const list = [ ...state.list ];
 
-			list.push({ ...initialState.loadedVideo,
+			list.push({
+				...initialState.loadedVideo,
 				name,
 				type,
 				size,
 				url,
 				hash,
-				uploadProgress : 0
+				addingProgress : 0
 			});
 
 			return { ...state, list: list };
@@ -55,7 +56,7 @@ const vod = (state = initialState, action) =>
 			list.forEach((item) =>
 			{
 				if (item.hash === hash)
-					item.uploadProgress = percent;
+					item.addingProgress = percent;
 			});
 
 			return { ...state, list };
