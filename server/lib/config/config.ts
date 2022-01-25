@@ -505,7 +505,7 @@ const configSchema = convict({
 					types : {
 						doc     : 'Files format allowed to be uploaded.',
 						format  : Array,
-						default : [ 'video/mp4', 'video/webm' ]
+						default : [ 'video/mp4' ]
 					},
 					maxSize : {
 						doc     : 'Maximum file size allowed to be uploaded.',
