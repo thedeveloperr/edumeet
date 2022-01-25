@@ -52,12 +52,10 @@ const vod = (state = initialState, action) =>
 
 			const list = [ ...state.list ];
 
-			list.forEach((v, i) =>
+			list.forEach((item) =>
 			{
-				if (list[i].hash === hash)
-				{
-					list[i].uploadProgress = percent;
-				}
+				if (item.hash === hash)
+					item.uploadProgress = percent;
 			});
 
 			return { ...state, list };
