@@ -217,6 +217,7 @@
 	"filesharing.download": "Descargar",
 	"filesharing.missingSeeds": "Si este proceso demora en exceso, puede ocurrir que no haya nadie compartiendo el fichero. Pruebe a pedirle a alguien que vuelva a subir el fichero que busca.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

@@ -211,6 +211,7 @@
 	"filesharing.download": "Lejuplādēt",
 	"filesharing.missingSeeds": "Ja šis process aizņem ilgu laiku, iespējams nav neviena, kas sēklo (seed) šo torentu. Mēģiniet palūgt kādu atkārtoti augšuplādēt Jūsu gribēto failu.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

@@ -217,6 +217,7 @@
 	"filesharing.download": "Descarregar",
 	"filesharing.missingSeeds": "Se este processo demorar muito tempo, pode ser quem ninguém esteja a partilhar este ficheiro. Solicite a alguém para partilhar o ficheiro que pretende.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

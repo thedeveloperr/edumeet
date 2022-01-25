@@ -218,6 +218,7 @@
 	"filesharing.download": "Download",
 	"filesharing.missingSeeds": "If this process takes a long time, there might not be anyone seeding this torrent. Try asking someone to reupload the file that you want.",
 
+	"vod.vod": "Vod",
 	"vod.addFile": "Add file",
 	"vod.fileAdding": "File adding...",
 	"vod.fileAdded": "File added",

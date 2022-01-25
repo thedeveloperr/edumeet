@@ -216,6 +216,7 @@
 	"filesharing.download": "Завантажити",
 	"filesharing.missingSeeds": "Якщо цей процес триває тривалий час, може не з’явиться хтось, хто роздає цей торрент. Спробуйте попросити когось перезавантажити потрібний файл.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

@@ -217,6 +217,7 @@
 	"filesharing.download": "Učitaj",
 	"filesharing.missingSeeds": "Ako ovaj proces traje dugo, možda više nitko ne dijeli datoteku. Pokušajte zamoliti nekoga da ponovo učita željenu datoteku.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

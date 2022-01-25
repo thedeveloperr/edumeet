@@ -217,6 +217,7 @@
 	"filesharing.download": "Download",
 	"filesharing.missingSeeds": "Se questo processo impiega troppo tempo, questo torrent potrebbe non avere alcun seed. Prova a chiedere a qualcuno di caricare nuovamente il file che desideri.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

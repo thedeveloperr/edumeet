@@ -217,6 +217,7 @@
 	"filesharing.download": "Last ned",
 	"filesharing.missingSeeds": "Dersom dette tar lang til mangler det kanskje noen som kan dele denne filen. Prøv å spørre noen om å laste opp filen på nytt.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

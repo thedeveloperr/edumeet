@@ -217,6 +217,7 @@
 	"filesharing.download": "下載檔案",
 	"filesharing.missingSeeds": "如果過了很久還是無法下載，則可能沒有人播種了。請讓上傳者重新上傳您需要的檔案。",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

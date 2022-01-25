@@ -217,6 +217,7 @@
 	"filesharing.download": "Descărcare",
 	"filesharing.missingSeeds": "Dacă acest proces durează mult timp, s-ar putea să nu fie nimeni care seed-ează acest torrent. Încearcă să ceri cuiva să reîncarce fișierul.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

@@ -218,6 +218,7 @@
 	"filesharing.download": "İndir",
 	"filesharing.missingSeeds": "İşlem uzun zaman alıyorsa, bu torrent'i paylaşan kimse olmayabilir. İlgili dosyayı yeniden yüklemesini isteyin.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

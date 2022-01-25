@@ -37,7 +37,7 @@ const Input = styled('input')({
 	display : 'none'
 });
 
-const Player = (props) =>
+const Panel = (props) =>
 {
 	const intl = useIntl();
 
@@ -141,7 +141,7 @@ const Player = (props) =>
 	);
 };
 
-Player.propTypes =
+Panel.propTypes =
 {
 	roomClient   : PropTypes.any.isRequired,
 	classes      : PropTypes.object.isRequired,
@@ -176,4 +176,4 @@ export default withRoomContext(connect(
 			);
 		}
 	}
-)(withStyles(styles)(Player)));
+)(withStyles(styles)(Panel)));

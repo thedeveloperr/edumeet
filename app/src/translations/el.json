@@ -217,6 +217,7 @@
 	"filesharing.download": "Κατέβασμα",
 	"filesharing.missingSeeds": "Αν αυτή η διαδικασία διαρκεί πολύ, ίσως να μην υπάρχει κάποιος να διαμοιραστεί το αρχείο. Δοκιμάστε να ζητήσετε από κάποιον να φορτώσει εκ νέου το αρχείο που θέλετε.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

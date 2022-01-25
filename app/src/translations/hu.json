@@ -218,6 +218,7 @@
 	"filesharing.download": "Letöltés",
 	"filesharing.missingSeeds": "Ha a folyamat túl sok ideig tart, akkor lehet hogy senki sem seed-eli ez a torrent-et. Próbálj meg megkérni valakit hogy töltse fel újra ezt a fájlt.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

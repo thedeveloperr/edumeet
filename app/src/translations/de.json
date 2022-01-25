@@ -217,6 +217,7 @@
 	"filesharing.download": "Herunterladen",
 	"filesharing.missingSeeds": "Wenn der Download zu lange dauert, ist wahrscheinlich keiner mehr im Raum, der die Datei teilen kann. Die Datei muss erneut hochgeladen werden.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

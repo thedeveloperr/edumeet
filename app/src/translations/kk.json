@@ -215,6 +215,7 @@
 	"filesharing.download": "Жүктеу",
 	"filesharing.missingSeeds": "Егер бұл процесс ұзақ уақытқа созылатын болса, онда бұл торрентті ешкім бөліспеуі мүмкін. Біреуден қалаған файлыңызды қайта жүктеуді сұраңыз.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

@@ -221,6 +221,7 @@
 	"filesharing.download": "Stáhnout",
 	"filesharing.missingSeeds": "Pokud tento proces trvá dlouho, nikdo zřejmě neseeduje tento torrent. Pokuste se někoho požádat, aby znovu nahrál soubor, který potřebujete.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

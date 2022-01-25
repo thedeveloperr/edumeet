@@ -217,6 +217,7 @@
 	"filesharing.download": "डाउनलोड",
 	"filesharing.missingSeeds": "यदि इस प्रक्रिया में लंबा समय लगता है, तो हो सकता है कि इस धारा को सहायता देने वाला कोई न हो। किसी को उस फ़ाइल को पुनह से आदान-प्रदान करने के लिए कहें।",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 

@@ -14,7 +14,7 @@ import ListPeer from './ListPeer';
 import ListMe from './ListMe';
 import ListModerator from './ListModerator';
 import Volume from '../../Containers/Volume';
-import PlayerPanel from './Player/Panel';
+import VodPanel from './Vod/Panel';
 
 const styles = (theme) =>
 	({
@@ -98,11 +98,11 @@ class ParticipantList extends React.PureComponent
 				<ul className={classes.list}>
 					<li className={classes.listheader}>
 						<FormattedMessage
-							id='label.vod'
-							defaultMessage='Vod Player'
+							id='vod.vod'
+							defaultMessage='Vod'
 						/>
 					</li>
-					<PlayerPanel />
+					<VodPanel />
 				</ul>
 				}
 

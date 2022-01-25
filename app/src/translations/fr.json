@@ -217,6 +217,7 @@
 	"filesharing.download": "Télécharger",
 	"filesharing.missingSeeds": "Si le téléchargement prend trop de temps c’est qu’il n’y a peut-être plus personne qui partage ce torrent. Demander à quelqu’un de repartager le document.",
 
+	"vod.vod": null,
 	"vod.addFile": null,
 	"vod.fileAdding": null,
 	"vod.fileAdded": null, 
