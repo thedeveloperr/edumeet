@@ -8,12 +8,9 @@ const { SocketTimeoutError, NotFoundInMediasoupError } = require('./helpers/erro
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const userRoles = require('./access/roles');
-
-import fs from 'fs';
-import path from 'path';
 const ss = require('socket.io-stream');
 
-import Upload from './Vod/Upload';
+import VodUpload from './Vod/Upload';
 
 import {
 	BYPASS_ROOM_LOCK,
@@ -285,7 +282,7 @@ class Room extends EventEmitter
 
 		this._vod = null;
 
-		this._upload = new Upload();
+		this._vodUpload = new VodUpload();
 
 		this._lastN = [];
 
@@ -824,20 +821,20 @@ class Room extends EventEmitter
 
 			const fullName = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`.replace(/[^A-Za-z0-9._-]+/g, '');
 
-			this._upload.refresh();
+			this._vodUpload.refresh();
 
 			const rules = {
-				isDirFree          : this._upload.isDirFree(size),
-				isFileSizeOk       : this._upload.isFileSizeOk(size),
-				isFileTypeOk       : this._upload.isFileTypeOk(type),
-				isFileNotOverLimit : this._upload.isFileNotOverLimit(roomId, peerId)
+				isDirFree          : this._vodUpload.isDirFree(size),
+				isFileSizeOk       : this._vodUpload.isFileSizeOk(size),
+				isFileTypeOk       : this._vodUpload.isFileTypeOk(type),
+				isFileNotOverLimit : this._vodUpload.isFileNotOverLimit(roomId, peerId)
 			};
 
 			const allRulesMet = Object.values(rules).every(Boolean);
 
 			if (allRulesMet)
 			{
-				const url = this._upload.saveFile(fullName, stream);
+				const url = this._vodUpload.saveFile(fullName, stream);
 
 				this._notification(peer.socket, 'addVodFile', {
 					name, type, size, url, hash
@@ -853,7 +850,7 @@ class Room extends EventEmitter
 
 			else
 			{
-				this._notification(peer.socket, 'notifyVodUploadRestrictions', { ...rules }, false, false);
+				this._notification(peer.socket, 'notifyVodAddFileRules', { ...rules }, false, false);
 			}
 		});
 
@@ -900,7 +897,7 @@ class Room extends EventEmitter
 			this._vod = null;
 		}
 
-		this._upload.removePeerAllFiles(this._roomId, peer.id);
+		this._vodUpload.removePeerAllFiles(this._roomId, peer.id);
 
 		// Remove from lastN
 		this._lastN = this._lastN.filter((id) => id !== peer.id);
@@ -1963,12 +1960,12 @@ class Room extends EventEmitter
 
 					const { name, roomId, peerId, hash } = request.data;
 
-					this._upload.refresh();
+					this._vodUpload.refresh();
 
 					const fullName = `room_${roomId}_peer_${peerId}_hash_${hash}_${name}`
 						.replace(/[^A-Za-z0-9._-]+/g, '');
 
-					this._upload.removeFile(fullName);
+					this._vodUpload.removeFile(fullName);
 
 					// Spread to others
 					this._notification(peer.socket, 'removeVodFile', { hash }, false, false);

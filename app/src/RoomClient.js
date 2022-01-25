@@ -3407,7 +3407,7 @@ export default class RoomClient
 						break;
 					}
 
-					case 'notifyVodUploadRestrictions':
+					case 'notifyVodAddFileRules':
 					{
 						const {
 							isDirFree,
