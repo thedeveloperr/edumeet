@@ -217,6 +217,16 @@
 	"filesharing.download": "Descărcare",
 	"filesharing.missingSeeds": "Dacă acest proces durează mult timp, s-ar putea să nu fie nimeni care seed-ează acest torrent. Încearcă să ceri cuiva să reîncarce fișierul.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Dispozitivele tale s-au schimbat, configurează-ți dispozitivele în dialogul de setări",
 
 	"devices.enableOnlyMicrophone": null,

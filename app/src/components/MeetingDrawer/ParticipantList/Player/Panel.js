@@ -85,23 +85,32 @@ const Player = (props) =>
 							disabled={uploadedNumber >= limitPerPeer}
 						/>
 						<Button
-							aria-label='upload video'
+							aria-label={intl.formatMessage({
+								id             : 'vod.addFile',
+								defaultMessage : 'Upload'
+							})}
 							color='secondary'
 							disabled={uploadedNumber >= limitPerPeer}
 							component='span'
 							startIcon={<BackupIcon/>}
 							variant='contained'
 						>
-							Upload {limitPerPeer > 1 && `${uploadedNumber}/${limitPerPeer}`}
+							<FormattedMessage
+								id='vod.addFile'
+								defaultMessage='Upload'
+							/> {limitPerPeer > 1 && `${uploadedNumber}/${limitPerPeer}`}
 						</Button>
 					</label>
 					{/* /Button upload */}
 				</Grid>
 
 				<Grid item>
-					{/* Button unload */}
+					{/* Button close */}
 					<Button
-						aria-label='unload video'
+						aria-label={intl.formatMessage({
+							id             : 'label.close',
+							defaultMessage : 'Close'
+						})}
 						color='secondary'
 						component='span'
 						disabled={
@@ -117,11 +126,13 @@ const Player = (props) =>
 						}}
 						startIcon={<CloseIcon />}
 						variant='contained'
-
 					>
-						Close
+						<FormattedMessage
+							id='label.close'
+							defaultMessage='Close'
+						/>
 					</Button>
-					{/* /Button unload */}
+					{/* /Button close */}
 				</Grid>
 			</Grid>
 			<Divider/>

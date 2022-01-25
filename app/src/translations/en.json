@@ -218,6 +218,16 @@
 	"filesharing.download": "Download",
 	"filesharing.missingSeeds": "If this process takes a long time, there might not be anyone seeding this torrent. Try asking someone to reupload the file that you want.",
 
+	"vod.addFile": "Add file",
+	"vod.fileAdding": "File adding...",
+	"vod.fileAdded": "File added",
+	"vod.fileRemoved" : "File removed",
+	"vod.somethingWentWrong": "Something went wrong",
+	"vod.noEnoughMemory": "No enough memory",
+	"vod.fileIsToBig": "File is to big",
+	"vod.fileTypeNotAllowed" : "File type not allowed",
+	"vod.addingLimitExceeded" : "Files adding limit exceeded",
+
 	"devices.devicesChanged": "Your devices changed, configure your devices in the settings dialog",
 
 	"devices.enableOnlyMicrophone": "Enable only Microphone",

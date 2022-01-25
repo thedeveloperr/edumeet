@@ -221,6 +221,16 @@
 	"filesharing.download": "Stáhnout",
 	"filesharing.missingSeeds": "Pokud tento proces trvá dlouho, nikdo zřejmě neseeduje tento torrent. Pokuste se někoho požádat, aby znovu nahrál soubor, který potřebujete.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Vaše zařízení se změnila, nastavte je v dialogu nastavení",
 
 	"devices.enableOnlyMicrophone": "Povolit pouze mikrofon",

@@ -218,6 +218,16 @@
 	"filesharing.download": "İndir",
 	"filesharing.missingSeeds": "İşlem uzun zaman alıyorsa, bu torrent'i paylaşan kimse olmayabilir. İlgili dosyayı yeniden yüklemesini isteyin.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Cihazlarınız değişti, ayarlar kutusundan cihazlarınızı yapılandırın",
 
 	"devices.enableOnlyMicrophone": "Sadece mikrofonu etkinleştir",

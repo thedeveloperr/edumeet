@@ -217,6 +217,16 @@
 	"filesharing.download": "Pobierz",
 	"filesharing.missingSeeds": "Udostępnianie plików przez Torrent - jeśli ten proces trwa długo sugerujemy poprosić o ponowne załadowanie żądanego pliku",
 
+	"vod.addFile": "Dodaj plik",
+	"vod.fileAdding": "Dodawanie pliku...",
+	"vod.fileAdded": "Plik dodany",
+	"vod.fileRemoved" : "Plik usunięty",
+	"vod.somethingWentWrong": "Coś poszło nie tak...",
+	"vod.noEnoughMemory": "Brak pamięci",
+	"vod.fileIsToBig": "Plik za duży",
+	"vod.fileTypeNotAllowed" : "Typ pliku niedozwolony",
+	"vod.addingLimitExceeded" : "Limit plików przekroczony",
+
 	"devices.devicesChanged": "Urządzenia wejściowe się zmieniły, konfiguracja dostępna w oknie dialogowym ustawień",
 
 	"devices.enableOnlyMicrophone": "Włącz tylko Mikrofon",

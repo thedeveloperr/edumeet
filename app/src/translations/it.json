@@ -217,6 +217,16 @@
 	"filesharing.download": "Download",
 	"filesharing.missingSeeds": "Se questo processo impiega troppo tempo, questo torrent potrebbe non avere alcun seed. Prova a chiedere a qualcuno di caricare nuovamente il file che desideri.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Il tuo dispositivo è cambiato, configura i dispositivi nel menù di impostazioni",
 
 	"devices.enableOnlyMicrophone": "Abilita solo microfono",

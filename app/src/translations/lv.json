@@ -211,6 +211,16 @@
 	"filesharing.download": "Lejuplādēt",
 	"filesharing.missingSeeds": "Ja šis process aizņem ilgu laiku, iespējams nav neviena, kas sēklo (seed) šo torentu. Mēģiniet palūgt kādu atkārtoti augšuplādēt Jūsu gribēto failu.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Jūsu ierīces pamainījās. Iestatījumu izvēlnē (dialogā) iestatiet jaunās ierīces.",
 
 	"devices.enableOnlyMicrophone": null,

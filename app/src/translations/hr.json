@@ -217,6 +217,16 @@
 	"filesharing.download": "Učitaj",
 	"filesharing.missingSeeds": "Ako ovaj proces traje dugo, možda više nitko ne dijeli datoteku. Pokušajte zamoliti nekoga da ponovo učita željenu datoteku.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Uređaji su se promijenili, podesite ponovno uređaje u postavkama",
 
 	"devices.enableOnlyMicrophone": null,

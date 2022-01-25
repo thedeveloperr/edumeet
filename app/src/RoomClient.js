@@ -2181,17 +2181,6 @@ export default class RoomClient
 						}));
 
 				})
-				.on('close', () =>
-				{
-					store.dispatch(requestActions.notify(
-						{
-							type : 'info',
-							text : intl.formatMessage({
-								id             : 'vod.fileClosed',
-								defaultMessage : 'File closed'
-							})
-						}));
-				})
 				.pipe(stream);
 		}
 		catch (error)
@@ -3434,8 +3423,8 @@ export default class RoomClient
 								{
 									type : 'error',
 									text : intl.formatMessage({
-										id             : 'vod.fileisToBig',
-										defaultMessage : 'File size is to big'
+										id             : 'vod.fileIsToBig',
+										defaultMessage : 'File is to big'
 									})
 								}));
 						}
@@ -3459,7 +3448,7 @@ export default class RoomClient
 									type : 'error',
 									text : intl.formatMessage({
 										id             : 'vod.addingLimitExceeded',
-										defaultMessage : 'Files upload limit exceeded'
+										defaultMessage : 'Files adding limit exceeded'
 									})
 								}));
 						}

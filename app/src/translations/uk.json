@@ -216,6 +216,16 @@
 	"filesharing.download": "Завантажити",
 	"filesharing.missingSeeds": "Якщо цей процес триває тривалий час, може не з’явиться хтось, хто роздає цей торрент. Спробуйте попросити когось перезавантажити потрібний файл.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Ваші пристрої змінилися, налаштуйте ваші пристрої в діалоговому вікні налаштувань",
 
 	"devices.enableOnlyMicrophone": null,

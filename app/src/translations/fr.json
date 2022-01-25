@@ -216,6 +216,17 @@
 	"filesharing.sharedFile": "{displayName} a partagé un fichier",
 	"filesharing.download": "Télécharger",
 	"filesharing.missingSeeds": "Si le téléchargement prend trop de temps c’est qu’il n’y a peut-être plus personne qui partage ce torrent. Demander à quelqu’un de repartager le document.",
+
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Vos périphériques ont changé, reconfigurez vos périphériques dans le menu paramètre",
 
 	"devices.enableOnlyMicrophone": null,

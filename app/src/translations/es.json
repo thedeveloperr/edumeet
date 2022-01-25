@@ -217,6 +217,16 @@
 	"filesharing.download": "Descargar",
 	"filesharing.missingSeeds": "Si este proceso demora en exceso, puede ocurrir que no haya nadie compartiendo el fichero. Pruebe a pedirle a alguien que vuelva a subir el fichero que busca.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Sus dispositivos han cambiado, vuelva a configurarlos en la ventana de ajustes",
 
 	"devices.enableOnlyMicrophone": null,

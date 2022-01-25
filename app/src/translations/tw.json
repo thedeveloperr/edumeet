@@ -217,6 +217,16 @@
 	"filesharing.download": "下載檔案",
 	"filesharing.missingSeeds": "如果過了很久還是無法下載，則可能沒有人播種了。請讓上傳者重新上傳您需要的檔案。",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "您已變更裝置，請在設定中調整您的裝置",
 
 	"devices.enableOnlyMicrophone": null,

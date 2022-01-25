@@ -217,6 +217,16 @@
 	"filesharing.download": "下载共享文件",
 	"filesharing.missingSeeds": "如果此过程需要很长时间，则可能没有人播下该种子。请尝试让某人重新上传您想要的文件。",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "您的设备已更改，请在设置对话框中配置设备",
 
 	"devices.enableOnlyMicrophone": null,

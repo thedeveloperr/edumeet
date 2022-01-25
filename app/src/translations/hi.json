@@ -217,6 +217,16 @@
 	"filesharing.download": "डाउनलोड",
 	"filesharing.missingSeeds": "यदि इस प्रक्रिया में लंबा समय लगता है, तो हो सकता है कि इस धारा को सहायता देने वाला कोई न हो। किसी को उस फ़ाइल को पुनह से आदान-प्रदान करने के लिए कहें।",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "आपके उपकरण बदल गए, सेटिंग्स डायलॉग में अपने उपकरणों को कॉन्फ़िगर करें",
 
 	"devices.enableOnlyMicrophone": null,

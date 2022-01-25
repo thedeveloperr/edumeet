@@ -217,6 +217,16 @@
 	"filesharing.download": "Last ned",
 	"filesharing.missingSeeds": "Dersom dette tar lang til mangler det kanskje noen som kan dele denne filen. Prøv å spørre noen om å laste opp filen på nytt.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Medieenhetene dine endret seg, du kan konfigurere enheter i innstillinger",
 
 	"devices.enableOnlyMicrophone": "Bare mikrofon",

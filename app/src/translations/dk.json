@@ -217,6 +217,16 @@
 	"filesharing.download": null,
 	"filesharing.missingSeeds": "Hvis denne proces tager lang tid, er der muligvis ikke nogen, der seedede denne torrent. Prøv at bede nogen om at uploade den fil, du ønsker at hente.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"device.devicesChanged": "Detekteret ndringer i dine enheder, konfigurer dine enheder i indstillingsdialogen",
 
 	"devices.enableOnlyMicrophone": null,

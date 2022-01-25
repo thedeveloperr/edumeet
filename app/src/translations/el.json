@@ -217,6 +217,16 @@
 	"filesharing.download": "Κατέβασμα",
 	"filesharing.missingSeeds": "Αν αυτή η διαδικασία διαρκεί πολύ, ίσως να μην υπάρχει κάποιος να διαμοιραστεί το αρχείο. Δοκιμάστε να ζητήσετε από κάποιον να φορτώσει εκ νέου το αρχείο που θέλετε.",
 
+	"vod.addFile": null,
+	"vod.fileAdding": null,
+	"vod.fileAdded": null, 
+	"vod.fileRemoved" : null, 
+	"vod.somethingWentWrong": null, 
+	"vod.noEnoughMemory": null, 
+	"vod.fileIsToBig": null, 
+	"vod.fileTypeNotAllowed" : null, 
+	"vod.addingLimitExceeded" : null, 
+
 	"devices.devicesChanged": "Οι συσκευές σας άλλαξαν, ρυθμίστε τις συσκευές σας στο παράθυρο ρυθμίσεων",
 
 	"devices.enableOnlyMicrophone": null,
