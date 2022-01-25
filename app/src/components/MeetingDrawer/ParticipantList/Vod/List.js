@@ -78,7 +78,7 @@ const List = (props) =>
 									>{v.name}</Typography>
 								</Tooltip>
 
-								{(v.addingProgress > 0 && v.addingProgress < 100) &&
+								{(v.addingProgress < 100) &&
 								<LinearProgress
 									color='secondary'
 									variant='determinate'
