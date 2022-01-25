@@ -84,16 +84,6 @@ export default class Upload
 
 		stream.pipe(fs.createWriteStream(fullPath));
 
-		/*
-		fs.writeFile(fullPath, data, function(err)
-		{
-			if (err)
-			{
-				return logger.error('writeFile [err:"%o"]', err);
-			}
-		});
-		*/
-
 		return fullPath;
 	}
 	removeFile(name)
@@ -106,10 +96,6 @@ export default class Upload
 		return;
 	}
 
-	_countRoomFiles()
-	{
-		return this.files.list.length;
-	}
 	_countPeerFiles(roomId, peerId)
 	{
 		this.refresh();
