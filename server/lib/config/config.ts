@@ -497,7 +497,7 @@ const configSchema = convict({
 				size : {
 					doc     : 'Maximum disk space for uploading files.',
 					format  : Number,
-					default : 0.2 // GB
+					default : 20 // GB
 				}
 			},
 			files : {
