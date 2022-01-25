@@ -446,7 +446,6 @@ const Peer = (props) =>
 					}
 
 					<div
-
 						className={classnames(
 							classes.controls, hover ? 'hover' : null,
 							height <= 170 ? 'smallest': null
@@ -1034,6 +1033,7 @@ const Peer = (props) =>
 			}
 			{(loadedVideo.isLoaded) && (loadedVideo.peerId === peer.id) &&
 				<div
+					style={{ ...rootStyle, ...controls.root.style }}
 					className={classnames(classes.root, 'vod', hover ? 'hover' : null)}
 					onMouseOver={() => setHover(true)}
 					onMouseOut={() => setHover(false)}
@@ -1054,11 +1054,11 @@ const Peer = (props) =>
 							setHover(false);
 						}, 2000);
 					}}
-					style={rootStyle}
 				>
 					<div className={classnames(classes.viewContainer)}>
 						<div
 							className={classnames(classes.controls, hover ? 'hover' : null)}
+							style={{ ...controls.root.style }}
 							onMouseOver={() => setHover(true)}
 							onMouseOut={() => setHover(false)}
 							onTouchStart={() =>
@@ -1086,20 +1086,28 @@ const Peer = (props) =>
 									id             : 'label.fullscreen',
 									defaultMessage : 'Fullscreen'
 								})}
+								placement={height <= 190 ? 'bottom' : 'left'}
 							>
-								<Fab
-									aria-label={intl.formatMessage({
-										id             : 'label.fullscreen',
-										defaultMessage : 'Fullscreen'
-									})}
-									className={classes.fab}
-									onClick={() =>
-									{
-										openVodFullscreen(document.getElementById('vod_video'));
-									}}
-								>
-									<FullScreenIcon />
-								</Fab>
+								<div>
+									<Fab
+										aria-label={intl.formatMessage({
+											id             : 'label.fullscreen',
+											defaultMessage : 'Fullscreen'
+										})}
+										className={classnames(
+											'fab',
+											height <= 170 ? 'smallest': null
+										)}
+										style={{ ...controls.item.style }}
+										size={controls.item.size}
+										onClick={() =>
+										{
+											openVodFullscreen(document.getElementById('vod_video'));
+										}}
+									>
+										<FullScreenIcon />
+									</Fab>
+								</div>
 							</Tooltip>
 						</div>
 
