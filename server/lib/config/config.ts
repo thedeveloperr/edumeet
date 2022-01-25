@@ -510,7 +510,7 @@ const configSchema = convict({
 					maxSize : {
 						doc     : 'Maximum file size allowed to be uploaded.',
 						format  : Number,
-						default : 0.1 // GB
+						default : 0.5 // GB
 					},
 					limitPerPeer : {
 						doc     : 'Maximum number of files uploaded by peer in on room',
