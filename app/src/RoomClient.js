@@ -2146,7 +2146,7 @@ export default class RoomClient
 
 			let uploadedSize = 0;
 
-			await ss.createBlobReadStream(data)
+			await ss.createBlobReadStream(data, { highWaterMark: Math.pow(2, 16) })
 				.on('data', (chunk) =>
 				{
 					uploadedSize += chunk.length;

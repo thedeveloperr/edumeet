@@ -82,7 +82,7 @@ export default class Upload
 	{
 		const fullPath = path.join(this.dir.path, name);
 
-		stream.pipe(fs.createWriteStream(fullPath));
+		stream.pipe(fs.createWriteStream(fullPath), { highWaterMark: Math.pow(2, 16) });
 
 		return fullPath;
 	}
