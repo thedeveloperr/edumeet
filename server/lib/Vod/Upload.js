@@ -1,9 +1,6 @@
 import { config } from '../config/config';
 import fs from 'fs';
 import path from 'path';
-import Logger from '../logger/Logger';
-
-const logger = new Logger('Room');
 
 export default class Upload
 {

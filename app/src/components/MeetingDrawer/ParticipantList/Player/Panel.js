@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -12,7 +12,6 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import BackupIcon from '@material-ui/icons/Backup';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
 
 const styles = (theme) =>
 	({
@@ -46,9 +45,9 @@ const Player = (props) =>
 		roomClient,
 		classes,
 		loadedVideo,
+		limitPerPeer,
 		list,
-		me,
-		limitPerPeer
+		me
 	} = props;
 
 	const uploadedNumber = list.length;
@@ -80,7 +79,6 @@ const Player = (props) =>
 					{/* Button upload */}
 					<label htmlFor='icon-button-file'>
 						<Input
-							// accept='image/*' i
 							id='icon-button-file'
 							type='file'
 							onChange={handleUploadVod}
@@ -93,7 +91,6 @@ const Player = (props) =>
 							component='span'
 							startIcon={<BackupIcon/>}
 							variant='contained'
-							// className={classes.button}
 						>
 							Upload {limitPerPeer > 1 && `${uploadedNumber}/${limitPerPeer}`}
 						</Button>
@@ -102,13 +99,11 @@ const Player = (props) =>
 				</Grid>
 
 				<Grid item>
-					{/* Button unloadVod */}
+					{/* Button unload */}
 					<Button
-						aria-label='upload video'
+						aria-label='unload video'
 						color='secondary'
 						component='span'
-						// className={classes.button}
-						// className={classes.button}
 						disabled={
 							!loadedVideo ||
 							(
@@ -126,7 +121,7 @@ const Player = (props) =>
 					>
 						Close
 					</Button>
-					{/* /Button unloadVod */}
+					{/* /Button unload */}
 				</Grid>
 			</Grid>
 			<Divider/>

@@ -5,13 +5,11 @@ import PropTypes from 'prop-types';
 import { withRoomContext } from '../../../../RoomContext';
 import { useIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
@@ -94,11 +92,11 @@ const List = (props) =>
 								loadedVideo.url !== v.url
 							) ?
 								<Grid item>
-									{/* Button start countdown */}
+									{/* Button play */}
 									<IconButton
 										aria-label={intl.formatMessage({
-											id             : 'start.countdown',
-											defaultMessage : 'Start'
+											id             : 'vod.play',
+											defaultMessage : 'Play'
 										})}
 										variant='contained'
 										color='secondary'
@@ -114,20 +112,19 @@ const List = (props) =>
 									>
 										<PlayArrowIcon/>
 									</IconButton>
-									{/* /Button start countdown */}
+									{/* /Button play */}
 								</Grid>
 								:
 								<Grid item>
-									{/* Button stop countdown */}
+									{/* Button pause */}
 									<IconButton
 										aria-label={intl.formatMessage({
-											id             : 'stop.countdown',
-											defaultMessage : 'Stop countdown'
+											id             : 'vod.pause',
+											defaultMessage : 'Pause'
 										})}
 										variant='contained'
 										color='secondary'
 										size='small'
-
 										disabled={
 											loadedVideo.peerId !== me.id ||
 											(
@@ -135,12 +132,11 @@ const List = (props) =>
 												loadedVideo.url !== v.url
 											)
 										}
-										// disabled={!isEnabled || left === '00:00:00'}
 										onClick={() => roomClient.updateVod('0', 'pause')}
 									>
 										<PauseIcon/>
 									</IconButton>
-									{/* /Button stop countdown */}
+									{/* /Button pause */}
 								</Grid>
 							}
 
@@ -148,8 +144,8 @@ const List = (props) =>
 								{/* Button load */}
 								<IconButton
 									aria-label={intl.formatMessage({
-										id             : 'start.countdown',
-										defaultMessage : 'Start'
+										id             : 'vod.load',
+										defaultMessage : 'Load'
 									})}
 									variant='contained'
 									color='secondary'
@@ -173,8 +169,8 @@ const List = (props) =>
 							<Grid item>
 								<IconButton
 									aria-label={intl.formatMessage({
-										id             : 'start.countdown',
-										defaultMessage : 'Start'
+										id             : 'vod.remove',
+										defaultMessage : 'Remove'
 									})}
 									variant='contained'
 									color='secondary'

@@ -2124,14 +2124,14 @@ export default class RoomClient
 				{
 					type : 'info',
 					text : intl.formatMessage({
-						id             : 'vod.fileUploading',
-						defaultMessage : 'File uploading...'
+						id             : 'vod.fileAdding',
+						defaultMessage : 'File adding...'
 					})
 				}));
 
 			const stream = ss.createStream();
 
-			ss(this._signalingSocket).emit('uplodVodFileStream',
+			ss(this._signalingSocket).emit('addVodFileStream',
 				stream,
 				{
 					name,
@@ -2162,7 +2162,7 @@ export default class RoomClient
 						{
 							type : 'error',
 							text : intl.formatMessage({
-								id             : 'vod.connectionAborted',
+								id             : 'vod.somethingWentWrong',
 								defaultMessage : 'Something went wrong'
 							})
 						}));
@@ -2175,7 +2175,7 @@ export default class RoomClient
 						{
 							type : 'info',
 							text : intl.formatMessage({
-								id             : 'vod.x',
+								id             : 'vod.fileAdded',
 								defaultMessage : 'File added'
 							})
 						}));
@@ -2187,7 +2187,7 @@ export default class RoomClient
 						{
 							type : 'info',
 							text : intl.formatMessage({
-								id             : 'vod.x',
+								id             : 'vod.fileClosed',
 								defaultMessage : 'File closed'
 							})
 						}));
@@ -2204,7 +2204,7 @@ export default class RoomClient
 				{
 					type : 'error',
 					text : intl.formatMessage({
-						id             : 'vod.x',
+						id             : 'vod.somethingWentWrong',
 						defaultMessage : 'Something went wrong'
 					})
 				}));
@@ -3422,7 +3422,7 @@ export default class RoomClient
 								{
 									type : 'error',
 									text : intl.formatMessage({
-										id             : 'vod.x',
+										id             : 'vod.noEnoughMemory',
 										defaultMessage : 'No enough memory'
 									})
 								}));
@@ -3434,7 +3434,7 @@ export default class RoomClient
 								{
 									type : 'error',
 									text : intl.formatMessage({
-										id             : 'vod.x',
+										id             : 'vod.fileisToBig',
 										defaultMessage : 'File size is to big'
 									})
 								}));
@@ -3446,7 +3446,7 @@ export default class RoomClient
 								{
 									type : 'error',
 									text : intl.formatMessage({
-										id             : 'vod.x',
+										id             : 'vod.fileTypeNotAllowed',
 										defaultMessage : 'File type not allowed'
 									})
 								}));
@@ -3458,7 +3458,7 @@ export default class RoomClient
 								{
 									type : 'error',
 									text : intl.formatMessage({
-										id             : 'vod.x',
+										id             : 'vod.addingLimitExceeded',
 										defaultMessage : 'Files upload limit exceeded'
 									})
 								}));
@@ -3495,7 +3495,7 @@ export default class RoomClient
 							{
 								type : 'info',
 								text : intl.formatMessage({
-									id             : 'vod.x',
+									id             : 'vod.fileRemoved',
 									defaultMessage : 'File removed'
 								})
 							}));

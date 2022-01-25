@@ -815,7 +815,7 @@ class Room extends EventEmitter
 			}, true, true);
 		});
 
-		ss(peer.socket).on('uplodVodFileStream', (stream, data2) =>
+		ss(peer.socket).on('addVodFileStream', (stream, data2) =>
 		{
 			if (!this._hasPermission(peer, SHARE_VOD))
 				throw new Error('peer not authorized');
@@ -1882,8 +1882,6 @@ class Room extends EventEmitter
 			{
 				if (config.vod.enabled)
 				{
-				// TODO-VoDSync a new permission for VoD sync showing should be introduced
-				// or now permission at all should be required
 					if (!this._hasPermission(peer, SHARE_VOD))
 						throw new Error('peer not authorized');
 
@@ -1907,8 +1905,6 @@ class Room extends EventEmitter
 
 				if (config.vod.enabled)
 				{
-				// TODO-VoDSync a new permission for VoD sync showing should be introduced
-				// or now permission at all should be required
 					if (!this._hasPermission(peer, SHARE_VOD))
 						throw new Error('peer not authorized');
 
@@ -1944,8 +1940,6 @@ class Room extends EventEmitter
 			{
 				if (config.vod.enabled)
 				{
-				// TODO-VoDSync a new permission for VoD sync showing should be introduced
-				// or now permission at all should be required
 					if (!this._hasPermission(peer, SHARE_VOD))
 						throw new Error('peer not authorized');
 
@@ -1964,8 +1958,6 @@ class Room extends EventEmitter
 			{
 				if (config.vod.enabled)
 				{
-					// TODO-VoDSync a new permission for VoD sync showing should be introduced
-					// or now permission at all should be required
 					if (!this._hasPermission(peer, SHARE_VOD))
 						throw new Error('peer not authorized');
 
