@@ -1979,9 +1979,7 @@ class Room extends EventEmitter
 					this._upload.removeFile(fullName);
 
 					// Spread to others
-					// this._notification(peer.socket, 'addVodFile', {
-					// name, type, size, url
-					// }, false, false);
+					this._notification(peer.socket, 'removeVodFile', { hash }, false, false);
 
 					// Return no error
 					cb();

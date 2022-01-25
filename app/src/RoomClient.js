@@ -2301,8 +2301,6 @@ export default class RoomClient
 					hash
 				}
 			);
-
-			store.dispatch(vodActions.removeVodFile(hash));
 		}
 		catch (error)
 		{
@@ -3492,6 +3490,15 @@ export default class RoomClient
 						const { hash } = notification.data;
 
 						store.dispatch(vodActions.removeVodFile(hash));
+
+						store.dispatch(requestActions.notify(
+							{
+								type : 'info',
+								text : intl.formatMessage({
+									id             : 'vod.x',
+									defaultMessage : 'File removed'
+								})
+							}));
 
 						break;
 					}
