@@ -154,13 +154,13 @@ const List = (props) =>
 									variant='contained'
 									color='secondary'
 									disabled={
-										loadedVideo.isLoaded &&
+										(loadedVideo.isLoaded &&
 										(
 											loadedVideo.peerId === me.id &&
 											loadedVideo.url === v.url
-										)
+										)) ||
+										(v.uploadProgress > 0 && v.uploadProgress < 100)
 									}
-
 									size='small'
 									// disabled={!isEnabled || left === '00:00:00'}
 									onClick={() => roomClient.loadVod(v)}
@@ -180,11 +180,12 @@ const List = (props) =>
 									color='secondary'
 									size='small'
 									disabled={
-										loadedVideo.isLoaded &&
+										(loadedVideo.isLoaded &&
 										(
 											loadedVideo.peerId === me.id &&
 											loadedVideo.url === v.url
-										)
+										)) ||
+										(v.uploadProgress > 0 && v.uploadProgress < 100)
 									}
 									onClick={() =>
 									{
