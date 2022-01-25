@@ -518,6 +518,15 @@ const configSchema = convict({
 						default : 2
 					}
 				}
+			},
+			stream : {
+				options : {
+					highWaterMark : {
+						doc     : 'https://nodejs.org/api/stream.html#buffering',
+						format  : Number,
+						default : 1048576 * 2 // B * n
+					}
+				}
 			}
 		}
 

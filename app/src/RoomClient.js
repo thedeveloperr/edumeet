@@ -2146,7 +2146,9 @@ export default class RoomClient
 
 			let uploadedSize = 0;
 
-			await ss.createBlobReadStream(data, { highWaterMark: Math.pow(2, 16) })
+			await ss.createBlobReadStream(
+				data, { highWaterMark: store.getState().vod.highWaterMark }
+			)
 				.on('data', (chunk) =>
 				{
 					uploadedSize += chunk.length;

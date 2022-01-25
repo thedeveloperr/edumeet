@@ -1010,8 +1010,9 @@ class Room extends EventEmitter
 					vod                  :
 					{
 						config : {
-							enabled      : config.vod.enabled,
-							limitPerPeer : config.vod.upload.files.rules.limitPerPeer
+							enabled       : config.vod.enabled,
+							limitPerPeer  : config.vod.upload.files.rules.limitPerPeer,
+							highWaterMark : config.vod.upload.stream.options.highWaterMark
 						},
 						loadedVideo : vod
 					},

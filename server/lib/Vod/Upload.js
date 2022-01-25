@@ -21,6 +21,12 @@ export default class Upload
 			}
 		};
 
+		this.stream = {
+			options : {
+				highWaterMark : config.vod.upload.stream.options.highWaterMark
+			}
+		};
+
 		this.limitPerPeer = config.vod.upload.files.rules.limitPerPeer;
 
 		this.refresh();
@@ -82,7 +88,9 @@ export default class Upload
 	{
 		const fullPath = path.join(this.dir.path, name);
 
-		stream.pipe(fs.createWriteStream(fullPath), { highWaterMark: Math.pow(2, 16) });
+		stream.pipe(fs.createWriteStream(fullPath), {
+			highWaterMark : this.stream.options.highWaterMark
+		});
 
 		return fullPath;
 	}
