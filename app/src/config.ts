@@ -38,7 +38,7 @@ const configSchema = convict({
 	{
 		doc     : 'The production server listening port.',
 		format  : 'port',
-		default : 443
+		default : 8443
 	},
 	serverHostname :
 	{
@@ -534,6 +534,7 @@ Setting 'play' to null disables the sound notification.
 						backgroundColor : '#313131'
 					}
 				},
+
 				MuiButton :
 				{
 					containedPrimary :
@@ -582,22 +583,34 @@ Setting 'play' to null disables the sound notification.
 				{
 					primary :
 					{
-						backgroundColor : '#5F9B2D',
+						backgroundColor : '#518029',
 						'&:hover'       :
 						{
-							backgroundColor : '#5F9B2D'
+							backgroundColor : '#518029'
+						},
+						'&:disabled' : {
+							color           : '#999898',
+							backgroundColor : '#323131'
 						}
+
 					},
+
 					secondary :
 					{
 						backgroundColor : '#f50057',
 						'&:hover'       :
 						{
 							backgroundColor : '#f50057'
+						},
+						'&:disabled' : {
+							color           : '#999898',
+							backgroundColor : '#323131'
 						}
+
 					}
 
 				},
+
 				MuiBadge :
 				{
 					colorPrimary :
